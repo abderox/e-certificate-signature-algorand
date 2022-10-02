@@ -1,24 +1,15 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
-
-// material-ui
+import { useSelector, useDispatch } from 'react-redux';
 import { useTheme } from '@mui/material/styles';
 import {
     Box,
     Button,
-    Checkbox,
-    Divider,
     FormControl,
-    FormControlLabel,
     FormHelperText,
-    Grid,
     IconButton,
     InputAdornment,
     InputLabel,
     OutlinedInput,
-    Stack,
-    Typography,
-    useMediaQuery
 } from '@mui/material';
 
 // third party
@@ -33,20 +24,17 @@ import AnimateButton from 'ui-component/extended/AnimateButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-import Google from 'assets/images/icons/social-google.svg';
+import { loginAction } from 'store/authAction';
 
-// ============================|| FIREBASE - LOGIN ||============================ //
+
 
 const LoginForm = ({ ...others }) => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const dispatch = useDispatch();
+
     const theme = useTheme();
     const scriptedRef = useScriptRef();
-    const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
-    const customization = useSelector((state) => state.customization);
-    const [checked, setChecked] = useState(true);
-
-    const googleHandler = async () => {
-        console.error('Login');
-    };
 
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => {
@@ -61,19 +49,28 @@ const LoginForm = ({ ...others }) => {
         <>
             <Formik
                 initialValues={{
+                    // email: '',
                     email: '',
                     password: '',
                     submit: null
                 }}
                 validationSchema={Yup.object().shape({
-                    email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+                    // email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+                    email: Yup.string().max(255).required('Username is required'),
                     password: Yup.string().max(255).required('Password is required')
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
                         if (scriptedRef.current) {
                             setStatus({ success: true });
-                            setSubmitting(false);
+                            setSubmitting(true);
+                            dispatch(loginAction({ username: values.email, password: values.password, mac: "20:1e:88:43:3d:cb" })).then((res) => {
+                                console.log(res);
+                                setSubmitting(false);
+                            }).catch((err) => {
+                                console.log(err.message);
+                            })
+
                         }
                     } catch (err) {
                         console.error(err);
@@ -91,7 +88,7 @@ const LoginForm = ({ ...others }) => {
                             <InputLabel htmlFor="outlined-adornment-email-login">Email Address / Username</InputLabel>
                             <OutlinedInput
                                 id="outlined-adornment-email-login"
-                                type="email"
+                                type="text"
                                 value={values.email}
                                 name="email"
                                 onBlur={handleBlur}

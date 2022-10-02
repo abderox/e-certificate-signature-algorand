@@ -1,9 +1,9 @@
-import { createStore } from 'redux';
-import reducer from './reducer';
-
+import { createStore ,applyMiddleware} from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
+import reducer from "./reducer";
+import thunk from "redux-thunk";
+const middleware = [thunk]
 // ==============================|| REDUX - MAIN STORE ||============================== //
 
-const store = createStore(reducer);
-const persister = 'Free';
 
-export { store, persister };
+export default createStore(reducer,composeWithDevTools(applyMiddleware(...middleware)));
