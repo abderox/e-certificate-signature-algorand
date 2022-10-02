@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useState,useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { useTheme } from '@mui/material/styles';
 import {
     Box,
@@ -25,18 +25,29 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import { loginAction } from 'store/authAction';
-
+import { addressMAC } from 'utils';
 
 
 const LoginForm = ({ ...others }) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+
+
     const dispatch = useDispatch();
 
     const theme = useTheme();
     const scriptedRef = useScriptRef();
 
     const [showPassword, setShowPassword] = useState(false);
+    const [mac, setmac] = useState('');
+
+
+    useEffect(() => {
+        addressMAC().then((mac) => {
+            setmac(mac);
+        }
+        );
+    }, [])
+
+    
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
     };
@@ -64,7 +75,8 @@ const LoginForm = ({ ...others }) => {
                         if (scriptedRef.current) {
                             setStatus({ success: true });
                             setSubmitting(true);
-                            dispatch(loginAction({ username: values.email, password: values.password, mac: "20:1e:88:43:3d:cb" })).then((res) => {
+                            console.log(mac)
+                            dispatch(loginAction({ username: values.email, password: values.password, mac: mac })).then((res) => {
                                 console.log(res);
                                 setSubmitting(false);
                             }).catch((err) => {

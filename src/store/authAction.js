@@ -14,7 +14,8 @@ const loginAction = (data) => (dispatch) => {
             return Promise.resolve();
         },
         (error) => {
-            const message = error.response.data || error;
+            console.log("loginAction: ", error.response.data.message);
+            const message = error.response.data.message || error;
             dispatch({
                 type: type.LOGIN_FAIL,
             });
