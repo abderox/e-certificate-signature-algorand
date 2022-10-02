@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
-
+import { useNavigate, Navigate } from 'react-router-dom';
 // material-ui
 import { styled, useTheme } from '@mui/material/styles';
 import { AppBar, Box, CssBaseline, Toolbar, useMediaQuery } from '@mui/material';
@@ -66,9 +66,10 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({
 const MainLayout = () => {
     const theme = useTheme();
     const matchDownMd = useMediaQuery(theme.breakpoints.down('lg'));
-
+    const navigate = useNavigate();
     // Handle left drawer
     const leftDrawerOpened = useSelector((state) => state.customization.opened);
+    const isLoggedIn = useSelector((state) => state.login.isAuthenticated);
     const dispatch = useDispatch();
     const handleLeftDrawerToggle = () => {
         dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
@@ -78,6 +79,11 @@ const MainLayout = () => {
         dispatch({ type: SET_MENU, opened: !matchDownMd });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [matchDownMd]);
+
+  
+    if (!isLoggedIn) {
+        return <Navigate to="/login" replace/>;
+    }
 
     return (
         <Box sx={{ display: 'flex' }}>

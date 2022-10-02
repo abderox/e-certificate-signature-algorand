@@ -28,13 +28,16 @@ const Login = () => {
                             <AuthCardWrapper>
                                 <Grid container spacing={3} alignItems="center" justifyContent="center">
                                     <Grid item sx={{ mb: 3 }} alignItems="center" justifyContent="center">
-                                    <Grid container spacing={2}  justifyContent={'space-evenly'}>
-                                        <Grid item >
-                                            <Logo />
-                                        </Grid>
-                                        <Grid item >
-                                            <LogoApp />
-                                        </Grid>
+                                        <Grid container spacing={2} justifyContent={'space-evenly'}>
+                                            <Grid item >
+                                                <Logo />
+                                            </Grid>
+                                            <Grid item >
+                                                <img src={"https://img.icons8.com/material-outlined/24/737373/link--v1.png"} alt="link" style={{marginTop : "40px"}}/>
+                                            </Grid>
+                                            <Grid item >
+                                                <LogoApp />
+                                            </Grid>
                                         </Grid>
                                     </Grid>
                                     <Grid item xs={12}>
