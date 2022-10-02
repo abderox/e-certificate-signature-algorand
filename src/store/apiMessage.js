@@ -18,4 +18,4 @@ import * as type from './actions';
     }
 }
 
-export default {setMessage, clearMessage};
+export  {setMessage, clearMessage};

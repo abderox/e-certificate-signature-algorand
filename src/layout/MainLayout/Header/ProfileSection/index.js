@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-
+import { useSelector ,useDispatch} from 'react-redux';
+import {logoutAction} from 'store/authAction' ;
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
@@ -38,6 +38,7 @@ import { IconLogout, IconSettings, IconUser } from '@tabler/icons';
 const ProfileSection = () => {
     const theme = useTheme();
     const customization = useSelector((state) => state.customization);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const [selectedIndex, setSelectedIndex] = useState(-1);
@@ -47,7 +48,8 @@ const ProfileSection = () => {
      * */
     const anchorRef = useRef(null);
     const handleLogout = async () => {
-        console.log('Logout');
+        dispatch(logoutAction());
+        navigate('/login', { replace: true });
     };
 
     const handleClose = (event) => {

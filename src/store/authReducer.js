@@ -1,7 +1,7 @@
 import * as type from './actions';
 const initialState = {
     user: JSON.parse(localStorage.getItem('user')) || null,
-    isAuthenticated: false,
+    isAuthenticated: JSON.parse(localStorage.getItem('user')) ? true : false,
 };
 
 export default (state = initialState, action) => {

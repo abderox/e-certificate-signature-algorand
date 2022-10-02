@@ -1,5 +1,6 @@
-import { useState,useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { useDispatch,useSelector } from 'react-redux';
+import {useNavigate} from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import {
     Box,
@@ -25,13 +26,19 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import { loginAction } from 'store/authAction';
+import {clearMessage} from 'store/apiMessage';
 import { addressMAC } from 'utils';
+import Toast from 'ui-component/ui-error/toast';
 
 
 const LoginForm = ({ ...others }) => {
 
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const selectorMsg = useSelector(state => state.message.message);
+    const isLoggedIn = useSelector(state => state.login.isAuthenticated);
+    const [errorMsg, seterrorMsg] = useState('');
 
     const theme = useTheme();
     const scriptedRef = useScriptRef();
@@ -47,7 +54,16 @@ const LoginForm = ({ ...others }) => {
         );
     }, [])
 
+    useEffect(() => {
+        if(isLoggedIn){
+            navigate('/dashboard', { replace: true });
+        }
+    }, [isLoggedIn])
+
+
     
+
+
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
     };
@@ -58,6 +74,8 @@ const LoginForm = ({ ...others }) => {
 
     return (
         <>
+        {errorMsg!=='' && <Toast message={errorMsg} severity="error" />}
+        {selectorMsg && <Toast message={JSON.parse(selectorMsg)} severity="error" />}
             <Formik
                 initialValues={{
                     // email: '',
@@ -71,13 +89,20 @@ const LoginForm = ({ ...others }) => {
                     password: Yup.string().max(255).required('Password is required')
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
+                   
                     try {
+                        dispatch(clearMessage());
+                        seterrorMsg('');
                         var emailVerif = true;
-                        if(values.email.includes('@')){
+                        if (values.email.includes('@')) {
                             emailVerif = /^[\w+\.]+@(?:edu\.uca\.|uca\.)ma$/.test(values.email);
                         }
-                        if (scriptedRef.current && emailVerif ) {
-                           
+                        if (!emailVerif) {
+                            seterrorMsg('Email must be a valid email : @edu.uca.ma or @uca.ma');
+                            return;
+                        }
+                        if (scriptedRef.current && emailVerif) {
+
                             setStatus({ success: true });
                             setSubmitting(true);
                             console.log(mac)
@@ -89,6 +114,7 @@ const LoginForm = ({ ...others }) => {
                             })
 
                         }
+                       
                     } catch (err) {
                         console.error(err);
                         if (scriptedRef.current) {
