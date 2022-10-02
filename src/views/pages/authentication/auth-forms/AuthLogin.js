@@ -67,12 +67,17 @@ const LoginForm = ({ ...others }) => {
                 }}
                 validationSchema={Yup.object().shape({
                     // email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-                    email: Yup.string().max(255).required('Username is required'),
+                    email: Yup.string().max(255).required('Username or email  is required'),
                     password: Yup.string().max(255).required('Password is required')
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
-                        if (scriptedRef.current) {
+                        var emailVerif = true;
+                        if(values.email.includes('@')){
+                            emailVerif = /^[\w+\.]+@(?:edu\.uca\.|uca\.)ma$/.test(values.email);
+                        }
+                        if (scriptedRef.current && emailVerif ) {
+                           
                             setStatus({ success: true });
                             setSubmitting(true);
                             console.log(mac)
