@@ -12,7 +12,7 @@ import {
     InputLabel,
     OutlinedInput,
 } from '@mui/material';
-
+import LoadingButton from '@mui/lab/LoadingButton';
 // third party
 import * as Yup from 'yup';
 import { Formik } from 'formik';
@@ -45,6 +45,7 @@ const LoginForm = ({ ...others }) => {
 
     const [showPassword, setShowPassword] = useState(false);
     const [mac, setmac] = useState('');
+    const [loading, setLoading] = useState(false);
 
 
     useEffect(() => {
@@ -104,13 +105,14 @@ const LoginForm = ({ ...others }) => {
                         if (scriptedRef.current && emailVerif) {
 
                             setStatus({ success: true });
-                            setSubmitting(true);
+                            setLoading(true);
                             console.log(mac)
                             dispatch(loginAction({ username: values.email, password: values.password, mac: mac })).then((res) => {
                                 console.log(res);
-                                setSubmitting(false);
+                                setLoading(false);
                             }).catch((err) => {
                                 console.log(err.message);
+                                setLoading(false);
                             })
 
                         }
@@ -121,6 +123,7 @@ const LoginForm = ({ ...others }) => {
                             setStatus({ success: false });
                             setErrors({ submit: err.message });
                             setSubmitting(false);
+                            setLoading(false);
                         }
                     }
                 }}
@@ -189,10 +192,11 @@ const LoginForm = ({ ...others }) => {
 
                         <Box sx={{ mt: 2 }}>
                             <AnimateButton>
-                                <Button
+                                <LoadingButton
                                     disableElevation
-                                    disabled={isSubmitting}
+                                    disabled={loading}
                                     fullWidth
+                                    loading={loading}
                                     size="large"
                                     type="submit"
                                     variant="contained"
@@ -205,7 +209,7 @@ const LoginForm = ({ ...others }) => {
                                     }}
                                 >
                                     Sign in
-                                </Button>
+                                </LoadingButton>
                             </AnimateButton>
                         </Box>
                     </form>

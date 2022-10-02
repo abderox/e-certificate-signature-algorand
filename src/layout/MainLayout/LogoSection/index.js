@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import logo from 'assets/images/auth/uca-logo.png';
+import logo from 'assets/images/auth/app-logo.png';
 // material-ui
 import { ButtonBase } from '@mui/material';
 
@@ -10,7 +10,7 @@ import config from 'config';
 
 const LogoSection = () => (
     <ButtonBase disableRipple component={Link} to={config.defaultPath}>
-        <img src={logo} alt="logo"  height="60" width="50"/>
+        <img src={logo} alt="logo"  height="60" width="60"/>
         {/* <Logo /> */}
     </ButtonBase>
 );

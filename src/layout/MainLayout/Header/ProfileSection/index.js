@@ -38,11 +38,24 @@ import { IconLogout, IconSettings, IconUser } from '@tabler/icons';
 const ProfileSection = () => {
     const theme = useTheme();
     const customization = useSelector((state) => state.customization);
+    const userInfo = useSelector((state) => state.login.user);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const [selectedIndex, setSelectedIndex] = useState(-1);
     const [open, setOpen] = useState(false);
+
+    const greeting = () => {
+        const time = new Date().getHours();
+        if (time < 12) {
+            return 'Good Morning';
+        }
+        if (time < 18 && time >= 12) {
+            return 'Good Afternoon';
+        }
+        return 'Good Evening';
+    };
+
     /**
      * anchorRef is used on different componets and specifying one type leads to other components throwing an error
      * */
@@ -150,12 +163,12 @@ const ProfileSection = () => {
                                     <Box sx={{ p: 2 }}>
                                         <Stack>
                                             <Stack direction="row" spacing={0.5} alignItems="center">
-                                                <Typography variant="h4">Good Morning,</Typography>
+                                                <Typography variant="h4">{greeting()},</Typography>
                                                 <Typography component="span" variant="h4" sx={{ fontWeight: 400 }}>
-                                                    Johne Doe
+                                                    {userInfo.username}
                                                 </Typography>
                                             </Stack>
-                                            <Typography variant="subtitle2">Project Admin</Typography>
+                                            <Typography variant="subtitle2">{userInfo.email}</Typography>
                                         </Stack>
                                         <Divider />
                                     </Box>
