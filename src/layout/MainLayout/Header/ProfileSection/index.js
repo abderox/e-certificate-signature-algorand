@@ -47,7 +47,7 @@ const ProfileSection = () => {
 
     const greeting = () => {
         const time = new Date().getHours();
-        if (time < 12) {
+        if (time < 12 && time>5) {
             return 'Good Morning';
         }
         if (time < 18 && time >= 12) {

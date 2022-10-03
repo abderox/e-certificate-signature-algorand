@@ -4,12 +4,14 @@ import { combineReducers } from 'redux';
 import customizationReducer from './customizationReducer';
 import  login from './authReducer';
 import message from './messageReducer';
+import register from './registerReducer';
 // ==============================|| COMBINE REDUCER ||============================== //
 
 const reducer = combineReducers({
     customization: customizationReducer,
     login,
-    message
+    message,
+    register
 });
 
 export default reducer;

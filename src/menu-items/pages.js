@@ -16,7 +16,7 @@ const pages = {
     children: [
         {
             id: 'authentication',
-            title: 'Authentication',
+            title: 'Registration',
             type: 'collapse',
             icon: icons.IconKey,
 
@@ -30,7 +30,7 @@ const pages = {
                 },
                 {
                     id: 'register3',
-                    title: 'Register',
+                    title: 'Register Admin',
                     type: 'item',
                     url: '/register-user',
                     target: false

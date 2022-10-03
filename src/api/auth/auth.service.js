@@ -18,16 +18,9 @@ const logout = () => {
     localStorage.removeItem("user");
 }
 
-const register = (username, email, password) => {
-    return axios.post(API_AUTH_URLS.REGISTER, {
-        username,
-        email,
-        password
-    });
-}
+
 
 export  {
     login,
-    logout,
-    register    
+    logout    
 }
