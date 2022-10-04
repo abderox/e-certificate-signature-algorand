@@ -2,7 +2,6 @@
     "name": "berry-material-react-free",
     "version": "3.2.0",
     "private": true,
-    "homepage": "https://berrydashboard.io/free",
     "dependencies": {
         "@algo-builder/algob": "^5.0.1",
         "@emotion/cache": "^11.9.3",

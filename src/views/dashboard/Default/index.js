@@ -6,13 +6,20 @@ import { Grid } from '@mui/material';
 // project imports
 import EarningCard from './EarningCard';
 import { gridSpacing } from 'store/constant';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { getAllFilieresAction } from 'store/backOpsAction'
 
 // ==============================|| DEFAULT DASHBOARD ||============================== //
 
 const Dashboard = () => {
     const [isLoading, setLoading] = useState(true);
+    const filieresInfos = useSelector((state) => state.allFilieres);
+    const dispatch = useDispatch();
     useEffect(() => {
         setLoading(false);
+        dispatch(getAllFilieresAction());
+        console.log(filieresInfos);
     }, []);
 
     return (

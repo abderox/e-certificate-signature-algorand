@@ -115,6 +115,7 @@ const FirebaseRegister = ({ ...others }) => {
                     email: '',
                     password: '',
                     mac: '',
+                    roles: ['admin'],
                     submit: null
                 }}
                 validationSchema={Yup.object().shape({
@@ -127,7 +128,7 @@ const FirebaseRegister = ({ ...others }) => {
                         if (scriptedRef.current) {
                             dispatch(clearMessage())
                             setloading(true);
-                            dispatch(registerAction({ email: values.email, password: values.password, mac: values.mac, username: values.email.split('@')[0] })).
+                            dispatch(registerAction({ email: values.email, password: values.password, mac: values.mac, username: values.email.split('@')[0], roles: values.roles })).
                                 then((res) => {
                                     setloading(false);
                                     setStatus({ success: true });
