@@ -24,8 +24,12 @@ const MainRoutes = {
             element: <DashboardDefault />
         },
         {
-            path: 'register-user',
-            element: <Register />
+            path: 'register-student',
+            element: <Register isEtudiant={true} />
+        },
+        {
+            path: 'register-admin',
+            element: <Register isEtudiant={false} />
         }
 
     ]

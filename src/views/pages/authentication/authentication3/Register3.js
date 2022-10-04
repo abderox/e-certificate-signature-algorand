@@ -8,14 +8,13 @@ import { Divider, Grid, Stack, Typography, useMediaQuery } from '@mui/material';
 import AuthWrapper1 from '../AuthWrapper1';
 import AuthCardWrapperForm from '../AuthCardWrapperForm';
 import Logo from 'ui-component/Logo';
+import AuthRegisterEtudiant  from '../auth-forms/AuthRegisterEtudiant';
 import AuthRegister from '../auth-forms/AuthRegister';
 import AuthFooter from 'ui-component/cards/AuthFooter';
 
-// assets
 
-// ===============================|| AUTH3 - REGISTER ||=============================== //
 
-const Register = () => {
+const Register = ({isEtudiant}) => {
     const theme = useTheme();
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -41,7 +40,7 @@ const Register = () => {
                                                         gutterBottom
                                                         variant={matchDownSM ? 'h3' : 'h2'}
                                                     >
-                                                        Register admin
+                                                        {isEtudiant ? "Inscrire étudiant" : "Inscrire administrateur" }
                                                     </Typography>
                                                    
                                                 </Stack>
@@ -49,7 +48,8 @@ const Register = () => {
                                         </Grid>
                                     </Grid>
                                     <Grid item xs={12} lg={12} >
-                                        <AuthRegister />
+                                        {isEtudiant ? <AuthRegisterEtudiant /> : <AuthRegister />}
+                                      
                                     </Grid>
                                     <Grid item xs={12}>
                                         <Divider />
