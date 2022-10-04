@@ -5,7 +5,7 @@ import customizationReducer from './customizationReducer';
 import  login from './authReducer';
 import message from './messageReducer';
 import register from './registerReducer';
-import {getAllFilieresReducer} from './backOpsReducer';
+import backops from './backOpsReducer';
 // ==============================|| COMBINE REDUCER ||============================== //
 
 const reducer = combineReducers({
@@ -13,7 +13,7 @@ const reducer = combineReducers({
     login,
     message,
     register,
-    allFilieres : getAllFilieresReducer
+    backops
 });
 
 export default reducer;

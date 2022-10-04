@@ -15,3 +15,4 @@ export const SET_MESSAGE = "SET_MESSAGE";
 export const CLEAR_MESSAGE = "CLEAR_MESSAGE";
 
 export const SET_FILIERES = "SET_FILIERES";
+export const SET_FILIERE = "SET_FILIERE";

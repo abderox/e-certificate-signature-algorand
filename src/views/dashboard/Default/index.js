@@ -11,14 +11,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllFilieresAction } from "store/backOpsAction";
 import {getAllFilieres} from 'api/backoperations/filiere.service';
 
-
 import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
 
 // ==============================|| DEFAULT DASHBOARD ||============================== //
 
 const Dashboard = () => {
   const [isLoading, setLoading] = useState(true);
-  const filieresInfos = useSelector((state) => state.allFilieres);
+  const filieresInfos = useSelector((state) => state.backops.filieres);
   const dispatch = useDispatch();
   const [filieres, setFilieres] = useState([]);
 
@@ -29,6 +28,9 @@ const Dashboard = () => {
             setFilieres(data.data.etablissement.filieres);
             setLoading(false);
         });
+    }
+    else {
+        dispatch(getAllFilieresAction());
     }
        console.log("filieres: ", filieresInfos);
   }, []);

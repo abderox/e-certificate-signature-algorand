@@ -23,4 +23,11 @@ const getAllFilieresAction = () => (dispatch) => {
     );
 }
 
-export { getAllFilieresAction };
+const setFiliere = (filiere) => (dispatch) => {
+    dispatch({
+        type: type.SET_FILIERE,
+        payload: filiere,
+    });
+}
+
+export { getAllFilieresAction, setFiliere };

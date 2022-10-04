@@ -59,6 +59,8 @@ const FirebaseRegister = ({ ...others }) => {
     const [strength, setStrength] = useState(0);
     const [level, setLevel] = useState();
 
+    const filiereAbbr = useSelector((state) => state.backops.filiere);
+
 
     const [date_naissance, setdate_naissance] = useState(dayjs('1999-08-18T21:11:54'));
     const [date_inscription, setdate_inscription] = useState(dayjs('2018-08-18T21:11:54'));
@@ -86,16 +88,11 @@ const FirebaseRegister = ({ ...others }) => {
         event.preventDefault();
     };
 
-    const changePassword = (value) => {
-        const temp = strengthIndicator(value);
-        setStrength(temp);
-        setLevel(strengthColor(temp));
-    };
 
     useEffect(() => {
         dispatch(clearMessage())
-        changePassword('123456');
-        console.log(successRegistration)
+        console.log(filiereAbbr)
+        
     }, []);
 
     return (
@@ -154,7 +151,7 @@ const FirebaseRegister = ({ ...others }) => {
                             dispatch(clearMessage())
                             values.date_inscription = date_inscription["$d"].toLocaleDateString('fr-FR');
                             values.date_naissance = date_naissance["$d"].toLocaleDateString('fr-FR');
-                            values.filiere = "IRISI"
+                            values.filiere = filiereAbbr;
 
                             console.log(values)
                             setloading(true);
