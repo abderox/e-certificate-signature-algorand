@@ -30,6 +30,8 @@ import {clearMessage} from 'store/apiMessage';
 import { addressMAC } from 'utils';
 import Toast from 'ui-component/ui-error/toast';
 
+import { getAllFilieresAction } from "store/backOpsAction";
+
 
 const LoginForm = ({ ...others }) => {
 
@@ -109,6 +111,7 @@ const LoginForm = ({ ...others }) => {
                             console.log(mac)
                             dispatch(loginAction({ username: values.email, password: values.password, mac: mac })).then((res) => {
                                 console.log(res);
+                                dispatch(getAllFilieresAction());
                                 setLoading(false);
                             }).catch((err) => {
                                 console.log(err.message);

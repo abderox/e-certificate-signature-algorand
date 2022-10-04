@@ -154,7 +154,7 @@ const FirebaseRegister = ({ ...others }) => {
                             dispatch(clearMessage())
                             values.date_inscription = date_inscription["$d"].toLocaleDateString('fr-FR');
                             values.date_naissance = date_naissance["$d"].toLocaleDateString('fr-FR');
-                            values.username = 
+                            values.filiere = "IRISI"
 
                             console.log(values)
                             setloading(true);
@@ -188,7 +188,6 @@ const FirebaseRegister = ({ ...others }) => {
                                 name="nom"
                                 type="text"
                                 value={values.nom}
-                                defaultValue=""
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 sx={{ ...theme.typography.customInput }}
@@ -202,7 +201,6 @@ const FirebaseRegister = ({ ...others }) => {
                                 name="prenom"
                                 value={values.prenom}
                                 type="text"
-                                defaultValue=""
                                 onChange={handleChange}
                                 sx={{ ...theme.typography.customInput }}
                             />
@@ -215,7 +213,6 @@ const FirebaseRegister = ({ ...others }) => {
                                 name="pays"
                                 type="text"
                                 value={values.pays}
-                                defaultValue=""
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 sx={{ ...theme.typography.customInput }}
@@ -229,7 +226,6 @@ const FirebaseRegister = ({ ...others }) => {
                                 name="ville"
                                 value={values.ville}
                                 type="text"
-                                defaultValue=""
                                 onChange={handleChange}
                                 sx={{ ...theme.typography.customInput }}
                             />
@@ -242,7 +238,6 @@ const FirebaseRegister = ({ ...others }) => {
                                 name="address"
                                 value={values.address}
                                 type="text"
-                                defaultValue=""
                                 onChange={handleChange}
                                 sx={{ ...theme.typography.customInput }}
                             />
@@ -255,7 +250,6 @@ const FirebaseRegister = ({ ...others }) => {
                                 name="telephone"
                                 type="text"
                                 value={values.telephone}
-                                defaultValue=""
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 sx={{ ...theme.typography.customInput }}
@@ -269,7 +263,6 @@ const FirebaseRegister = ({ ...others }) => {
                                 name="cin"
                                 type="text"
                                 value={values.cin}
-                                defaultValue=""
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 sx={{ ...theme.typography.customInput }}
@@ -283,7 +276,6 @@ const FirebaseRegister = ({ ...others }) => {
                                 name="cne"
                                 type="text"
                                 value={values.cne}
-                                defaultValue=""
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 sx={{ ...theme.typography.customInput }}
@@ -297,7 +289,6 @@ const FirebaseRegister = ({ ...others }) => {
                                 name="code_apogee"
                                 type="text"
                                 value={values.code_apogee}
-                                defaultValue=""
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 sx={{ ...theme.typography.customInput }}

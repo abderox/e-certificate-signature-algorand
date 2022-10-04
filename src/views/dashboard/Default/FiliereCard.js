@@ -17,6 +17,7 @@ import GetAppTwoToneIcon from '@mui/icons-material/GetAppOutlined';
 import FileCopyTwoToneIcon from '@mui/icons-material/FileCopyOutlined';
 import PictureAsPdfTwoToneIcon from '@mui/icons-material/PictureAsPdfOutlined';
 import ArchiveTwoToneIcon from '@mui/icons-material/ArchiveOutlined';
+import { useSelector } from 'react-redux';
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
     backgroundColor: theme.palette.secondary.dark,
@@ -56,10 +57,12 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 // ===========================|| DASHBOARD DEFAULT - EARNING CARD ||=========================== //
 
-const EarningCard = ({ isLoading }) => {
+const FiliereCard = ({ isLoading, filiere }) => {
     const theme = useTheme();
 
     const [anchorEl, setAnchorEl] = useState(null);
+
+    const filieresInfos = useSelector((state) => state.allFilieres);
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -108,35 +111,6 @@ const EarningCard = ({ isLoading }) => {
                                         >
                                             <MoreHorizIcon fontSize="inherit" />
                                         </Avatar>
-                                        <Menu
-                                            id="menu-earning-card"
-                                            anchorEl={anchorEl}
-                                            keepMounted
-                                            open={Boolean(anchorEl)}
-                                            onClose={handleClose}
-                                            variant="selectedMenu"
-                                            anchorOrigin={{
-                                                vertical: 'bottom',
-                                                horizontal: 'right'
-                                            }}
-                                            transformOrigin={{
-                                                vertical: 'top',
-                                                horizontal: 'right'
-                                            }}
-                                        >
-                                            <MenuItem onClick={handleClose}>
-                                                <GetAppTwoToneIcon sx={{ mr: 1.75 }} /> Import Card
-                                            </MenuItem>
-                                            <MenuItem onClick={handleClose}>
-                                                <FileCopyTwoToneIcon sx={{ mr: 1.75 }} /> Copy Data
-                                            </MenuItem>
-                                            <MenuItem onClick={handleClose}>
-                                                <PictureAsPdfTwoToneIcon sx={{ mr: 1.75 }} /> Export
-                                            </MenuItem>
-                                            <MenuItem onClick={handleClose}>
-                                                <ArchiveTwoToneIcon sx={{ mr: 1.75 }} /> Archive File
-                                            </MenuItem>
-                                        </Menu>
                                     </Grid>
                                 </Grid>
                             </Grid>
@@ -144,7 +118,7 @@ const EarningCard = ({ isLoading }) => {
                                 <Grid container alignItems="center">
                                     <Grid item>
                                         <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>
-                                            $500.00
+                                            {filiere.abbr}
                                         </Typography>
                                     </Grid>
                                     <Grid item>
@@ -161,7 +135,7 @@ const EarningCard = ({ isLoading }) => {
                                     </Grid>
                                 </Grid>
                             </Grid>
-                            <Grid item sx={{ mb: 1.25 }}>
+                            <Grid item sx={{ mb: 1.25 , height : '40px' }}>
                                 <Typography
                                     sx={{
                                         fontSize: '1rem',
@@ -169,7 +143,7 @@ const EarningCard = ({ isLoading }) => {
                                         color: theme.palette.secondary[200]
                                     }}
                                 >
-                                    Total Earning
+                                    {filiere.nom}
                                 </Typography>
                             </Grid>
                         </Grid>
@@ -180,8 +154,9 @@ const EarningCard = ({ isLoading }) => {
     );
 };
 
-EarningCard.propTypes = {
-    isLoading: PropTypes.bool
+FiliereCard.propTypes = {
+    isLoading: PropTypes.bool,
+    filiere: PropTypes.object
 };
 
-export default EarningCard;
+export default FiliereCard;

@@ -29,14 +29,14 @@ const pages = {
                 //     target: false
                 // },
                 {
-                    id: 'register3',
+                    id: 'registerAdmin',
                     title: 'Inscrire Admin',
                     type: 'item',
                     url: '/register-admin',
                     target: false
                 },
                 {
-                    id: 'register3',
+                    id: 'registerEtudiant',
                     title: 'Inscrire Etudiant',
                     type: 'item',
                     url: '/register-student',

@@ -6,9 +6,9 @@ const getAllFilieresAction = () => (dispatch) => {
         (data) => {
             dispatch({
                 type: type.SET_FILIERES,
-                payload: data,
+                payload: data.data.etablissement.filieres,
             });
-            console.log("getAllFilieresAction: ", data);
+            console.log("getAllFilieresAction: ", data.data.etablissement);
             return Promise.resolve();
         },
         (error) => {
