@@ -11,7 +11,8 @@ import MainCard from 'ui-component/cards/MainCard';
 const AuthCardWrapperForm = ({ children, ...other }) => (
     <MainCard
         sx={{
-            maxWidth: { xs: 400, lg: 1000 },
+            minWidth: { lg: 900 , md: 800},
+            maxWidth: { lg: 1000 },
             margin: { xs: 2, md: 2 },
             '& > *': {
                 flexGrow: 1,

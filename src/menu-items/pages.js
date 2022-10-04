@@ -21,18 +21,25 @@ const pages = {
             icon: icons.IconKey,
 
             children: [
+                // {
+                //     id: 'login3',
+                //     title: 'Login',
+                //     type: 'item',
+                //     url: '/login',
+                //     target: false
+                // },
                 {
-                    id: 'login3',
-                    title: 'Login',
+                    id: 'register3',
+                    title: 'Inscrire Admin',
                     type: 'item',
-                    url: '/login',
+                    url: '/register-admin',
                     target: false
                 },
                 {
                     id: 'register3',
-                    title: 'Register Admin',
+                    title: 'Inscrire Etudiant',
                     type: 'item',
-                    url: '/register-user',
+                    url: '/register-student',
                     target: false
                 }
             ]
