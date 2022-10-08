@@ -205,7 +205,7 @@ const FirebaseRegister = ({ ...others }) => {
                         <Grid item xs={12} sm={6}>
                             <TextField
                                 fullWidth
-                                label="Country"
+                                label="Pays"
                                 margin="normal"
                                 name="pays"
                                 type="text"
@@ -218,7 +218,7 @@ const FirebaseRegister = ({ ...others }) => {
                         <Grid item xs={12} sm={6}>
                             <TextField
                                 fullWidth
-                                label="City"
+                                label="Ville"
                                 margin="normal"
                                 name="ville"
                                 value={values.ville}

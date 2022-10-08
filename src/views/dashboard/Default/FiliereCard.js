@@ -10,6 +10,7 @@ import { Avatar, Box, Grid, Menu, MenuItem, Typography } from "@mui/material";
 import MainCard from "ui-component/cards/MainCard";
 import SkeletonEarningCard from "ui-component/cards/Skeleton/EarningCard";
 
+import AddIcon from '@mui/icons-material/Add';
 // assets
 import EarningIcon from "assets/images/icons/earning.svg";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
@@ -21,6 +22,11 @@ import ArchiveTwoToneIcon from "@mui/icons-material/ArchiveOutlined";
 import { useDispatch, useSelector } from "react-redux";
 
 import { setFiliere } from "store/backOpsAction";
+import { importEtudiantExcel } from "store/uploadAction";
+// import { importEtudiantExcel } from "api/backoperations/upload.service";
+import { useEffect } from "react";
+import Toast from "ui-component/ui-error/toast";
+import { clearMessage } from "store/apiMessage";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
   backgroundColor: theme.palette.secondary.dark,
@@ -80,6 +86,31 @@ const FiliereCard = ({ isLoading, filiere }) => {
     console.log("filiere: ", filiere.abbr);
     dispatch(setFiliere(filiere.abbr));
     navigate("/register-student", { replace: true });
+  };
+  
+  const [filiereAbbr, setFiliereAbbr] = useState(null);
+  
+  useEffect(() => {
+    setFiliereAbbr(filiere.abbr);
+    dispatch(clearMessage())
+  }, [filiere]);
+
+
+  const handleStudentRegisterExcel = (event) => {
+    dispatch(clearMessage())
+    console.log("filiere: ", filiereAbbr);
+ // TODO
+      const formData = new FormData();
+      formData.append(
+        "file",
+        event.target.files[0]
+      );
+      formData.append(
+        "filiere",
+        filiereAbbr
+      );
+
+      dispatch(importEtudiantExcel(formData));
   };
 
   return (
@@ -170,7 +201,13 @@ const FiliereCard = ({ isLoading, filiere }) => {
                       }}
                     >
                       <MenuItem onClick={handleStudentRegister}>
-                        <GetAppTwoToneIcon sx={{ mr: 1.75 }} /> Import Card
+                        <AddIcon sx={{ mr: 1.75 }} /> Ajouter un étudiant
+                      </MenuItem>
+                      <MenuItem>
+                        <label htmlFor={"excel"+filiere.abbr} style={{cursor: "pointer"}}>
+                        <GetAppTwoToneIcon sx={{ mr: 1.75, mb:-1 }} />  Importer excel
+                        </label>
+                        <input type="file" name={"excel"+filiere.abbr} id={"excel"+filiere.abbr} hidden={true} onChange={handleStudentRegisterExcel}/>
                       </MenuItem>
                     </Menu>
                   </Grid>
