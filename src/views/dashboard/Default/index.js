@@ -12,6 +12,7 @@ import { getAllFilieresAction } from "store/backOpsAction";
 import {getAllFilieres} from 'api/backoperations/filiere.service';
 
 import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
+import Toast from "ui-component/ui-error/toast";
 
 // ==============================|| DEFAULT DASHBOARD ||============================== //
 
@@ -20,6 +21,7 @@ const Dashboard = () => {
   const filieresInfos = useSelector((state) => state.backops.filieres);
   const dispatch = useDispatch();
   const [filieres, setFilieres] = useState([]);
+  const toastMessage = useSelector((state)=>state.message.message);
 
   useEffect(() => {
     if(filieresInfos!==[])
@@ -38,6 +40,7 @@ const Dashboard = () => {
 
   return (
     <Grid container spacing={gridSpacing}>
+      {toastMessage && <Toast message={JSON.parse(toastMessage)} severity="success" />}
       <Grid item xs={12}>
         <Grid container spacing={gridSpacing} justifyContent={"start"}>
           {
@@ -50,7 +53,7 @@ const Dashboard = () => {
             ) : (
                 filieres.map((filiere) => {
                     return (
-                      <Grid item lg={4} md={6} sm={6} xs={12} key={filiere.id}>
+                      <Grid item lg={4} md={6} sm={6} xs={12} key={filiere._id}>
                         <FiliereCard
                           filiere={filiere}
                           isLoading={isLoading}
