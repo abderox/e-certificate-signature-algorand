@@ -13,6 +13,10 @@ const API_FILIERE_URLS = {
     GET_ALL_FILIERES: BACKOPS_BASE_URL + "/get-all-filieres",
 }
 
+const API_ETUDIANTS_URLS = {
+    GET_ALL_ETUDIANTS: BACKOPS_BASE_URL + "/get-all-etudiants",
+}
+
 const API_UPLOAD_URLS = {
     IMPORT_ETUDIANT_EXCEL: UPLOAD_BASE_URL + "/etudiant-excel",
 }
@@ -20,5 +24,6 @@ const API_UPLOAD_URLS = {
 module.exports = {
     API_AUTH_URLS,
     API_FILIERE_URLS,
+    API_ETUDIANTS_URLS,
     API_UPLOAD_URLS
 };

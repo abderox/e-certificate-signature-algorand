@@ -21,7 +21,7 @@ import PictureAsPdfTwoToneIcon from "@mui/icons-material/PictureAsPdfOutlined";
 import ArchiveTwoToneIcon from "@mui/icons-material/ArchiveOutlined";
 import { useDispatch, useSelector } from "react-redux";
 
-import { setFiliere } from "store/backOpsAction";
+import { getAllEtudiantsAction, setFiliere } from "store/backOpsAction";
 import { importEtudiantExcel } from "store/uploadAction";
 // import { importEtudiantExcel } from "api/backoperations/upload.service";
 import { useEffect } from "react";
@@ -113,6 +113,13 @@ const FiliereCard = ({ isLoading, filiere }) => {
       dispatch(importEtudiantExcel(formData));
   };
 
+  const handleFiliereChoice = () => {
+    console.log("filiere: ", filiere.abbr);
+    dispatch(setFiliere(filiere));
+    dispatch(getAllEtudiantsAction({ filiere: filiere.abbr, page: 1}));
+    navigate("/etudiants", { replace: true });
+  };
+
   return (
     <>
       {isLoading ? (
@@ -126,6 +133,7 @@ const FiliereCard = ({ isLoading, filiere }) => {
                   <Grid item>
                     <Avatar
                       variant="rounded"
+                      onClick={handleFiliereChoice}
                       sx={{
                         ...theme.typography.commonAvatar,
                         ...theme.typography.largeAvatar,

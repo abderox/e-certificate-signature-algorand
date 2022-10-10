@@ -1,3 +1,4 @@
+import { getAllEtudiants } from 'api/backoperations/etudiant.service';
 import { getAllFilieres } from 'api/backoperations/filiere.service';
 import * as type from './actions';
 
@@ -30,4 +31,26 @@ const setFiliere = (filiere) => (dispatch) => {
     });
 }
 
-export { getAllFilieresAction, setFiliere };
+const getAllEtudiantsAction = (options) => (dispatch) => {
+    return getAllEtudiants(options).then(
+        (data) => {
+            dispatch({
+                type: type.SET_ETUDIANTS,
+                payload: data.data,
+            });
+            console.log("getAllEtudiantsAction: ", data.data);
+            return Promise.resolve();
+        },
+        (error) => {
+            console.log("getAllEtudiantsAction: ", error.response.data.message);
+            const message = error.response.data.message || error;
+            dispatch({
+                type: type.SET_MESSAGE,
+                payload: message,
+            });
+            return Promise.reject(error);
+        }
+    );
+}
+
+export { getAllFilieresAction, setFiliere, getAllEtudiantsAction };

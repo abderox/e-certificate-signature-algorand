@@ -16,3 +16,5 @@ export const CLEAR_MESSAGE = "CLEAR_MESSAGE";
 
 export const SET_FILIERES = "SET_FILIERES";
 export const SET_FILIERE = "SET_FILIERE";
+
+export const SET_ETUDIANTS = "SET_ETUDIANTS";
