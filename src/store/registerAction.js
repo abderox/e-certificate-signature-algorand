@@ -2,8 +2,8 @@ import * as type from './actions';
 
 import { register } from 'api/backoperations/registration.service';
 
-const registerAction = (data) => (dispatch) => {
-    return register(data).then(
+const registerAction = (data,who) => (dispatch) => {
+    return register(data,who).then(
         (res) => {
             dispatch({
                 type: type.REGISTER_SUCCESS,

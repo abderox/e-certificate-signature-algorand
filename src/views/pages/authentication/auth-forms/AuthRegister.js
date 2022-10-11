@@ -125,7 +125,7 @@ const FirebaseRegister = ({ ...others }) => {
                         if (scriptedRef.current) {
                             dispatch(clearMessage())
                             setloading(true);
-                            dispatch(registerAction({ email: values.email, mac: values.mac ,roles : values.roles})).
+                            dispatch(registerAction({ email: values.email, mac: values.mac ,roles : values.roles},'admin')).
                                 then((res) => {
                                     setloading(false);
                                     setStatus({ success: true });

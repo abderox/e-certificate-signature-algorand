@@ -155,7 +155,7 @@ const FirebaseRegister = ({ ...others }) => {
 
                             console.log(values)
                             setloading(true);
-                            dispatch(registerAction(values)).
+                            dispatch(registerAction(values,'student')).
                                 then((res) => {
                                     setloading(false);
                                     setStatus({ success: true });

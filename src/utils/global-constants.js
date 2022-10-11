@@ -5,7 +5,8 @@ const UPLOAD_BASE_URL = BASE_URL_API + "/upload";
 
 const API_AUTH_URLS = {
     LOGIN: AUTH_BASE_URL + "/login",
-    REGISTER: AUTH_BASE_URL + "/register",
+    REGISTER_ADMIN: AUTH_BASE_URL + "/register-admin",
+    REGISTER_STUDENT: AUTH_BASE_URL + "/register-student",
     LOGOUT: AUTH_BASE_URL + "/logout",
 };
 
