@@ -53,4 +53,13 @@ const getAllEtudiantsAction = (options) => (dispatch) => {
     );
 }
 
-export { getAllFilieresAction, setFiliere, getAllEtudiantsAction };
+const setEtudiantsAction = (etudiants) => {
+    console.log("setEtudiantsAction: ", etudiants);
+    return {
+        type: type.SET_ETUDIANTS,
+        payload: etudiants,
+    }
+}
+
+
+export { getAllFilieresAction, setFiliere, getAllEtudiantsAction, setEtudiantsAction };

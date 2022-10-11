@@ -2,6 +2,7 @@ const BASE_URL_API = "http://localhost:7000/api";
 const AUTH_BASE_URL = BASE_URL_API + "/auth";
 const BACKOPS_BASE_URL = BASE_URL_API + "/backops";
 const UPLOAD_BASE_URL = BASE_URL_API + "/upload";
+const PROCESS_BASE_URL = BASE_URL_API + "/process";
 
 const API_AUTH_URLS = {
     LOGIN: AUTH_BASE_URL + "/login",
@@ -22,9 +23,15 @@ const API_UPLOAD_URLS = {
     IMPORT_NOTE_EXCEL: UPLOAD_BASE_URL + "/note-excel",
 }
 
+const API_PROCESS_URLS = {
+    GENERATE_CERTIFICATE: PROCESS_BASE_URL + "/generate-certificate",
+    GENERATE_CERTIFICATES: PROCESS_BASE_URL + "/generate-certificates",
+}
+
 module.exports = {
     API_AUTH_URLS,
     API_FILIERE_URLS,
     API_ETUDIANTS_URLS,
-    API_UPLOAD_URLS
+    API_UPLOAD_URLS,
+    API_PROCESS_URLS
 };

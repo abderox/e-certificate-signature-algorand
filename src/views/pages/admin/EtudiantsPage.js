@@ -23,7 +23,7 @@ import DirectionsIcon from '@mui/icons-material/Directions';
 
 
 // project imports
-import { getAllEtudiantsAction } from 'store/backOpsAction';
+import { getAllEtudiantsAction, setEtudiantsAction } from 'store/backOpsAction';
 import { useRef } from 'react';
 
 const EtudiantsPage = () => {
@@ -90,7 +90,7 @@ const EtudiantsPage = () => {
         let duree = filiere.duree;
         let nbrAdmis = 0;
         let isAllAdmis = false;
-        // console.log(filiere.duree);
+        
         etudiants.map((e, i) => {
             let totalAdmis = 0;
             if (checked[i]) {
@@ -112,34 +112,39 @@ const EtudiantsPage = () => {
         }
         
         setIsGenerateCertificateActive(isAllAdmis);
-        // let res = selectedEtudiants.reduce((acc, etudiant) => {
-            
-            //     console.log(etudiant);
-            //     return acc && etudiant.annee_universitaire.;
-            // }, false);
-        }
+    }
+
+    const handleGenerateCertificate = () => {
+        console.log("handleGenerateCertificate");
+
+        console.log("filiere: ", filiere.abbr);
+        console.log("etudiants: ", selectedEtudiants);
+        dispatch(setEtudiantsAction(selectedEtudiants));
+        navigate("/etudiants", { replace: true });
+
+    }
         
 
-        useEffect(() => {
-            dispatch(getAllEtudiantsAction({filiere: filiere.abbr, search: searchString, valide: isValide, certified: isCertified}));
-            setChecked(etudiants.map(e => false));
-        }, [isValide, isCertified]);
-        
-        useEffect(() => {
-            checked.forEach((element, index) => {
-                if (etudiants && etudiants[index]) {
-                    if (element) {
-                        setSelectedEtudiants((prev) => prev.includes(etudiants[index]) ? prev : [...prev, etudiants[index]]);
-                    } else {
-                        setSelectedEtudiants((prev) => prev.filter(e => e !== etudiants[index]));
-                    }
+    useEffect(() => {
+        dispatch(getAllEtudiantsAction({filiere: filiere.abbr, search: searchString, valide: isValide, certified: isCertified}));
+        setChecked(etudiants.map(e => false));
+    }, [isValide, isCertified]);
+    
+    useEffect(() => {
+        checked.forEach((element, index) => {
+            if (etudiants && etudiants[index]) {
+                if (element) {
+                    setSelectedEtudiants((prev) => prev.includes(etudiants[index]) ? prev : [...prev, etudiants[index]]);
+                } else {
+                    setSelectedEtudiants((prev) => prev.filter(e => e !== etudiants[index]));
                 }
-            });
-        }, [checked]);
+            }
+        });
+    }, [checked]);
 
-        useEffect(() => {
-            handleGenrateCertificateActive();
-        }, [selectedEtudiants]);
+    useEffect(() => {
+        handleGenrateCertificateActive();
+    }, [selectedEtudiants]);
 
     return (
     <>
@@ -193,7 +198,10 @@ const EtudiantsPage = () => {
                                     </ButtonGroup>
                                 </Grid>
                                 <Grid item xs={12} sm={12} md={12} lg={12} sx={{ p: { xs: 1, sm: 2 }, mb: 0 }}container justifyContent="end">
-                                    <Button color={`${isGenerateCertificateActive ? "secondary" : "secondary"}`} variant={`${isGenerateCertificateActive ? "contained" : "contained"}`} disabled={!isGenerateCertificateActive}>Générer Certificat</Button>
+                                    <Button color={`${isGenerateCertificateActive ? "secondary" : "secondary"}`} 
+                                            variant={`${isGenerateCertificateActive ? "contained" : "contained"}`} 
+                                            disabled={!isGenerateCertificateActive}
+                                            onClick={handleGenerateCertificate}>Générer Certificat</Button>
                                     {/* <Button color="error" variant="outlined" onClick={handleGenrateCertificateActive}>test generate</Button> */}
                                 </Grid>
                             </Grid>

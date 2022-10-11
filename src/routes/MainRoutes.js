@@ -8,6 +8,7 @@ import Loadable from 'ui-component/Loadable';
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
 const Register = Loadable(lazy(() => import('views/pages/authentication/authentication3/Register3')));
 const EtudiantsPage = Loadable(lazy(() => import('views/pages/admin/EtudiantsPage')));
+const GenerateCertificatePage = Loadable(lazy(() => import('views/pages/admin/GenerateCertificatePage')));
 
 
 // ==============================|| MAIN ROUTING ||============================== //
@@ -35,6 +36,10 @@ const MainRoutes = {
         {
             path: 'etudiants',
             element: <EtudiantsPage />
+        },
+        {
+            path: 'generate-certificate',
+            element: <GenerateCertificatePage />
         }
 
     ]
