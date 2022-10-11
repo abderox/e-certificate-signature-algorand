@@ -19,6 +19,7 @@ const API_ETUDIANTS_URLS = {
 
 const API_UPLOAD_URLS = {
     IMPORT_ETUDIANT_EXCEL: UPLOAD_BASE_URL + "/etudiant-excel",
+    IMPORT_NOTE_EXCEL: UPLOAD_BASE_URL + "/note-excel",
 }
 
 module.exports = {

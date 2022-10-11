@@ -44,6 +44,8 @@ const EtudiantsPage = () => {
     const [isValide, setIsValide] = React.useState(null);
     const [isCertified, setIsCertified] = React.useState(null);
 
+    const [isGenerateCertificateActive, setIsGenerateCertificateActive] = React.useState(false);
+
     const [selectedEtudiants, setSelectedEtudiants] = React.useState([]);
 
     const handleChangeParendCheck = (event) => {
@@ -55,23 +57,7 @@ const EtudiantsPage = () => {
         setChecked(etudiants.map((e, i) => (i === index) ? event.target.checked : checked[i] ));
     };
     
-    useEffect(() => {
-        dispatch(getAllEtudiantsAction({filiere: filiere.abbr, search: searchString, valide: isValide, certified: isCertified}));
-        setChecked(etudiants.map(e => false));
-    }, [isValide, isCertified]);
     
-    useEffect(() => {
-        checked.forEach((element, index) => {
-            if (etudiants && etudiants[index]) {
-                if (element) {
-                    setSelectedEtudiants((prev) => prev.includes(etudiants[index]) ? prev : [...prev, etudiants[index]]);
-                } else {
-                    setSelectedEtudiants((prev) => prev.filter(e => e !== etudiants[index]));
-                }
-            }
-        });
-    }, [checked]);
-
     const handleSearchChange = (e) => {
         setSearchString(e.target.value);
     };
@@ -98,7 +84,62 @@ const EtudiantsPage = () => {
         console.log(selectedEtudiants);
     }
 
+    const handleGenrateCertificateActive = () => {
+        console.log("handleGenrateCertificateActive");
+        
+        let duree = filiere.duree;
+        let nbrAdmis = 0;
+        let isAllAdmis = false;
+        // console.log(filiere.duree);
+        etudiants.map((e, i) => {
+            let totalAdmis = 0;
+            if (checked[i]) {
+                console.log(i);
+                e.annee_universitaires.map((a, j) => {
+                    if (a.isAdmis) {
+                        totalAdmis += 1;
+                    }
+                });
+            }
+            console.log(totalAdmis);
+            if (totalAdmis == duree) {
+                nbrAdmis += 1;
+            }
+        });
 
+        if (nbrAdmis != 0 && nbrAdmis == selectedEtudiants.length) {
+            isAllAdmis = true;
+        }
+        
+        setIsGenerateCertificateActive(isAllAdmis);
+        // let res = selectedEtudiants.reduce((acc, etudiant) => {
+            
+            //     console.log(etudiant);
+            //     return acc && etudiant.annee_universitaire.;
+            // }, false);
+        }
+        
+
+        useEffect(() => {
+            dispatch(getAllEtudiantsAction({filiere: filiere.abbr, search: searchString, valide: isValide, certified: isCertified}));
+            setChecked(etudiants.map(e => false));
+        }, [isValide, isCertified]);
+        
+        useEffect(() => {
+            checked.forEach((element, index) => {
+                if (etudiants && etudiants[index]) {
+                    if (element) {
+                        setSelectedEtudiants((prev) => prev.includes(etudiants[index]) ? prev : [...prev, etudiants[index]]);
+                    } else {
+                        setSelectedEtudiants((prev) => prev.filter(e => e !== etudiants[index]));
+                    }
+                }
+            });
+        }, [checked]);
+
+        useEffect(() => {
+            handleGenrateCertificateActive();
+        }, [selectedEtudiants]);
 
     return (
     <>
@@ -113,52 +154,61 @@ const EtudiantsPage = () => {
                                             placeholder="Search"
                                             inputProps={{ 'aria-label': 'search' }}
                                             onChange={handleSearchChange}
+                                            disabled={(etudiants && etudiants.length > 0) ? false : true}
                                         />
                                         <IconButton color="primary" sx={{ p: '10px' }} aria-label="search" onClick={handleSearch}>
                                             <SearchIcon />
                                         </IconButton>
                                     </Paper>
                                 </Grid>
-                                <Grid item xs={6} sm={6} md={3} lg={3} sx={{ p : { xs: 1, sm: 2 }, mb: 0 }} container justifyContent="center">
+                                <Grid item xs={6} sm={6} md={3} lg={3} sx={{ p : { xs: 1, sm: 2 }, mb: 0 }} container justifyContent="end">
 
                                     {/* <Button color="error" variant="outlined" onClick={handleSetIsValidd}>test</Button> */}
                                     {/* <Button color={`${isValide ? "success" : "error"}`} variant={`${isValide ? "outlined" : ""}`} onClick={handleSetIsValide}>{isValide ? "Validé" : "Non validé"}</Button> */}
                                     {/* <Button color={`${isCertified ? "success" : "error"}`} variant={`${isCertified ? "outlined" : ""}`} onClick={handleSetIsCertified}>{isCertified ? "Certifié" : "Non certifié"}</Button> */}
 
-                                    <ButtonGroup size="small" color="secondary" aria-label="certifiedButtonGroup" style={{backgroundColor: '#fff'}}>
-                                        <Button value={"false"} variant={`${(isCertified == false) ? 'contained' : '' }`} onClick={handleSetIsCertified} sx={{ p: '10px' }}>
+                                    <ButtonGroup size="small" color="secondary" aria-label="certifiedButtonGroup" style={{backgroundColor: '#fff', width: "100%"}}>
+                                        <Button value={"false"} variant={`${(isCertified == false) ? 'contained' : '' }`} onClick={handleSetIsCertified} sx={{ p: '10px' }} style={{width: "40%"}} disabled={(etudiants && etudiants.length > 0) ? false : true}>
                                             Non certifié
                                         </Button>
-                                        <Button value={"null"} variant={`${(isCertified == null) ? 'contained' : '' }`} onClick={handleSetIsCertified} sx={{ p: '10px' }}>
+                                        <Button value={"null"} variant={`${(isCertified == null) ? 'contained' : '' }`} onClick={handleSetIsCertified} sx={{ p: '10px' }} style={{width: "40%"}}>
                                             Tous
                                         </Button>
-                                        <Button value={"true"} variant={`${(isCertified == true) ? 'contained' : '' }`} onClick={handleSetIsCertified} sx={{ p: '10px' }}>
+                                        <Button value={"true"} variant={`${(isCertified == true) ? 'contained' : '' }`} onClick={handleSetIsCertified} sx={{ p: '10px' }} style={{width: "40%"}} disabled={(etudiants && etudiants.length > 0) ? false : true}>
                                             Certifié
                                         </Button>
                                     </ButtonGroup>
                                 </Grid>
-                                <Grid item xs={6} sm={6} md={3} lg={3} sx={{ p : { xs: 1, sm: 2 }, mb: 0 }} container justifyContent="center">
-                                    <ButtonGroup size="small" color="secondary" aria-label="valideButtonGroup" style={{backgroundColor: '#fff'}}>
-                                        <Button value={"false"} variant={`${(isValide == false) ? 'contained' : '' }`} onClick={handleSetIsValide} sx={{ p: '10px' }}>
+                                <Grid item xs={6} sm={6} md={3} lg={3} sx={{ p : { xs: 1, sm: 2 }, mb: 0 }} container justifyContent="end">
+                                    <ButtonGroup size="small" color="secondary" aria-label="valideButtonGroup" style={{backgroundColor: '#fff', width: "100%"}}>
+                                        <Button value={"false"} variant={`${(isValide == false) ? 'contained' : '' }`} onClick={handleSetIsValide} sx={{ p: '10px' }} style={{width: "40%"}} disabled={(etudiants && etudiants.length > 0) ? false : true}>
                                             Non validé
                                         </Button>
-                                        <Button value={"null"} variant={`${(isValide == null) ? 'contained' : '' }`} onClick={handleSetIsValide} sx={{ p: '10px' }}>
+                                        <Button value={"null"} variant={`${(isValide == null) ? 'contained' : '' }`} onClick={handleSetIsValide} sx={{ p: '10px' }} style={{width: "40%"}}>
                                             Tous
                                         </Button>
-                                        <Button value={"true"} variant={`${(isValide == true) ? 'contained' : '' }`} onClick={handleSetIsValide} sx={{ p: '10px' }}>
+                                        <Button value={"true"} variant={`${(isValide == true) ? 'contained' : '' }`} onClick={handleSetIsValide} sx={{ p: '10px' }} style={{width: "40%"}} disabled={(etudiants && etudiants.length > 0) ? false : true}>
                                             Validé
                                         </Button>
                                     </ButtonGroup>
+                                </Grid>
+                                <Grid item xs={12} sm={12} md={12} lg={12} sx={{ p: { xs: 1, sm: 2 }, mb: 0 }}container justifyContent="end">
+                                    <Button color={`${isGenerateCertificateActive ? "secondary" : "secondary"}`} variant={`${isGenerateCertificateActive ? "contained" : "contained"}`} disabled={!isGenerateCertificateActive}>Générer Certificat</Button>
+                                    {/* <Button color="error" variant="outlined" onClick={handleGenrateCertificateActive}>test generate</Button> */}
                                 </Grid>
                             </Grid>
                         </Grid>
                         <Grid width={1} item sx={{ m: { xs: 1, sm: 2 }, mb: 0 }}>
 
-                            <Checkbox
-                                indeterminate={etudiants.reduce((p, c, i) => p || checked[i], false)}
-                                checked={etudiants.reduce((p, c, i) => p && checked[i], true)}
-                                onChange={handleChangeParendCheck}
-                            />
+                        {
+                            (etudiants && etudiants.length > 0) ? (
+                                <Checkbox
+                                    indeterminate={etudiants.reduce((p, c, i) => p || checked[i], false)}
+                                    checked={etudiants.reduce((p, c, i) => p && checked[i], true)}
+                                    onChange={handleChangeParendCheck}
+                                />
+                            ) : null
+                        }
 
                             {
                                 etudiants.map((etudiant, index) => {

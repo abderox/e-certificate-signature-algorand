@@ -22,7 +22,7 @@ import ArchiveTwoToneIcon from "@mui/icons-material/ArchiveOutlined";
 import { useDispatch, useSelector } from "react-redux";
 
 import { getAllEtudiantsAction, setFiliere } from "store/backOpsAction";
-import { importEtudiantExcel } from "store/uploadAction";
+import { importEtudiantExcel, importEtudiantExcelAction, importNoteExcelAction } from "store/uploadAction";
 // import { importEtudiantExcel } from "api/backoperations/upload.service";
 import { useEffect } from "react";
 import Toast from "ui-component/ui-error/toast";
@@ -99,7 +99,7 @@ const FiliereCard = ({ isLoading, filiere }) => {
   const handleStudentRegisterExcel = (event) => {
     dispatch(clearMessage())
     console.log("filiere: ", filiereAbbr);
- // TODO
+ // TODO 
       const formData = new FormData();
       formData.append(
         "file",
@@ -110,8 +110,25 @@ const FiliereCard = ({ isLoading, filiere }) => {
         filiereAbbr
       );
 
-      dispatch(importEtudiantExcel(formData));
+      dispatch(importEtudiantExcelAction(formData));
   };
+
+  const handleImportNoteExcel = (event) => {
+    dispatch(clearMessage())
+    console.log("filiere: ", filiereAbbr);
+
+    const formData = new FormData();
+      formData.append(
+        "file",
+        event.target.files[0]
+      );
+      formData.append(
+        "filiere",
+        filiereAbbr
+      );
+
+      dispatch(importNoteExcelAction(formData));
+  }
 
   const handleFiliereChoice = () => {
     console.log("filiere: ", filiere.abbr);
@@ -212,10 +229,16 @@ const FiliereCard = ({ isLoading, filiere }) => {
                         <AddIcon sx={{ mr: 1.75 }} /> Ajouter un étudiant
                       </MenuItem>
                       <MenuItem>
-                        <label htmlFor={"excel"+filiere.abbr} style={{cursor: "pointer"}}>
-                        <GetAppTwoToneIcon sx={{ mr: 1.75, mb:-1 }} />  Importer excel
+                        <label htmlFor={"excelEtudiant"+filiere.abbr} style={{cursor: "pointer"}}>
+                        <GetAppTwoToneIcon sx={{ mr: 1.75, mb:-1 }} />  Importer excel des étudiants
                         </label>
-                        <input type="file" name={"excel"+filiere.abbr} id={"excel"+filiere.abbr} hidden={true} onChange={handleStudentRegisterExcel}/>
+                        <input type="file" name={"excelEtudiant"+filiere.abbr} id={"excelEtudiant"+filiere.abbr} hidden={true} onChange={handleStudentRegisterExcel}/>
+                      </MenuItem>
+                      <MenuItem>
+                        <label htmlFor={"excelNote"+filiere.abbr} style={{cursor: "pointer"}}>
+                        <GetAppTwoToneIcon sx={{ mr: 1.75, mb:-1 }} />  Importer excel des notes
+                        </label>
+                        <input type="file" name={"excelNote"+filiere.abbr} id={"excelNote"+filiere.abbr} hidden={true} onChange={handleImportNoteExcel}/>
                       </MenuItem>
                     </Menu>
                   </Grid>

@@ -6,6 +6,11 @@ const importEtudiantExcel = (formData) => {
     return axios.post(API_UPLOAD_URLS.IMPORT_ETUDIANT_EXCEL, formData);
 }
 
+const importNoteExcel = (formData) => {
+    return axios.post(API_UPLOAD_URLS.IMPORT_NOTE_EXCEL, formData);
+}
+
 export  {
-    importEtudiantExcel
+    importEtudiantExcel,
+    importNoteExcel
 }
