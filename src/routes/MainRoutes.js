@@ -7,6 +7,7 @@ import Loadable from 'ui-component/Loadable';
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
 const Register = Loadable(lazy(() => import('views/pages/authentication/authentication3/Register3')));
+const EtudiantsPage = Loadable(lazy(() => import('views/pages/admin/EtudiantsPage')));
 
 
 // ==============================|| MAIN ROUTING ||============================== //
@@ -30,6 +31,10 @@ const MainRoutes = {
         {
             path: 'register-admin',
             element: <Register isEtudiant={false} />
+        },
+        {
+            path: 'etudiants',
+            element: <EtudiantsPage />
         }
 
     ]
