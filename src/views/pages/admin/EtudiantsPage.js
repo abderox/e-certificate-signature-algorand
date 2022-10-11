@@ -173,26 +173,26 @@ const EtudiantsPage = () => {
                                     {/* <Button color={`${isCertified ? "success" : "error"}`} variant={`${isCertified ? "outlined" : ""}`} onClick={handleSetIsCertified}>{isCertified ? "Certifié" : "Non certifié"}</Button> */}
 
                                     <ButtonGroup size="small" color="secondary" aria-label="certifiedButtonGroup" style={{backgroundColor: '#fff', width: "100%"}}>
-                                        <Button value={"false"} variant={`${(isCertified == false) ? 'contained' : '' }`} onClick={handleSetIsCertified} sx={{ p: '10px' }} style={{width: "40%"}} disabled={(etudiants && etudiants.length > 0) ? false : true}>
+                                        <Button value={"false"} variant={`${(isCertified == false) ? 'contained' : '' }`} onClick={handleSetIsCertified} sx={{ p: '10px' }} style={{width: "40%"}} disabled={((etudiants && etudiants.length > 0) || isCertified == false) ? false : true}>
                                             Non certifié
                                         </Button>
                                         <Button value={"null"} variant={`${(isCertified == null) ? 'contained' : '' }`} onClick={handleSetIsCertified} sx={{ p: '10px' }} style={{width: "40%"}}>
                                             Tous
                                         </Button>
-                                        <Button value={"true"} variant={`${(isCertified == true) ? 'contained' : '' }`} onClick={handleSetIsCertified} sx={{ p: '10px' }} style={{width: "40%"}} disabled={(etudiants && etudiants.length > 0) ? false : true}>
+                                        <Button value={"true"} variant={`${(isCertified == true) ? 'contained' : '' }`} onClick={handleSetIsCertified} sx={{ p: '10px' }} style={{width: "40%"}} disabled={((etudiants && etudiants.length > 0) || isCertified == true) ? false : true}>
                                             Certifié
                                         </Button>
                                     </ButtonGroup>
                                 </Grid>
                                 <Grid item xs={6} sm={6} md={3} lg={3} sx={{ p : { xs: 1, sm: 2 }, mb: 0 }} container justifyContent="end">
                                     <ButtonGroup size="small" color="secondary" aria-label="valideButtonGroup" style={{backgroundColor: '#fff', width: "100%"}}>
-                                        <Button value={"false"} variant={`${(isValide == false) ? 'contained' : '' }`} onClick={handleSetIsValide} sx={{ p: '10px' }} style={{width: "40%"}} disabled={(etudiants && etudiants.length > 0) ? false : true}>
+                                        <Button value={"false"} variant={`${(isValide == false) ? 'contained' : '' }`} onClick={handleSetIsValide} sx={{ p: '10px' }} style={{width: "40%"}} disabled={((etudiants && etudiants.length > 0) || isValide == false) ? false : true}>
                                             Non validé
                                         </Button>
                                         <Button value={"null"} variant={`${(isValide == null) ? 'contained' : '' }`} onClick={handleSetIsValide} sx={{ p: '10px' }} style={{width: "40%"}}>
                                             Tous
                                         </Button>
-                                        <Button value={"true"} variant={`${(isValide == true) ? 'contained' : '' }`} onClick={handleSetIsValide} sx={{ p: '10px' }} style={{width: "40%"}} disabled={(etudiants && etudiants.length > 0) ? false : true}>
+                                        <Button value={"true"} variant={`${(isValide == true) ? 'contained' : '' }`} onClick={handleSetIsValide} sx={{ p: '10px' }} style={{width: "40%"}} disabled={((etudiants && etudiants.length > 0) || isValide == true) ? false : true}>
                                             Validé
                                         </Button>
                                     </ButtonGroup>
@@ -227,10 +227,10 @@ const EtudiantsPage = () => {
                                             alignItems="center"
                                             key={etudiant._id}
                                             sx={{ m: { xs: 1, sm: 2 }, mb: 0 }}>
-                                                <Grid item xs={1}>
+                                                <Grid item xs={1/2}>
                                                     <Checkbox checked={checked[index] ? checked[index] : false} onChange={(e) => handleChangeChildCheck(e, index)} />
                                                 </Grid>
-                                                <Grid item xs={10}>
+                                                <Grid item xs={11}>
                                                     <Accordion expanded={expanded === `panel${index}`} onChange={handleChange(`panel${index}`)}>
                                                         <AccordionSummary
                                                             expandIcon={<ExpandMoreIcon />}

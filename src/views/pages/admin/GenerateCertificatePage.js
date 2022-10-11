@@ -2,7 +2,8 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
+import certif_7 from "assets/images/templates/certif_7.png";
+import certif_8 from "assets/images/templates/certif_8.png";
 
 // material-ui
 import { useTheme } from "@mui/material/styles";
@@ -24,7 +25,9 @@ import {
     OutlinedInput,
     TextField,
     Typography,
-    useMediaQuery
+    useMediaQuery,
+    Select,
+    MenuItem
 } from '@mui/material';
 
 import Accordion from "@mui/material/Accordion";
@@ -57,6 +60,7 @@ import Toast from "ui-component/ui-error/toast";
 const EtudiantsPage = () => {
   const theme = useTheme();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
+  const customization = useSelector((state) => state.customization);
   const dispatch = useDispatch();
   const filiere = useSelector((state) => state.backops.filiere);
   const etudiants = useSelector((state) => state.backops.etudiants);
@@ -65,11 +69,33 @@ const EtudiantsPage = () => {
 
   const [loading, setloading] = useState(false);
 
-  const [date, setDate] = useState(dayjs('1999-08-18T21:11:54'));
+  const [date, setDate] = useState(dayjs('2022-10-14T21:11:54'));
+
+  const [template, setTemplate] = useState("certif_7");
+
+  const [ministere, setMinistere] = useState("ministere_2");
+  const [presidence, setPresidence] = useState("uca");
+  const [etablissement, setEtablissement] = useState("fst");
 
   const handleChangeDate = (newDate) => {
     setDate(newDate)
 };
+
+const handleSetTemplate = (template) => {
+    setTemplate(template);
+}
+
+const handleMinistereChange = (event) => {
+    setMinistere(event.target.value);
+  };
+
+  const handlePresidenceChange = (event) => {
+    setPresidence(event.target.value);
+  };
+
+  const handleEtablissementChange = (event) => {
+    setEtablissement(event.target.value);
+  };
 
   return (
     <>
@@ -100,6 +126,7 @@ const EtudiantsPage = () => {
                         color={theme.palette.secondary.main}
                         gutterBottom
                         variant={matchDownSM ? "h3" : "h2"}
+                        sx={{ p: 3 }}
                       >
                        Générer les certificats
                       </Typography>
@@ -138,7 +165,10 @@ const EtudiantsPage = () => {
                             dispatch(clearMessage())
                             values.date = date["$d"].toLocaleDateString('fr-FR');
                             values.filiere = filiere.abbr;
-                            values.template = "certif_8";
+                            values.template = template ? template : "certif_7";
+                            values.ministere = ministere ? ministere : values.ministere;
+                            values.presidence = presidence ? presidence : values.presidence;
+                            values.etablissement = etablissement ? etablissement : values.etablissement;
 
                             let students = [];
                             let student = {};
@@ -221,7 +251,7 @@ const EtudiantsPage = () => {
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <TextField
+                                {/* <TextField
                                     fullWidth
                                     label="Ministere"
                                     margin="normal"
@@ -230,10 +260,26 @@ const EtudiantsPage = () => {
                                     type="text"
                                     onChange={handleChange}
                                     sx={{ ...theme.typography.customInput }}
-                                />
+                                /> */}
+
+
+                                <FormControl style={{marginTop: "8px"}} margin="normal" fullWidth>
+                                    <InputLabel id="ministere">Ministere</InputLabel>
+                                    <Select
+                                        labelId="ministere"
+                                        id="ministere"
+                                        value={ministere}
+                                        label="Ministere"
+                                        onChange={handleMinistereChange}
+                                        style={{height: "61px"}}
+                                    >
+                                        <MenuItem value={"ministere_2"}>Ministere</MenuItem>
+                                    </Select>
+                                </FormControl>
+
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <TextField
+                                {/* <TextField
                                     fullWidth
                                     label="Présidence"
                                     margin="normal"
@@ -243,10 +289,24 @@ const EtudiantsPage = () => {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     sx={{ ...theme.typography.customInput }}
-                                />
+                                /> */}
+
+                                <FormControl style={{marginTop: "8px"}} margin="normal" fullWidth>
+                                    <InputLabel id="presidence">Présidence</InputLabel>
+                                    <Select
+                                        labelId="presidence"
+                                        id="presidence"
+                                        value={presidence}
+                                        label="Présidence"
+                                        onChange={handlePresidenceChange}
+                                        style={{height: "61px"}}
+                                    >
+                                        <MenuItem value={"uca"}>UCA</MenuItem>
+                                    </Select>
+                                </FormControl>
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <TextField
+                                {/* <TextField
                                     fullWidth
                                     label="Etablissement"
                                     margin="normal"
@@ -255,72 +315,24 @@ const EtudiantsPage = () => {
                                     type="text"
                                     onChange={handleChange}
                                     sx={{ ...theme.typography.customInput }}
-                                />
+                                /> */}
+
+
+                                <FormControl style={{marginTop: "8px"}} margin="normal" fullWidth>
+                                    <InputLabel id="etablissement">Etablissement</InputLabel>
+                                    <Select
+                                        labelId="etablissement"
+                                        id="etablissement"
+                                        value={etablissement}
+                                        label="Etablissement"
+                                        onChange={handleEtablissementChange}
+                                        style={{height: "61px"}}
+                                    >
+                                        <MenuItem value={"fst"}>FSTG</MenuItem>
+                                    </Select>
+                                </FormControl>
                             </Grid>
-                            <Grid item xs={12} sm={4}>
-                                <TextField
-                                    fullWidth
-                                    label="Template"
-                                    margin="normal"
-                                    name="template"
-                                    value={values.template}
-                                    type="text"
-                                    onChange={handleChange}
-                                    sx={{ ...theme.typography.customInput }}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={4}>
-                                <TextField
-                                    fullWidth
-                                    label="Signataire"
-                                    margin="normal"
-                                    name="signers[0]"
-                                    type="text"
-                                    value={values.signers[0]}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    sx={{ ...theme.typography.customInput }}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={4}>
-                                <TextField
-                                    fullWidth
-                                    label="Position"
-                                    margin="normal"
-                                    name="positions[0]"
-                                    type="text"
-                                    value={values.positions[0]}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    sx={{ ...theme.typography.customInput }}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={4}>
-                                <TextField
-                                    fullWidth
-                                    label="Signataire"
-                                    margin="normal"
-                                    name="signers[1]"
-                                    type="text"
-                                    value={values.signers[1]}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    sx={{ ...theme.typography.customInput }}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={4}>
-                                <TextField
-                                    fullWidth
-                                    label="Position"
-                                    margin="normal"
-                                    name="positions[1]"
-                                    type="text"
-                                    value={values.positions[1]}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    sx={{ ...theme.typography.customInput }}
-                                />
-                            </Grid>
+
                             <Grid item xs={12} sm={6}>
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
 
@@ -348,6 +360,132 @@ const EtudiantsPage = () => {
                                 />
                             </Grid>
 
+                            <Grid item xs={12}>
+                                <Box sx={{ alignItems: 'center', display: 'flex' }}>
+                                    <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
+                                    <Button
+                                        variant="outlined"
+                                        sx={{
+                                            cursor: 'unset',
+                                            m: 2,
+                                            py: 0.5,
+                                            px: 7,
+                                            borderColor: `${theme.palette.grey[100]} !important`,
+                                            color: `${theme.palette.grey[700]}!important`,
+                                            fontWeight: 500,
+                                            borderRadius: `${customization.borderRadius}px`
+                                        }}
+                                        disableRipple
+                                        disabled
+                                    >
+                                        Signataires
+                                    </Button>
+                                    <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
+                                </Box>
+                            </Grid>
+                            
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    fullWidth
+                                    label="Nom Complet"
+                                    margin="normal"
+                                    name="signers[0]"
+                                    type="text"
+                                    value={values.signers[0]}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    sx={{ ...theme.typography.customInput }}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    fullWidth
+                                    label="Position"
+                                    margin="normal"
+                                    name="positions[0]"
+                                    type="text"
+                                    value={values.positions[0]}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    sx={{ ...theme.typography.customInput }}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    fullWidth
+                                    label="Nom Complet"
+                                    margin="normal"
+                                    name="signers[1]"
+                                    type="text"
+                                    value={values.signers[1]}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    sx={{ ...theme.typography.customInput }}
+                                    disabled={values.signers[0] == "" || values.signers[0] == null || values.positions[0] == "" || values.positions[0] == null}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    fullWidth
+                                    label="Position"
+                                    margin="normal"
+                                    name="positions[1]"
+                                    type="text"
+                                    value={values.positions[1]}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    sx={{ ...theme.typography.customInput }}
+                                    disabled={values.signers[0] == "" || values.signers[0] == null || values.positions[0] == "" || values.positions[0] == null}
+                                />
+                            </Grid>
+                            
+                            <Grid item xs={12}>
+                                <Box sx={{ alignItems: 'center', display: 'flex' }}>
+                                    <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
+                                    <Button
+                                        variant="outlined"
+                                        sx={{
+                                            cursor: 'unset',
+                                            m: 2,
+                                            py: 0.5,
+                                            px: 7,
+                                            borderColor: `${theme.palette.grey[100]} !important`,
+                                            color: `${theme.palette.grey[700]}!important`,
+                                            fontWeight: 500,
+                                            borderRadius: `${customization.borderRadius}px`
+                                        }}
+                                        disableRipple
+                                        disabled
+                                    >
+                                        Template
+                                    </Button>
+                                    <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
+                                </Box>
+                            </Grid>
+{/* 
+                            <Grid item xs={12} sm={4}>
+                                <TextField
+                                    fullWidth
+                                    label="Template"
+                                    margin="normal"
+                                    name="template"
+                                    value={values.template}
+                                    type="text"
+                                    onChange={handleChange}
+                                    sx={{ ...theme.typography.customInput }}
+                                />
+                            </Grid> */}
+
+                            <Grid item xs={6} sm={6} container justifyContent={"center"}>
+                                <Button variant="outlined" color={`${template == "certif_7" ? "success" : "primary"}`} onClick={() => handleSetTemplate("certif_7")}>
+                                <img src={certif_7} alt="certif_7" width={300} />
+                                </Button>
+                            </Grid>
+                            <Grid item xs={6} sm={6} container justifyContent={"center"}>
+                                <Button variant="outlined" color={`${template == "certif_8" ? "success" : "primary"}`} onClick={() => handleSetTemplate("certif_8")}>
+                                <img src={certif_8} alt="certif_8" width={300} />
+                                </Button>
+                            </Grid>
 
                         </Grid>
 
@@ -358,7 +496,7 @@ const EtudiantsPage = () => {
                         </Box>
                     )}
 
-                    <Box sx={{ mt: 2 }}>
+                    <Box sx={{ mt: 5 }}>
                         <AnimateButton>
                             <LoadingButton
                                 disableElevation
@@ -370,7 +508,7 @@ const EtudiantsPage = () => {
                                 variant="contained"
                                 color="secondary"
                             >
-                                Sauvegarder
+                                Générer
                             </LoadingButton>
                         </AnimateButton>
                     </Box>
