@@ -1,3 +1,4 @@
+import { generateCertificates } from 'api/backoperations/certificate.service';
 import { getAllEtudiants } from 'api/backoperations/etudiant.service';
 import { getAllFilieres } from 'api/backoperations/filiere.service';
 import * as type from './actions';
@@ -61,5 +62,25 @@ const setEtudiantsAction = (etudiants) => {
     }
 }
 
+const generateCertificatesAction = (data) => (dispatch) => {
+    return generateCertificates(data).then(
+        (res) => {
+            dispatch({
+                type: type.SET_MESSAGE,
+                payload: res.data.message,
+            });
+            console.log("generateCertificatesAction: ", res.data.message);
+            return Promise.resolve();
+        },
+        (error) => {
+            const message = error.response.data.message || error;
+            dispatch({
+                type: type.SET_MESSAGE,
+                payload: message,
+            });
+            return Promise.reject(error);
+        }
+    );
+}
 
-export { getAllFilieresAction, setFiliere, getAllEtudiantsAction, setEtudiantsAction };
+export { getAllFilieresAction, setFiliere, getAllEtudiantsAction, setEtudiantsAction, generateCertificatesAction };

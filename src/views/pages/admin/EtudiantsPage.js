@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -30,6 +30,7 @@ const EtudiantsPage = () => {
     const theme = useTheme();
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const filiere = useSelector((state) => state.backops.filiere);
     const etudiants = useSelector((state) => state.backops.etudiants);
 
@@ -53,7 +54,7 @@ const EtudiantsPage = () => {
     };
 
     const handleChangeChildCheck = (event, index) => {
-        console.log(index)
+        // console.log(index)
         setChecked(etudiants.map((e, i) => (i === index) ? event.target.checked : checked[i] ));
     };
     
@@ -64,7 +65,7 @@ const EtudiantsPage = () => {
 
     const handleSetIsValide = (e) => {
         const valide = e.target.value;
-        console.log(valide);
+        // console.log(valide);
         (valide == "true") ? setIsValide(true) : ((valide == "false") ? setIsValide(false) : setIsValide(null));
     };
 
@@ -79,13 +80,13 @@ const EtudiantsPage = () => {
         setChecked(etudiants.map(e => false));
     }
 
-    const handleSetIsValidd = () => {
-        console.log("handleSetIsValidd");
-        console.log(selectedEtudiants);
-    }
+    // const handleSetIsValidd = () => {
+    //     console.log("handleSetIsValidd");
+    //     console.log(selectedEtudiants);
+    // }
 
     const handleGenrateCertificateActive = () => {
-        console.log("handleGenrateCertificateActive");
+        // console.log("handleGenrateCertificateActive");
         
         let duree = filiere.duree;
         let nbrAdmis = 0;
@@ -101,7 +102,7 @@ const EtudiantsPage = () => {
                     }
                 });
             }
-            console.log(totalAdmis);
+            // console.log(totalAdmis);
             if (totalAdmis == duree) {
                 nbrAdmis += 1;
             }
@@ -120,11 +121,10 @@ const EtudiantsPage = () => {
         console.log("filiere: ", filiere.abbr);
         console.log("etudiants: ", selectedEtudiants);
         dispatch(setEtudiantsAction(selectedEtudiants));
-        navigate("/etudiants", { replace: true });
+        navigate("/generate-certificate", { replace: true });
 
     }
         
-
     useEffect(() => {
         dispatch(getAllEtudiantsAction({filiere: filiere.abbr, search: searchString, valide: isValide, certified: isCertified}));
         setChecked(etudiants.map(e => false));

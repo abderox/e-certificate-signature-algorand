@@ -24,7 +24,7 @@ const API_UPLOAD_URLS = {
     IMPORT_NOTE_EXCEL: UPLOAD_BASE_URL + "/note-excel",
 }
 
-const API_PROCESS_URLS = {
+const API_CERTIFICATE_URLS = {
     GENERATE_CERTIFICATE: PROCESS_BASE_URL + "/generate-certificate",
     GENERATE_CERTIFICATES: PROCESS_BASE_URL + "/generate-certificates",
 }
@@ -34,5 +34,5 @@ module.exports = {
     API_FILIERE_URLS,
     API_ETUDIANTS_URLS,
     API_UPLOAD_URLS,
-    API_PROCESS_URLS
+    API_CERTIFICATE_URLS
 };

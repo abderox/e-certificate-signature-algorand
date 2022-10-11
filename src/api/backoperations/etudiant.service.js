@@ -1,3 +1,4 @@
+import authHeader from 'api/auth/authHeaders.service';
 import axios from 'axios';
 import {API_ETUDIANTS_URLS} from 'utils/global-constants';
 
@@ -16,7 +17,7 @@ const getAllEtudiants = (options = {}) => {
     
     console.log("getAllEtudiants: ", valide);
     console.log(options)
-    return axios.get(API_ETUDIANTS_URLS.GET_ALL_ETUDIANTS, { params: { filiere, search, page, size, valide, certified } });
+    return axios.get(API_ETUDIANTS_URLS.GET_ALL_ETUDIANTS, { headers: authHeader(), params: { filiere, search, page, size, valide, certified } });
 }
 
 export  {
