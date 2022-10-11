@@ -69,7 +69,7 @@ const EtudiantsPage = () => {
 
   const [loading, setloading] = useState(false);
 
-  const [date, setDate] = useState(dayjs('2022-10-14T21:11:54'));
+  const [date, setDate] = useState(dayjs(new Date().toISOString()));
 
   const [template, setTemplate] = useState("certif_7");
 
@@ -189,7 +189,7 @@ const handleMinistereChange = (event) => {
                             let signer = {};
                             values.signers.forEach((signer, index) => {
                                 signer = {
-                                    fullName : signer,
+                                    fullname : signer,
                                     position: values.positions[index],
                                 }
                                 signers.push(signer);
