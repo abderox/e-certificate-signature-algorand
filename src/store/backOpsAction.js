@@ -18,7 +18,10 @@ const getAllFilieresAction = () => (dispatch) => {
             const message = error.response.data.message || error;
             dispatch({
                 type: type.SET_MESSAGE,
-                payload: message,
+                payload: {
+                    message: message,
+                    type: "error"
+                },
             });
             return Promise.reject(error);
         }
@@ -47,7 +50,10 @@ const getAllEtudiantsAction = (options) => (dispatch) => {
             const message = error.response.data.message || error;
             dispatch({
                 type: type.SET_MESSAGE,
-                payload: message,
+                payload: {
+                    message: message,
+                    type: "error"
+                },
             });
             return Promise.reject(error);
         }
@@ -67,7 +73,10 @@ const generateCertificatesAction = (data) => (dispatch) => {
         (res) => {
             dispatch({
                 type: type.SET_MESSAGE,
-                payload: res.data.message,
+                payload: {
+                    message: res.data.message,
+                    type: "success"
+                },
             });
             console.log("generateCertificatesAction: ", res.data.message);
             return Promise.resolve();
@@ -76,7 +85,10 @@ const generateCertificatesAction = (data) => (dispatch) => {
             const message = error.response.data.message || error;
             dispatch({
                 type: type.SET_MESSAGE,
-                payload: message,
+                payload: {
+                    message: message,
+                    type: "error"
+                },
             });
             return Promise.reject(error);
         }

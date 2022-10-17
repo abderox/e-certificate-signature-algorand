@@ -6,7 +6,10 @@ const importEtudiantExcelAction = (formData) => (dispatch) => {
         (data) => {
             dispatch({
                 type: type.SET_MESSAGE,
-                payload: data.data.message,
+                payload: {
+                    message: data.data.message,
+                    type: "success"
+                },
             });
             return Promise.resolve();
         },
@@ -14,7 +17,10 @@ const importEtudiantExcelAction = (formData) => (dispatch) => {
             const message = error.response.data.message || error;
             dispatch({
                 type: type.SET_MESSAGE,
-                payload: message,
+                payload: {
+                    message: message,
+                    type: "error"
+                },
             });
             return Promise.reject(error);
         }
@@ -26,7 +32,10 @@ const importNoteExcelAction = (formData) => (dispatch) => {
         (data) => {
             dispatch({
                 type: type.SET_MESSAGE,
-                payload: data.data.message,
+                payload: {
+                    message: data.data.message,
+                    type: "success"
+                },
             });
             return Promise.resolve();
         },
@@ -34,7 +43,10 @@ const importNoteExcelAction = (formData) => (dispatch) => {
             const message = error.response.data.message || error;
             dispatch({
                 type: type.SET_MESSAGE,
-                payload: message,
+                payload: {
+                    message: message,
+                    type: "error"
+                },
             });
             return Promise.reject(error);
         }

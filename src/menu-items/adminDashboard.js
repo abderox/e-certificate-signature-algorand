@@ -6,7 +6,7 @@ const icons = { IconDashboard };
 
 // ==============================|| DASHBOARD MENU ITEMS ||============================== //
 
-const dashboard = {
+const adminDashboard = {
     id: 'dashboard',
     title: 'Dashboard',
     type: 'group',
@@ -15,14 +15,6 @@ const dashboard = {
             id: 'default',
             title: 'Dashboard',
             type: 'item',
-            url: '/dashboard',
-            icon: icons.IconDashboard,
-            breadcrumbs: false
-        },
-        {
-            id: 'adminDashboard',
-            title: 'Dashboard Admin',
-            type: 'item',
             url: '/admin/dashboard',
             icon: icons.IconDashboard,
             breadcrumbs: false
@@ -30,4 +22,4 @@ const dashboard = {
     ]
 };
 
-export default dashboard;
+export default adminDashboard;

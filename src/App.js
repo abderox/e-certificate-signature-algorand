@@ -16,13 +16,16 @@ import NavigationScroll from 'layout/NavigationScroll';
 
 const App = () => {
     const customization = useSelector((state) => state.customization);
+    const roles = useSelector((state) => state.login?.user?.roles ? state.login.user.roles : []);
+
+    console.log(roles);
 
     return (
         <StyledEngineProvider injectFirst>
             <ThemeProvider theme={themes(customization)}>
                 <CssBaseline />
                 <NavigationScroll>
-                    <Routes />
+                    <Routes roles={roles}/>
                 </NavigationScroll>
             </ThemeProvider>
         </StyledEngineProvider>

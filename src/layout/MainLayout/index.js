@@ -10,12 +10,16 @@ import { AppBar, Box, CssBaseline, Toolbar, useMediaQuery } from '@mui/material'
 import Breadcrumbs from 'ui-component/extended/Breadcrumbs';
 import Header from './Header';
 import Sidebar from './Sidebar';
-import navigation from 'menu-items';
+import menuItems from 'menu-items';
+
+import { superAdminMenuItems } from 'menu-items';
+
 import { drawerWidth } from 'store/constant';
 import { SET_MENU } from 'store/actions';
 
 // assets
 import { IconChevronRight } from '@tabler/icons';
+import Toast from 'ui-component/ui-error/toast';
 
 // styles
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
@@ -71,6 +75,12 @@ const MainLayout = () => {
     const leftDrawerOpened = useSelector((state) => state.customization.opened);
     const isLoggedIn = useSelector((state) => state.login.isAuthenticated);
     const dispatch = useDispatch();
+    const userInfo = useSelector((state) => state.login?.user);
+    const toastMessage = useSelector((state)=>state.message);
+    console.log("toastMessage: ", toastMessage);
+    
+    const navigation = (userInfo?.roles?.includes("ROLE_SUPER_ADMIN")) ? superAdminMenuItems : menuItem;
+
     const handleLeftDrawerToggle = () => {
         dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
     };
@@ -79,14 +89,16 @@ const MainLayout = () => {
         dispatch({ type: SET_MENU, opened: !matchDownMd });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [matchDownMd]);
-
   
     if (!isLoggedIn) {
         return <Navigate to="/login" replace/>;
     }
 
+    
+
     return (
         <Box sx={{ display: 'flex' }}>
+            {toastMessage && toastMessage.message && <Toast message={toastMessage.message} severity={toastMessage.type ? toastMessage.type : "info"} />}
             <CssBaseline />
             {/* header */}
             <AppBar

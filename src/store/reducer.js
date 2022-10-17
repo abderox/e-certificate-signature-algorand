@@ -6,6 +6,7 @@ import  login from './authReducer';
 import message from './messageReducer';
 import register from './registerReducer';
 import backops from './backOpsReducer';
+import wallet from './walletReducer';
 // ==============================|| COMBINE REDUCER ||============================== //
 
 const reducer = combineReducers({
@@ -13,7 +14,8 @@ const reducer = combineReducers({
     login,
     message,
     register,
-    backops
+    backops,
+    wallet
 });
 
 export default reducer;

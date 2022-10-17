@@ -99,7 +99,7 @@ const FiliereCard = ({ isLoading, filiere }) => {
   const handleStudentRegisterExcel = (event) => {
     dispatch(clearMessage())
     console.log("filiere: ", filiereAbbr);
- // TODO 
+  // TODO 
       const formData = new FormData();
       formData.append(
         "file",
@@ -134,7 +134,7 @@ const FiliereCard = ({ isLoading, filiere }) => {
     console.log("filiere: ", filiere.abbr);
     dispatch(setFiliere(filiere));
     dispatch(getAllEtudiantsAction({ filiere: filiere.abbr, page: 1}));
-    navigate("/etudiants", { replace: true });
+    navigate("/admin/etudiants", { replace: true });
   };
 
   return (
@@ -145,7 +145,7 @@ const FiliereCard = ({ isLoading, filiere }) => {
         <CardWrapper border={false} content={false}>
           <Box sx={{ p: 2.25 }}>
             <Grid container direction="column">
-              <Grid item>
+              <Grid item> 
                 <Grid container justifyContent="space-between">
                   <Grid item>
                     <Avatar

@@ -13,12 +13,13 @@ const GenerateCertificatePage = Loadable(lazy(() => import('views/pages/admin/Ge
 
 // ==============================|| MAIN ROUTING ||============================== //
 
+
 const MainRoutes = {
-    path: '/',
+    path: 'admin/',
     element: <MainLayout />,
     children: [
         {
-            path: '/',
+            path: '',
             element: <DashboardDefault />
         },
         {
@@ -28,10 +29,6 @@ const MainRoutes = {
         {
             path: 'register-student',
             element: <Register isEtudiant={true} />
-        },
-        {
-            path: 'register-admin',
-            element: <Register isEtudiant={false} />
         },
         {
             path: 'etudiants',

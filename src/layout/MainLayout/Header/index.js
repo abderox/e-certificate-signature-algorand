@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+window.Buffer = window.Buffer || require("buffer").Buffer;
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -10,11 +11,14 @@ import ProfileSection from './ProfileSection';
 
 // assets
 import { IconMenu2 } from '@tabler/icons';
+import WalletSection from './WalletSection.js';
+import { useSelector } from 'react-redux';
 
 // ==============================|| MAIN NAVBAR / HEADER ||============================== //
 
 const Header = ({ handleLeftDrawerToggle }) => {
     const theme = useTheme();
+    const userInfo = useSelector((state) => state.login?.user);
 
     return (
         <>
@@ -57,6 +61,11 @@ const Header = ({ handleLeftDrawerToggle }) => {
             <Box sx={{ flexGrow: 1 }} />
             <Box sx={{ flexGrow: 1 }} />
 
+            {
+                userInfo?.roles.includes('ROLE_SUPER_ADMIN') ? (
+                    <WalletSection />
+                ) : null
+            }
             <ProfileSection />
         </>
     );

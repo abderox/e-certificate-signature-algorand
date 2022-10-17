@@ -21,7 +21,6 @@ const Dashboard = () => {
   const filieresInfos = useSelector((state) => state.backops.filieres);
   const dispatch = useDispatch();
   const [filieres, setFilieres] = useState([]);
-  const toastMessage = useSelector((state)=>state.message.message);
 
   useEffect(() => {
     if(filieresInfos!==[])
@@ -40,7 +39,6 @@ const Dashboard = () => {
 
   return (
     <Grid container spacing={gridSpacing}>
-      {toastMessage && <Toast message={JSON.parse(toastMessage)} severity="success" />}
       <Grid item xs={12}>
         <Grid container spacing={gridSpacing} justifyContent={"start"}>
           {

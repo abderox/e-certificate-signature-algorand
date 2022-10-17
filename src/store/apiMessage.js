@@ -5,10 +5,13 @@
 import * as type from './actions';
 
 
- const setMessage = (message) => {
+ const setMessage = (payload) => {
     return {
         type: type.SET_MESSAGE,
-        message: message
+        payload: {
+            message: payload.message,
+            type: payload.type
+        }
     }
 }
 

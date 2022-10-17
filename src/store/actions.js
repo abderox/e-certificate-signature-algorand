@@ -18,3 +18,7 @@ export const SET_FILIERES = "SET_FILIERES";
 export const SET_FILIERE = "SET_FILIERE";
 
 export const SET_ETUDIANTS = "SET_ETUDIANTS";
+
+export const SET_ACCOUNT_ADDRESS = "SET_ACCOUNT_ADDRESS";
+export const SET_WALLET_AUTH_TOKEN = "SET_WALLET_AUTH_TOKEN";
+export const SET_IOS = "SET_IOS";

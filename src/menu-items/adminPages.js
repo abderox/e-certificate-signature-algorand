@@ -8,7 +8,7 @@ const icons = {
 
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
 
-const pages = {
+const adminPages = {
     id: 'pages',
     title: 'Pages',
     caption: 'Pages Caption',
@@ -22,13 +22,6 @@ const pages = {
 
             children: [
                 {
-                    id: 'registerAdmin',
-                    title: 'Inscrire Admin',
-                    type: 'item',
-                    url: '/register-admin',
-                    target: false
-                },
-                {
                     id: 'registerEtudiant',
                     title: 'Inscrire Etudiant',
                     type: 'item',
@@ -40,4 +33,4 @@ const pages = {
     ]
 };
 
-export default pages;
+export default adminPages;
