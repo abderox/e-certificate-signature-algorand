@@ -8,6 +8,11 @@ const getProfileStudent = (data) => {
     return axios.get(API_PROFILE.GET_PROFILE_STUDENT, { params: { cd_apg: data.code_apogee, cne: data.cne } });
 }
 
+const updateVisibility = (data) => {
+    return axios.post(API_PROFILE.UPDATE_VISIBILITY, data, { headers: authHeader() });
+}
+
 export {
-    getProfileStudent
+    getProfileStudent,
+    updateVisibility
 }
