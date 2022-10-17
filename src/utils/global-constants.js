@@ -4,6 +4,7 @@ const AUTH_BASE_URL = BASE_URL_API + "/auth";
 const BACKOPS_BASE_URL = BASE_URL_API + "/backops";
 const UPLOAD_BASE_URL = BASE_URL_API + "/upload";
 const PROCESS_BASE_URL = BASE_URL_API + "/process";
+const PROFILE_BASE_URL = BASE_URL_API + "/profile";
 
 const API_AUTH_URLS = {
     LOGIN: AUTH_BASE_URL + "/login",
@@ -14,6 +15,10 @@ const API_AUTH_URLS = {
 
 const API_FILIERE_URLS = {
     GET_ALL_FILIERES: BACKOPS_BASE_URL + "/get-all-filieres",
+}
+
+const API_PROFILE = {
+    GET_PROFILE_STUDENT: PROFILE_BASE_URL + "/student-profile",
 }
 
 const API_ETUDIANTS_URLS = {
@@ -46,5 +51,6 @@ module.exports = {
     API_ETUDIANTS_URLS,
     API_UPLOAD_URLS,
     API_CERTIFICATE_URLS,
-    WALLET_CONSTANTS
+    WALLET_CONSTANTS,
+    API_PROFILE,
 };

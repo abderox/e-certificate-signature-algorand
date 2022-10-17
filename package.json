@@ -1,7 +1,8 @@
 {
-    "name": "berry-material-react-free",
+    "name": "e-certificate-uca",
     "version": "3.2.0",
     "private": true,
+    "author":"abderox & kaoutar_ou",
     "dependencies": {
         "@algo-builder/algob": "^5.0.1",
         "@date-io/jalaali": "^2.16.0",
@@ -16,6 +17,7 @@
         "@mui/system": "^5.8.6",
         "@mui/utils": "^5.8.6",
         "@mui/x-date-pickers": "^5.0.3",
+        "@pdftron/webviewer": "^8.9.0",
         "@tabler/icons": "^1.72.0",
         "@walletconnect/client": "^1.8.0",
         "algorand-walletconnect-qrcode-modal": "^1.8.0",
@@ -33,6 +35,7 @@
         "react-apexcharts": "^1.4.0",
         "react-device-detect": "^2.2.2",
         "react-dom": "^18.2.0",
+        "react-pdf": "^5.7.2",
         "react-perfect-scrollbar": "^1.5.8",
         "react-redux": "^8.0.2",
         "react-router": "6.3.0",

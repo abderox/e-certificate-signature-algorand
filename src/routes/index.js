@@ -4,6 +4,7 @@ import { useRoutes } from 'react-router-dom';
 import MainRoutes from './MainRoutes';
 import AuthenticationRoutes from './AuthenticationRoutes';
 import SuperAdminRoutes from './SuperAdminRoutes';
+import ProfileRoutes from './ProfileRoutes';
 
 // ==============================|| ROUTING RENDER ||============================== //
 
@@ -19,7 +20,7 @@ export default function ThemeRoutes({roles}) {
             routes.push(MainRoutes)
         }
         if(roles.includes("ROLE_ETUDIANT")) {
-            routes.push(MainRoutes)
+            routes.push(ProfileRoutes)
         }
     }
     return useRoutes(routes);
