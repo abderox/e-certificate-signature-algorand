@@ -41,6 +41,7 @@ const MainRoutes = {
             path: 'generate-certificate',
             element: <GenerateCertificatePage />
         }
+      
 
     ]
 };

@@ -9,32 +9,34 @@ import { gridSpacing } from "store/constant";
 import { useDispatch, useSelector } from "react-redux";
 
 import { getAllFilieresAction } from "store/backOpsAction";
-import {getAllFilieres} from 'api/backoperations/filiere.service';
+import { getAllFilieres } from 'api/backoperations/filiere.service';
 
 import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
 import Toast from "ui-component/ui-error/toast";
 
+
 // ==============================|| DEFAULT DASHBOARD ||============================== //
+
 
 const Dashboard = () => {
   const [isLoading, setLoading] = useState(true);
   const filieresInfos = useSelector((state) => state.backops.filieres);
   const dispatch = useDispatch();
   const [filieres, setFilieres] = useState([]);
-  const toastMessage = useSelector((state)=>state.message.message);
+  const toastMessage = useSelector((state) => state.message.message);
+ 
 
   useEffect(() => {
-    if(filieresInfos!==[])
-    {
-        getAllFilieres().then((data) => {
-            setFilieres(data.data.etablissement.filieres);
-            setLoading(false);
-        });
+    if (filieresInfos !== []) {
+      getAllFilieres().then((data) => {
+        setFilieres(data.data.etablissement.filieres);
+        setLoading(false);
+      });
     }
     else {
-        dispatch(getAllFilieresAction());
+      dispatch(getAllFilieresAction());
     }
-       console.log("filieres: ", filieresInfos);
+    console.log("filieres: ", filieresInfos);
   }, []);
 
 
@@ -45,25 +47,25 @@ const Dashboard = () => {
         <Grid container spacing={gridSpacing} justifyContent={"start"}>
           {
             (isLoading) ? (
-                [1,2,3].map((item) => (
-                    <Grid item lg={4} md={6} sm={6} xs={12} key={item}>
-                        <SkeletonEarningCard />
-                    </Grid>
-                ))
+              [1, 2, 3].map((item) => (
+                <Grid item lg={4} md={6} sm={6} xs={12} key={item}>
+                  <SkeletonEarningCard />
+                </Grid>
+              ))
             ) : (
-                filieres.map((filiere) => {
-                    return (
-                      <Grid item lg={4} md={6} sm={6} xs={12} key={filiere._id}>
-                        <FiliereCard
-                          filiere={filiere}
-                          isLoading={isLoading}
-                          key={filiere._id}
-                        />
-                      </Grid>
-                    );
-                  })
+              filieres.map((filiere) => {
+                return (
+                  <Grid item lg={4} md={6} sm={6} xs={12} key={filiere._id}>
+                    <FiliereCard
+                      filiere={filiere}
+                      isLoading={isLoading}
+                      key={filiere._id}
+                    />
+                  </Grid>
+                );
+              })
             )
-            }
+          }
         </Grid>
       </Grid>
     </Grid>
