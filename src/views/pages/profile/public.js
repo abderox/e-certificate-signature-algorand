@@ -177,6 +177,7 @@ export default function Profile() {
     const theme = useTheme();
     const dispatch = useDispatch();
     const profile = useSelector((state) => state.profile);
+    const user = useSelector((state) => state.user);
     const [info, setinfo] = useState({});
     const [open, setOpen] = useState(false);
     const [checked, setChecked] = React.useState(true);
@@ -226,7 +227,7 @@ export default function Profile() {
         setChecked(event.target.checked);
         setwait(true);
         updateVisibility({
-            user_id: "634ad3eeb8a46448cdd15f69",
+            user_id: user.id,
             visibility: event.target.checked
         }).then((res) => {
             setwait(false);
