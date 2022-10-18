@@ -65,7 +65,7 @@ const EtudiantsPage = () => {
   const filiere = useSelector((state) => state.backops.filiere);
   const etudiants = useSelector((state) => state.backops.etudiants);
   const scriptedRef = useScriptRef();
-  const message = useSelector((state) => state.message.message);
+//   const message = useSelector((state) => state.message.message);
 
   const [loading, setloading] = useState(false);
 
@@ -99,7 +99,7 @@ const handleMinistereChange = (event) => {
 
   return (
     <>
-    {message && <Toast message={JSON.parse(message)} severity="info" />}
+    {/* {message && <Toast message={JSON.parse(message)} severity="info" />} */}
       <Grid container spacing={3}>
         <Grid container justifyContent="center" alignItems="center">
           <Grid item sx={{ m: { xs: 1, sm: 3 }, mb: 0 }}>

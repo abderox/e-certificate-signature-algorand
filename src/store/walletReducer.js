@@ -3,8 +3,6 @@ import * as type from './actions';
 const initialState = {
     address: null,
     wallet: null,
-    // address: typeof localStorage !== "undefined" ? localStorage.getItem("walletconnect") || null : null,
-    iOS: false,
     walletAuthToken: typeof localStorage !== "undefined" ? localStorage.getItem("walletAuthToken") || null : null,
   };
 
@@ -17,11 +15,6 @@ export default (state = initialState, action) => {
                 ...state,
                 address: action.payload.address,
                 wallet: action.payload.wallet,
-            }
-        case type.SET_IOS:
-            return {
-                ...state,
-                iOS: action.payload,
             }
         case type.SET_WALLET_AUTH_TOKEN:
             return {

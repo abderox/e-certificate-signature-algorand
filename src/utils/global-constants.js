@@ -15,6 +15,7 @@ const API_AUTH_URLS = {
 
 const API_FILIERE_URLS = {
     GET_ALL_FILIERES: BACKOPS_BASE_URL + "/get-all-filieres",
+    GET_CERTIFIED_FILIERES: BACKOPS_BASE_URL + "/get-certified-filieres",
 }
 
 const API_PROFILE = {
@@ -33,6 +34,7 @@ const API_UPLOAD_URLS = {
 const API_CERTIFICATE_URLS = {
     GENERATE_CERTIFICATE: PROCESS_BASE_URL + "/generate-certificate",
     GENERATE_CERTIFICATES: PROCESS_BASE_URL + "/generate-certificates",
+    GET_ALL_CERTIFICATS_BY_FILIERE: BACKOPS_BASE_URL + "/get-all-certificats-by-filiere",
 }
 
 const WALLET_CONSTANTS = {

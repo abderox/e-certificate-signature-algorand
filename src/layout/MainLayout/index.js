@@ -98,7 +98,7 @@ const MainLayout = () => {
 
     return (
         <Box sx={{ display: 'flex' }}>
-            {toastMessage && toastMessage.message && <Toast message={toastMessage.message} severity={toastMessage.type ? toastMessage.type : "info"} />}
+            {toastMessage && toastMessage.message && <Toast message={JSON.parse(toastMessage.message)} severity={toastMessage.type ? toastMessage.type : "info"} />}
             <CssBaseline />
             {/* header */}
             <AppBar

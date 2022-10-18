@@ -18,14 +18,6 @@ const dashboard = {
             url: '/dashboard',
             icon: icons.IconDashboard,
             breadcrumbs: false
-        },
-        {
-            id: 'adminDashboard',
-            title: 'Dashboard Admin',
-            type: 'item',
-            url: '/admin/dashboard',
-            icon: icons.IconDashboard,
-            breadcrumbs: false
         }
     ]
 };

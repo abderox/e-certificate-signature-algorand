@@ -104,6 +104,7 @@ useEffect(() => {
     }
   }, [dispatch]);
 
+
   const connectToMobileWallet = async () => {
     console.log("connect to mobile wallet");
     if (connector.connected) return;
@@ -130,42 +131,25 @@ useEffect(() => {
   };
 
   const disconnectMobileWallet = async () => {
-
-    console.log(wallet);
     if (wallet === WALLET_CONSTANTS.WALLET_CONNECT) {
         if (!connector.connected) return;
-        console.log("disconnect mobile wallet");
         connector.on("disconnect", async (error, payload) => {
             try {
                 if (error) {
-            console.log("disconnect mobile wallet");
-    
-                        throw error;
+                    throw error;
                 }
-            console.log("disconnect mobile wallet");
-                
                 dispatch(disconnectWallet());
-                
                 dispatch(setWalletAuthToken(null));
-                
-                localStorage.removeItem("walletAuthToken");
-    
             } catch (error) {
                 console.error(error);
             }
-        
         });
         await connector.killSession();
     }
-
     if (wallet === WALLET_CONSTANTS.ALGO_SIGNER) {
-        console.log("disconnect algo signer");
         dispatch(disconnectWallet());
         dispatch(setWalletAuthToken(null));
-        
-        localStorage.removeItem("walletAuthToken");
     }
-    
   };
 
   const connectAlgoSigner = async () => {
@@ -186,6 +170,7 @@ useEffect(() => {
         ));
     }
   }    
+
 
 
   return (

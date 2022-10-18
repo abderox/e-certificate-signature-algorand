@@ -14,11 +14,12 @@ import FiliereCard from "../Default/FiliereCard";
 import { gridSpacing } from "store/constant";
 import { useDispatch, useSelector } from "react-redux";
 
-import { getAllFilieresAction } from "store/backOpsAction";
+import { getAllFilieresAction, getCertifiedFilieresAction } from "store/backOpsAction";
 import {getAllFilieres} from 'api/backoperations/filiere.service';
 
 import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
 import Toast from "ui-component/ui-error/toast";
+import CustomAlert from "ui-component/ui-error/alert";
 
 // ==============================|| SuperAdmin DASHBOARD ||============================== //
 
@@ -29,11 +30,12 @@ const SuperAdminDashboard = () => {
 //   const [filieres, setFilieres] = useState([]);
   const walletInfos = useSelector((state) => state.wallet);
 
-  console.log("walletInfos: ", walletInfos);
-  const [open, setOpen] = useState((walletInfos?.address === null) ? true : false);
+  const filieres = useSelector((state) => state.backops.filieres);
 
   useEffect(() => {
+    dispatch(getCertifiedFilieresAction());
     setLoading(false);
+    console.log("filieres: ", filieres);
   }, []);
 
 
@@ -42,32 +44,24 @@ const SuperAdminDashboard = () => {
       <Grid item xs={12}>
         <Grid container spacing={gridSpacing} justifyContent={"start"}>
             <Grid item xs={12} key={2}>
-                <Collapse in={open}>
-                    <Alert
-                    severity="info"
-                    action={
-                        <IconButton
-                        aria-label="close"
-                        color="inherit"
-                        size="small"
-                        onClick={() => {
-                            setOpen(false);
-                        }}
-                        >
-                            <CloseIcon fontSize="inherit" />
-                        </IconButton>
-                    }
-                    sx={{ mb: 2 }}
-                    >
-                        Bonjour, veuillez connecter votre wallet !
-                    </Alert>
-                </Collapse>
+                <CustomAlert isOpen={(walletInfos?.address === null) ? true : false} severity="info" content="Bonjour, veuillez connecter votre wallet !" />
             </Grid>
           {
             (isLoading) ? (
                 null
             ) : (
-                <Grid item lg={4} md={6} sm={6} xs={12} key={3}>
+              // filieres.map((filiere) => {
+              //   return (
+              //     <Grid item lg={4} md={6} sm={6} xs={12} key={filiere._id}>
+              //       <FiliereCard
+              //         filiere={filiere}
+              //         isLoading={isLoading}
+              //         key={filiere._id}
+              //       />
+              //     </Grid>
+              //   );
+              // })
+              <Grid item lg={4} md={6} sm={6} xs={12} key={3}>
                     Super Admin Dashboard ...
                 </Grid>
             )

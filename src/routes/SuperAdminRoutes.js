@@ -18,6 +18,7 @@ const SuperAdminRoutes = {
     element: <MainLayout />,
     children: [
         {
+            index: true,
             path: '',
             element: <DashboardSuperAdmin />
         },
