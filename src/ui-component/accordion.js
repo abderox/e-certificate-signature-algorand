@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
+import Button from '@mui/material/Button';
 const reactPdf = require('react-pdf/dist/esm/entry.webpack5')
 import useMediaQuery from '@mui/material/useMediaQuery';
 const { Document, Page } = reactPdf;
@@ -110,16 +111,20 @@ export default function CustomizedAccordions({ panel, data }) {
             <Accordion expanded={expanded === panel} onChange={handleChange(panel)}>
                 <AccordionSummary aria-controls={`${panel}d-content`} id={`${panel}d-header`} >
 
-                    <Typography sx={{ fontWeight: 'medium', width: '40%', flexShrink: 0 }} variant="h4" component="h4">{`Diplôme ${data.title.toUpperCase()}`}</Typography>
+                    <Typography sx={{ fontWeight: 'medium', width: '50%', flexShrink: 0 }} variant="h4" component="h4">{`Diplôme ${data.title.toUpperCase()}`}</Typography>
                     <Typography sx={{ fontWeight: 'medium' }}>{`Obtenu le :  ${data.date_obtained}`}</Typography>
 
                 </AccordionSummary>
                 <AccordionDetails>
 
-                    <Box sx={{ display: 'flex' }}>
+                    <Box sx={{ display: 'flex' , flexDirection:matches ?'row' : 'column' , justifyContent :'center' , alignItems : 'center' }}>
                         <Document file={url} onLoadSuccess={onDocumentLoadSuccess} options={options} >
                             <Page pageNumber={pageNumber} height={150} onClick={handleOpen} />
                         </Document>
+                        <a href={url} style={{ position: 'absolute', textDecoration: 'none' , left :'20%', top :matches? '22%' : '15%'}} download>
+                            <Button sx={{ mt: 1 }}>
+                                <img src="https://img.icons8.com/flat-round/36/000000/downloading-updates--v1.png" alt="download" />
+                            </Button></a>
 
                         <Box sx={{ margin: 2 }}>
                             <Typography sx={{ fontWeight: 'medium' }} variant="h5" component="h5">
@@ -128,11 +133,11 @@ export default function CustomizedAccordions({ panel, data }) {
                                 <span style={{ fontSize: '14pt', color: 'black' }}> ({data.abbr_filiere})</span>
                             </Typography>
                             <Divider />
-                            <Typography sx={{ fontWeight: 'medium' ,mt:1 }} variant="h5" component="h5">
+                            <Typography sx={{ fontWeight: 'medium', mt: 1 }} variant="h5" component="h5">
                                 <span style={{ fontSize: '14pt', color: 'gray' }}>Description filière :</span> {data.desc_filiere}
                             </Typography>
                             <Divider />
-                            <Typography sx={{ fontWeight: 'medium' ,mt:1}} variant="h5" component="h5">
+                            <Typography sx={{ fontWeight: 'medium', mt: 1 }} variant="h5" component="h5">
                                 <span style={{ fontSize: '14pt', color: 'gray' }}>  Durée formation : </span>  <span style={{ fontSize: '12pt', color: 'black' }}> {data.duree}</span>  {data.duree > 1 ? 'ans' : 'an'}
                             </Typography>
                         </Box>
@@ -144,9 +149,11 @@ export default function CustomizedAccordions({ panel, data }) {
                             aria-describedby="modal-modal-description"
                         >
                             <Box sx={style}>
+
                                 <Document file={url} onLoadSuccess={onDocumentLoadSuccess} options={options} >
                                     <Page pageNumber={pageNumber} height={matches ? 900 : 400} />
                                 </Document>
+
                             </Box>
                         </Modal>
 

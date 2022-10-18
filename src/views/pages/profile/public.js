@@ -10,6 +10,8 @@ import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -29,10 +31,63 @@ import Stack from '@mui/material/Stack';
 import { useLocation } from "react-router-dom";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { getProfileStudentAction } from 'store/profileAction';
-
+import { updateVisibility } from 'api/profile/profile.service';
 
 const drawerWidth = 400;
 const drawerWidthMin = 440;
+
+
+
+const IOSSwitch = styled((props) => (
+    <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
+))(({ theme }) => ({
+    width: 42,
+    height: 26,
+    padding: 0,
+    '& .MuiSwitch-switchBase': {
+        padding: 0,
+        margin: 2,
+        transitionDuration: '300ms',
+        '&.Mui-checked': {
+            transform: 'translateX(16px)',
+            color: '#fff',
+            '& + .MuiSwitch-track': {
+                backgroundColor: theme.palette.mode === 'dark' ? '#2ECA45' : '#65C466',
+                opacity: 1,
+                border: 0,
+            },
+            '&.Mui-disabled + .MuiSwitch-track': {
+                opacity: 0.5,
+            },
+        },
+        '&.Mui-focusVisible .MuiSwitch-thumb': {
+            color: '#33cf4d',
+            border: '6px solid #fff',
+        },
+        '&.Mui-disabled .MuiSwitch-thumb': {
+            color:
+                theme.palette.mode === 'light'
+                    ? theme.palette.grey[100]
+                    : theme.palette.grey[600],
+        },
+        '&.Mui-disabled + .MuiSwitch-track': {
+            opacity: theme.palette.mode === 'light' ? 0.7 : 0.3,
+        },
+    },
+    '& .MuiSwitch-thumb': {
+        boxSizing: 'border-box',
+        width: 22,
+        height: 22,
+    },
+    '& .MuiSwitch-track': {
+        borderRadius: 26 / 2,
+        backgroundColor: theme.palette.mode === 'light' ? '#E9E9EA' : '#39393D',
+        opacity: 1,
+        transition: theme.transitions.create(['background-color'], {
+            duration: 500,
+        }),
+    },
+}));
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
     ({ theme, open }) => ({
@@ -99,7 +154,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 
-const ItemInfo = ({data, label}) => {
+const ItemInfo = ({ data, label }) => {
     return (<ListItem key={label} disablePadding>
         <TextField
             disabled
@@ -108,12 +163,12 @@ const ItemInfo = ({data, label}) => {
             value={data}
             sx={{
                 "& .MuiInputBase-input.Mui-disabled": {
-                  WebkitTextFillColor: "black",
+                    WebkitTextFillColor: "black",
                 },
                 "& .MuiInputLabel-root.Mui-disabled": {
                     WebkitTextFillColor: "gray",
-                  },
-              }}
+                },
+            }}
         />
     </ListItem>);
 }
@@ -123,20 +178,13 @@ export default function Profile() {
     const dispatch = useDispatch();
     const profile = useSelector((state) => state.profile);
     const [info, setinfo] = useState({});
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
+    const [checked, setChecked] = React.useState(true);
     const search = useLocation().search;
     const code = new URLSearchParams(search).get('code');
     const cne = new URLSearchParams(search).get('cne');
     const [loading, setloading] = useState(true);
-
-    const arr = [{
-        title: "certificate 2022",
-        desc: "fstg marrakech"
-    },
-    {
-        title: "certificate 2019",
-        desc: "fstg marrakech"
-    }];
+    const [wait, setwait] = useState(false);
 
 
     useEffect(() => {
@@ -144,12 +192,7 @@ export default function Profile() {
         setloading(true)
         console.log(info)
         if (!profile.profile) {
-
-            dispatch(getProfileStudentAction({ code_apogee: code, cne: cne })).then((res) => {
-                console.log(res)
-                setinfo(res);
-                setloading(false)
-            })
+            feed();
         }
         else {
             setinfo(profile.profile);
@@ -158,12 +201,41 @@ export default function Profile() {
 
     }, []);
 
+    const feed = () => {
+
+        dispatch(getProfileStudentAction({ code_apogee: code, cne: cne })).then((res) => {
+            console.log(res)
+            setinfo(res);
+            setChecked(res.student.visibility);
+            setloading(false)
+        })
+
+    }
+
     const handleDrawerOpen = () => {
         setOpen(true);
     };
 
     const handleDrawerClose = () => {
         setOpen(false);
+    };
+
+
+
+    const handleChange = (event) => {
+        setChecked(event.target.checked);
+        setwait(true);
+        updateVisibility({
+            user_id: "634ad3eeb8a46448cdd15f69",
+            visibility: event.target.checked
+        }).then((res) => {
+            setwait(false);
+            feed();
+        }).catch((err) => {
+            alert(err);
+            setwait(false);
+        })
+
     };
 
 
@@ -183,7 +255,7 @@ export default function Profile() {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h3" noWrap component="div" style={{ color: "white" }}>
-                        Public Profile
+                        {loading || info.student.visibility ? "Profile en mode public" : "Actuellement désactivé par l'utilisateur"}
                     </Typography>
                 </Toolbar>
             </AppBar>
@@ -220,8 +292,23 @@ export default function Profile() {
                     }}
                     noValidate
                     autoComplete="off">
-                    {!loading ?
+                    <FormControlLabel
+                        sx={{ ml: 2 }}
+                        control={<IOSSwitch sx={{ m: 1 }}
+                            checked={checked}
+                            disabled={wait}
+                            onChange={handleChange} />}
+                        label="Profile public ?"
+                    />
+                    <Typography sx={{ fontWeight: 'medium', ml: 3, mb: 3 }}>
+                        <span style={{ fontSize: '9pt', color: 'gray' }}> Si vérifié tout le monde peuvent accèder à votre profile </span>
+                    </Typography>
+                    {loading || !info.student.visibility ?
+
+                        <SkeletonInfo /> :
                         <>
+
+
                             <ItemInfo data={info.university.nom} label={'Université'} />
                             <ItemInfo data={info.student.cne} label={'CNE'} />
                             <ItemInfo data={info.student.code_apogee} label={'Code apogée'} />
@@ -229,7 +316,7 @@ export default function Profile() {
                             <ItemInfo data={info.student.user.prenom} label={'Prénom'} />
 
                         </>
-                        : <SkeletonInfo />}
+                    }
 
                 </Box>
             </Drawer>
@@ -237,8 +324,8 @@ export default function Profile() {
                 <DrawerHeader />
                 <Container maxWidth="md" sx={{ margin: 2 }} >
                     <Box >
-                        {loading ? <SkeletonCertif /> : info.certificatsInfo.map((item, index) => (
-                            <CustomizedAccordions key={index} panel={'panel' + index} data={item}/>
+                        {loading || info.certificatsInfo.length < 1 || !info.student.visibility ? <SkeletonCertif /> : info.certificatsInfo.map((item, index) => (
+                            <CustomizedAccordions key={index} panel={'panel' + index} data={item} />
                         ))}
                     </Box>
                 </Container>
