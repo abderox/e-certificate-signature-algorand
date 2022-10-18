@@ -1,29 +1,19 @@
 // assets
 import { IconKey } from '@tabler/icons';
-import { IconDashboard } from '@tabler/icons';
 
 // constant
 const icons = {
-    IconKey,
-    IconDashboard
+    IconKey
 };
 
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
 
-const pages = {
+const adminPages = {
     id: 'pages',
-    title: 'Administration',
-    caption: '...',
+    title: 'Pages',
+    caption: 'Pages Caption',
     type: 'group',
     children: [
-        {
-            id: 'adminDashboard',
-            title: 'Dashboard Admin',
-            type: 'item',
-            url: '/admin/dashboard',
-            icon: icons.IconDashboard,
-            breadcrumbs: false
-        },
         {
             id: 'authentication',
             title: 'Registration',
@@ -31,13 +21,6 @@ const pages = {
             icon: icons.IconKey,
 
             children: [
-                {
-                    id: 'registerAdmin',
-                    title: 'Inscrire Admin',
-                    type: 'item',
-                    url: '/register-admin',
-                    target: false
-                },
                 {
                     id: 'registerEtudiant',
                     title: 'Inscrire Etudiant',
@@ -50,4 +33,4 @@ const pages = {
     ]
 };
 
-export default pages;
+export default adminPages;

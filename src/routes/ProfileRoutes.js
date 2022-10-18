@@ -9,7 +9,7 @@ const Profile = Loadable(lazy(()=>import('views/pages/profile/public')));
 
 
 const ProfileRoutes = {
-    path: '/',
+    path: 'etudiant/',
     element: <MinimalLayout />,
     children: [
         {

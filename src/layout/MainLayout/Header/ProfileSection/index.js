@@ -32,6 +32,7 @@ import User1 from 'assets/images/users/user-round.svg';
 
 // assets
 import { IconLogout, IconSettings, IconUser } from '@tabler/icons';
+import { disconnectWallet, setWalletAuthToken } from 'store/walletAction';
 
 // ==============================|| PROFILE MENU ||============================== //
 
@@ -61,6 +62,8 @@ const ProfileSection = () => {
      * */
     const anchorRef = useRef(null);
     const handleLogout = async () => {
+        dispatch(disconnectWallet());
+        dispatch(setWalletAuthToken(null));
         dispatch(logoutAction());
         navigate('/login', { replace: true });
     };

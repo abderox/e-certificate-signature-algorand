@@ -11,18 +11,23 @@ import themes from 'themes';
 
 // project imports
 import NavigationScroll from 'layout/NavigationScroll';
+import { parseJwt } from 'utils/auth-utils';
 
 // ==============================|| APP ||============================== //
 
 const App = () => {
     const customization = useSelector((state) => state.customization);
+    const user = useSelector((state) => state.login.user);
+
+    console.log(user);
+    console.log(parseJwt(user?.accessToken));
 
     return (
         <StyledEngineProvider injectFirst>
             <ThemeProvider theme={themes(customization)}>
                 <CssBaseline />
                 <NavigationScroll>
-                    <Routes />
+                    <Routes token={user?.accessToken}/>
                 </NavigationScroll>
             </ThemeProvider>
         </StyledEngineProvider>

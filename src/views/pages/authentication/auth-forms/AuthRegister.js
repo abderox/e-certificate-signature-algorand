@@ -43,7 +43,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 const FirebaseRegister = ({ ...others }) => {
 
     const dispatch = useDispatch();
-    const messageErr = useSelector((state)=>state.message.message);
+    const messageErr = useSelector((state)=>state.message);
     const successRegistration = useSelector((state)=>state.register.createdUser);
     const theme = useTheme();
     const scriptedRef = useScriptRef();
@@ -79,7 +79,7 @@ const FirebaseRegister = ({ ...others }) => {
 
     return (
         <>
-        {messageErr && <Toast message={JSON.parse(messageErr)} severity="error" />}
+        {/* {messageErr && messageErr.message && <Toast message={JSON.parse(messageErr.message)} severity={messageErr.type} />} */}
         {successRegistration && <Toast message={successRegistration} severity="success" />}
             <Grid container direction="column" justifyContent="center" spacing={2}>
 

@@ -16,7 +16,11 @@ const AuthenticationRoutes = {
         {
             path: '/login',
             element: <Login />
-        }
+        },
+        {
+            path: '*',
+            element: <div>No Matching Route</div>
+        },
     ]
 };
 

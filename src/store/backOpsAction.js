@@ -1,6 +1,6 @@
-import { generateCertificates } from 'api/backoperations/certificate.service';
+import { generateCertificates, getAllCertificatsByFiliere } from 'api/backoperations/certificate.service';
 import { getAllEtudiants } from 'api/backoperations/etudiant.service';
-import { getAllFilieres } from 'api/backoperations/filiere.service';
+import { getAllFilieres, getCertifiedFilieres } from 'api/backoperations/filiere.service';
 import * as type from './actions';
 
 const getAllFilieresAction = () => (dispatch) => {
@@ -18,7 +18,10 @@ const getAllFilieresAction = () => (dispatch) => {
             const message = error.response.data.message || error;
             dispatch({
                 type: type.SET_MESSAGE,
-                payload: message,
+                payload: {
+                    message: message,
+                    type: "error"
+                },
             });
             return Promise.reject(error);
         }
@@ -47,7 +50,10 @@ const getAllEtudiantsAction = (options) => (dispatch) => {
             const message = error.response.data.message || error;
             dispatch({
                 type: type.SET_MESSAGE,
-                payload: message,
+                payload: {
+                    message: message,
+                    type: "error"
+                },
             });
             return Promise.reject(error);
         }
@@ -67,7 +73,10 @@ const generateCertificatesAction = (data) => (dispatch) => {
         (res) => {
             dispatch({
                 type: type.SET_MESSAGE,
-                payload: res.data.message,
+                payload: {
+                    message: res.data.message,
+                    type: "success"
+                },
             });
             console.log("generateCertificatesAction: ", res.data.message);
             return Promise.resolve();
@@ -76,11 +85,66 @@ const generateCertificatesAction = (data) => (dispatch) => {
             const message = error.response.data.message || error;
             dispatch({
                 type: type.SET_MESSAGE,
-                payload: message,
+                payload: {
+                    message: message,
+                    type: "error"
+                },
             });
             return Promise.reject(error);
         }
     );
 }
 
-export { getAllFilieresAction, setFiliere, getAllEtudiantsAction, setEtudiantsAction, generateCertificatesAction };
+const getAllCertificatsByFiliereAction = (filiere) => (dispatch) => {
+    return getAllCertificatsByFiliere(filiere).then(
+        (data) => {
+            dispatch({
+                type: type.SET_CERTIFICATS,
+                payload: data.data,
+            });
+            console.log("getAllCertificatsByFiliereAction: ", data.data);
+            return Promise.resolve();
+        },
+        (error) => {
+            console.log("getAllCertificatsByFiliereAction: ", error.response.data.message);
+
+            const message = error.response.data.message || error;
+            dispatch({
+                type: type.SET_MESSAGE,
+                payload: {
+                    message: message,
+                    type: "error"
+                },
+            });
+            return Promise.reject(error);
+        }
+    );
+}
+
+const getCertifiedFilieresAction = () => (dispatch) => {
+    return getCertifiedFilieres().then(
+        (data) => {
+            dispatch({
+                type: type.SET_FILIERES,
+                payload: data.data,
+            });
+            console.log("getCertifiedFilieresAction: ", data.data);
+            return Promise.resolve();
+        },
+        (error) => {
+            console.log("getCertifiedFilieresAction: ", error.response.data.message);
+            const message = error.response.data.message || error;
+
+            dispatch({
+                type: type.SET_MESSAGE,
+                payload: {
+                    message: message,
+                    type: "error"
+                },
+            });
+            return Promise.reject(error);
+        }
+    );
+}
+
+export { getAllFilieresAction, setFiliere, getAllEtudiantsAction, setEtudiantsAction, generateCertificatesAction, getAllCertificatsByFiliereAction, getCertifiedFilieresAction };

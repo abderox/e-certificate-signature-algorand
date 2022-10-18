@@ -15,6 +15,7 @@ const API_AUTH_URLS = {
 
 const API_FILIERE_URLS = {
     GET_ALL_FILIERES: BACKOPS_BASE_URL + "/get-all-filieres",
+    GET_CERTIFIED_FILIERES: BACKOPS_BASE_URL + "/get-certified-filieres",
 }
 
 const API_PROFILE = {
@@ -34,6 +35,17 @@ const API_UPLOAD_URLS = {
 const API_CERTIFICATE_URLS = {
     GENERATE_CERTIFICATE: PROCESS_BASE_URL + "/generate-certificate",
     GENERATE_CERTIFICATES: PROCESS_BASE_URL + "/generate-certificates",
+    GET_ALL_CERTIFICATS_BY_FILIERE: BACKOPS_BASE_URL + "/get-all-certificats-by-filiere",
+}
+
+const WALLET_CONSTANTS = {
+    // WALLET_BASE_URL: "http://localhost:3000",
+    // WALLET_AUTH_TOKEN: "WALLET_AUTH_TOKEN",
+    // WALLET_ACCOUNT_ADDRESS: "WALLET_ACCOUNT_ADDRESS",
+    // WALLET_ACCOUNT_WALLET: "WALLET_ACCOUNT_WALLET",
+    // WALLET_ACCOUNT_IOS: "WALLET_ACCOUNT_IOS",
+    ALGO_SIGNER: "ALGO_SIGNER",
+    WALLET_CONNECT: "WALLET_CONNECT",
 }
 
 module.exports = {
@@ -42,5 +54,6 @@ module.exports = {
     API_ETUDIANTS_URLS,
     API_UPLOAD_URLS,
     API_CERTIFICATE_URLS,
+    WALLET_CONSTANTS,
     API_PROFILE,
 };

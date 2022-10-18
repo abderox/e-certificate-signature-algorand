@@ -5,10 +5,17 @@ import { Typography } from '@mui/material';
 import NavGroup from './NavGroup';
 import menuItem from 'menu-items';
 
+import { superAdminMenuItems } from 'menu-items';
+import { useSelector } from 'react-redux';
+
 // ==============================|| SIDEBAR MENU LIST ||============================== //
 
 const MenuList = () => {
-    const navItems = menuItem.items.map((item) => {
+    const userInfo = useSelector((state) => state.login?.user);
+
+    const menuItems = (userInfo?.roles?.includes("ROLE_SUPER_ADMIN")) ? superAdminMenuItems : menuItem;
+
+    const navItems = menuItems.items.map((item) => {
         switch (item.type) {
             case 'group':
                 return <NavGroup key={item.id} item={item} />;

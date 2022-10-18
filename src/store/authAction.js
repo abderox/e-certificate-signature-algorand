@@ -21,7 +21,10 @@ const loginAction = (data) => (dispatch) => {
             });
             dispatch({
                 type: type.SET_MESSAGE,
-                payload: message,
+                payload: {
+                    message: message,
+                    type: "error"
+                },
             });
             return Promise.reject(error);
         }

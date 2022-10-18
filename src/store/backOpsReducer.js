@@ -3,6 +3,7 @@ const initialState = {
     filieres: [],
     filiere: {},
     etudiants: [],
+    certificats: [],
 };
 
 export default (state = initialState, action) => {
@@ -21,6 +22,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 etudiants: action.payload,
+            }
+        case type.SET_CERTIFICATS:
+            return {
+                ...state,
+                certificats: action.payload,
             }
         default:
             return state;

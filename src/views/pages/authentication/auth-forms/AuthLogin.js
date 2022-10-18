@@ -49,6 +49,8 @@ const LoginForm = ({ ...others }) => {
     const [mac, setmac] = useState('');
     const [loading, setLoading] = useState(false);
 
+    const userInfos = useSelector((state) => state.login?.user);
+
 
     useEffect(() => {
         addressMAC().then((mac) => {
@@ -59,8 +61,16 @@ const LoginForm = ({ ...others }) => {
 
     useEffect(() => {
         if(isLoggedIn){
-            navigate('/dashboard', { replace: true });
+            if(userInfos?.roles?.includes("ROLE_SUPER_ADMIN")){
+                navigate('/dashboard', { replace: true });
+            }else if(userInfos?.roles?.includes("ROLE_ADMIN")){
+                navigate('/admin/dashboard', { replace: true });
+            }else if(userInfos?.roles?.includes("ROLE_ETUDIANT")){
+                navigate('/etudiant/student-profile', { replace: true });
+            }
+
         }
+
     }, [isLoggedIn])
 
 

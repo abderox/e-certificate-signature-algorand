@@ -121,7 +121,7 @@ const EtudiantsPage = () => {
         console.log("filiere: ", filiere.abbr);
         console.log("etudiants: ", selectedEtudiants);
         dispatch(setEtudiantsAction(selectedEtudiants));
-        navigate("/generate-certificate", { replace: true });
+        navigate("/admin/generate-certificate", { replace: true });
 
     }
         
