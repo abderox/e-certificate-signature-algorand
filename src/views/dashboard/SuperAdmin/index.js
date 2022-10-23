@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 import CloseIcon from '@mui/icons-material/Close';
 
 // project imports
-import FiliereCard from "../Default/FiliereCard";
+import FiliereCard from "./Card";
 import { gridSpacing } from "store/constant";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -30,14 +30,21 @@ const SuperAdminDashboard = () => {
 //   const [filieres, setFilieres] = useState([]);
   const walletInfos = useSelector((state) => state.wallet);
 
-  const filieres = useSelector((state) => state.backops.filieres);
+  const filieresInfos = useSelector((state) => state.backops.filieres);
+
+  const [filieres, setFilieres] = useState([]);
 
   useEffect(() => {
-    dispatch(getCertifiedFilieresAction());
-    setLoading(false);
+    // dispatch(getCertifiedFilieresAction());
+    dispatch(getAllFilieresAction());
     console.log("filieres: ", filieres);
   }, []);
 
+  useEffect(() => {
+    console.log("filieres: ", filieres);
+    setFilieres(filieresInfos);
+    setLoading(false);
+  }, [filieresInfos]);
 
   return (
     <Grid container spacing={gridSpacing}>
@@ -50,20 +57,20 @@ const SuperAdminDashboard = () => {
             (isLoading) ? (
                 null
             ) : (
-              // filieres.map((filiere) => {
-              //   return (
-              //     <Grid item lg={4} md={6} sm={6} xs={12} key={filiere._id}>
-              //       <FiliereCard
-              //         filiere={filiere}
-              //         isLoading={isLoading}
-              //         key={filiere._id}
-              //       />
-              //     </Grid>
-              //   );
-              // })
-              <Grid item lg={4} md={6} sm={6} xs={12} key={3}>
-                    Super Admin Dashboard ...
-                </Grid>
+              filieres.map((filiere) => {
+                return (
+                  <Grid item lg={4} md={6} sm={6} xs={12} key={filiere.id}>
+                    <FiliereCard
+                      filiere={filiere}
+                      isLoading={isLoading}
+                      key={filiere._id}
+                    />
+                  </Grid>
+                );
+              })
+              // <Grid item lg={4} md={6} sm={6} xs={12} key={3}>
+              //       Super Admin Dashboard ...
+              //   </Grid>
             )
             }
         </Grid>

@@ -21,7 +21,7 @@ import PictureAsPdfTwoToneIcon from "@mui/icons-material/PictureAsPdfOutlined";
 import ArchiveTwoToneIcon from "@mui/icons-material/ArchiveOutlined";
 import { useDispatch, useSelector } from "react-redux";
 
-import { getAllEtudiantsAction, setFiliere } from "store/backOpsAction";
+import { getAllCertificatsByFiliereAction, getAllEtudiantsAction, setFiliere } from "store/backOpsAction";
 import { importEtudiantExcel, importEtudiantExcelAction, importNoteExcelAction } from "store/uploadAction";
 // import { importEtudiantExcel } from "api/backoperations/upload.service";
 import { useEffect } from "react";
@@ -69,24 +69,9 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 const FiliereCard = ({ isLoading, filiere }) => {
   const theme = useTheme();
 
-  const [anchorEl, setAnchorEl] = useState(null);
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleStudentRegister = () => {
-    console.log("filiere: ", filiere.abbr);
-    dispatch(setFiliere(filiere.abbr));
-    navigate("/register-student", { replace: true });
-  };
   
   const [filiereAbbr, setFiliereAbbr] = useState(null);
   
@@ -95,46 +80,10 @@ const FiliereCard = ({ isLoading, filiere }) => {
     dispatch(clearMessage())
   }, [filiere]);
 
-
-  const handleStudentRegisterExcel = (event) => {
-    dispatch(clearMessage())
-    console.log("filiere: ", filiereAbbr);
-  // TODO 
-      const formData = new FormData();
-      formData.append(
-        "file",
-        event.target.files[0]
-      );
-      formData.append(
-        "filiere",
-        filiereAbbr
-      );
-
-      dispatch(importEtudiantExcelAction(formData));
-  };
-
-  const handleImportNoteExcel = (event) => {
-    dispatch(clearMessage())
-    console.log("filiere: ", filiereAbbr);
-
-    const formData = new FormData();
-      formData.append(
-        "file",
-        event.target.files[0]
-      );
-      formData.append(
-        "filiere",
-        filiereAbbr
-      );
-
-      dispatch(importNoteExcelAction(formData));
-  }
-
   const handleFiliereChoice = () => {
-    console.log("filiere: ", filiere.abbr);
     dispatch(setFiliere(filiere));
-    dispatch(getAllEtudiantsAction({ filiere: filiere.abbr, page: 1}));
-    navigate("/admin/etudiants", { replace: true });
+    dispatch(getAllCertificatsByFiliereAction(filiere.abbr));
+    navigate("/certificats", { replace: true });
   };
 
   return (
@@ -145,41 +94,6 @@ const FiliereCard = ({ isLoading, filiere }) => {
         <CardWrapper border={false} content={false}>
           <Box sx={{ p: 2.25 }}>
             <Grid container direction="column">
-              <Grid item> 
-                <Grid container justifyContent="space-between">
-                  <Grid item>
-                    <Avatar
-                      variant="rounded"
-                      onClick={handleFiliereChoice}
-                      sx={{
-                        ...theme.typography.commonAvatar,
-                        ...theme.typography.largeAvatar,
-                        backgroundColor: theme.palette.secondary[800],
-                        mt: 1,
-                      }}
-                    >
-                      <img src={EarningIcon} alt="Notification" />
-                    </Avatar>
-                  </Grid>
-                  <Grid item>
-                    <Avatar
-                      variant="rounded"
-                      sx={{
-                        ...theme.typography.commonAvatar,
-                        ...theme.typography.mediumAvatar,
-                        backgroundColor: theme.palette.secondary.dark,
-                        color: theme.palette.secondary[200],
-                        zIndex: 1,
-                      }}
-                      aria-controls="menu-earning-card"
-                      aria-haspopup="true"
-                      onClick={handleClick}
-                    >
-                      <MoreHorizIcon fontSize="inherit" />
-                    </Avatar>
-                  </Grid>
-                </Grid>
-              </Grid>
               <Grid item>
                 <Grid container alignItems="center">
                   <Grid item>
@@ -203,44 +117,13 @@ const FiliereCard = ({ isLoading, filiere }) => {
                         backgroundColor: theme.palette.secondary[200],
                         color: theme.palette.secondary.dark,
                       }}
+                      onClick={handleFiliereChoice}
                     >
                       <ArrowUpwardIcon
                         fontSize="inherit"
                         sx={{ transform: "rotate3d(1, 1, 1, 45deg)" }}
                       />
                     </Avatar>
-                    <Menu
-                      id="menu-earning-card"
-                      anchorEl={anchorEl}
-                      keepMounted
-                      open={Boolean(anchorEl)}
-                      onClose={handleClose}
-                      variant="selectedMenu"
-                      anchorOrigin={{
-                        vertical: "bottom",
-                        horizontal: "right",
-                      }}
-                      transformOrigin={{
-                        vertical: "top",
-                        horizontal: "right",
-                      }}
-                    >
-                      <MenuItem onClick={handleStudentRegister}>
-                        <AddIcon sx={{ mr: 1.75 }} /> Ajouter un étudiant
-                      </MenuItem>
-                      <MenuItem>
-                        <label htmlFor={"excelEtudiant"+filiere.abbr} style={{cursor: "pointer"}}>
-                        <GetAppTwoToneIcon sx={{ mr: 1.75, mb:-1 }} />  Importer excel des étudiants
-                        </label>
-                        <input type="file" name={"excelEtudiant"+filiere.abbr} id={"excelEtudiant"+filiere.abbr} hidden={true} onChange={handleStudentRegisterExcel}/>
-                      </MenuItem>
-                      <MenuItem>
-                        <label htmlFor={"excelNote"+filiere.abbr} style={{cursor: "pointer"}}>
-                        <GetAppTwoToneIcon sx={{ mr: 1.75, mb:-1 }} />  Importer excel des notes
-                        </label>
-                        <input type="file" name={"excelNote"+filiere.abbr} id={"excelNote"+filiere.abbr} hidden={true} onChange={handleImportNoteExcel}/>
-                      </MenuItem>
-                    </Menu>
                   </Grid>
                 </Grid>
               </Grid>

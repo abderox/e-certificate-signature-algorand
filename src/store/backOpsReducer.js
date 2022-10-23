@@ -3,6 +3,7 @@ const initialState = {
     filieres: [],
     filiere: {},
     etudiants: [],
+    nombre_etudiants: 0,
     certificats: [],
 };
 
@@ -21,7 +22,8 @@ export default (state = initialState, action) => {
         case type.SET_ETUDIANTS:
             return {
                 ...state,
-                etudiants: action.payload,
+                etudiants: action.payload.rows,
+                nombre_etudiants: action.payload.count,
             }
         case type.SET_CERTIFICATS:
             return {

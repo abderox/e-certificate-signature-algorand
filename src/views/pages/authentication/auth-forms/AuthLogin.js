@@ -121,7 +121,7 @@ const LoginForm = ({ ...others }) => {
                             console.log(mac)
                             dispatch(loginAction({ username: values.email, password: values.password, mac: mac })).then((res) => {
                                 console.log(res);
-                                dispatch(getAllFilieresAction());
+                                // dispatch(getAllFilieresAction());
                                 setLoading(false);
                             }).catch((err) => {
                                 console.log(err.message);

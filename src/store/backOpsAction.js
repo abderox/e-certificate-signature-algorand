@@ -8,9 +8,9 @@ const getAllFilieresAction = () => (dispatch) => {
         (data) => {
             dispatch({
                 type: type.SET_FILIERES,
-                payload: data.data.etablissement.filieres,
+                payload: data.data.filieres,
             });
-            console.log("getAllFilieresAction: ", data.data.etablissement);
+            console.log("getAllFilieresAction: ", data.data.filieres);
             return Promise.resolve();
         },
         (error) => {
@@ -40,9 +40,9 @@ const getAllEtudiantsAction = (options) => (dispatch) => {
         (data) => {
             dispatch({
                 type: type.SET_ETUDIANTS,
-                payload: data.data,
+                payload: data.data.etudiants,
             });
-            console.log("getAllEtudiantsAction: ", data.data);
+            console.log("getAllEtudiantsAction: ", data.data.etudiants);
             return Promise.resolve();
         },
         (error) => {

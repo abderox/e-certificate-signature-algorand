@@ -27,17 +27,14 @@ const Dashboard = () => {
  
 
   useEffect(() => {
-    if (filieresInfos !== []) {
-      getAllFilieres().then((data) => {
-        setFilieres(data.data.etablissement.filieres);
-        setLoading(false);
-      });
-    }
-    else {
-      dispatch(getAllFilieresAction());
-    }
-    console.log("filieres: ", filieresInfos);
+    dispatch(getAllFilieresAction());
   }, []);
+
+  useEffect(() => {
+    console.log("filieres: ", filieresInfos);
+    setFilieres(filieresInfos);
+    setLoading(false);
+  }, [filieresInfos]);
 
 
   return (
@@ -54,11 +51,11 @@ const Dashboard = () => {
             ) : (
               filieres.map((filiere) => {
                 return (
-                  <Grid item lg={4} md={6} sm={6} xs={12} key={filiere._id}>
+                  <Grid item lg={4} md={6} sm={6} xs={12} key={"filiere-"+filiere.abbr}>
                     <FiliereCard
                       filiere={filiere}
                       isLoading={isLoading}
-                      key={filiere._id}
+                      key={filiere.id}
                     />
                   </Grid>
                 );

@@ -96,7 +96,7 @@ const EtudiantsPage = () => {
             let totalAdmis = 0;
             if (checked[i]) {
                 console.log(i);
-                e.annee_universitaires.map((a, j) => {
+                e.AnneeUniversitaires.map((a, j) => {
                     if (a.isAdmis) {
                         totalAdmis += 1;
                     }
@@ -238,15 +238,15 @@ const EtudiantsPage = () => {
                                                             id="panel1bh-header"
                                                         >
                                                             <Typography sx={{ width: '33%', flexShrink: 0 }}>
-                                                                {etudiant.user.nom}
+                                                                {etudiant.User.nom}
                                                             </Typography>
                                                             <Typography sx={{ color: 'text.secondary' }}>
-                                                                {etudiant.user.prenom}
+                                                                {etudiant.User.prenom}
                                                             </Typography>
                                                         </AccordionSummary>
                                                         <AccordionDetails>
                                                             <Typography>
-                                                                {etudiant.user.email}
+                                                                {etudiant.User.email}
                                                             </Typography>
                                                         </AccordionDetails>
                                                     </Accordion>
