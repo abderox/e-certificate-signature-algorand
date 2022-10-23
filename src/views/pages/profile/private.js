@@ -4,10 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import { styled, useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
+import { Link } from 'react-router-dom';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
@@ -29,10 +31,16 @@ import Avatar from '@mui/material/Avatar';
 import TextField from '@mui/material/TextField';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
+import Alert from '@mui/material/Alert';
 import { useLocation } from "react-router-dom";
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { getProfileStudentAction } from 'store/profileAction';
-import { updateVisibility } from 'api/profile/profile.service';
+import { getPrivateProfileStudentAction } from 'store/profileAction';
+import { updateVisibility, uploadAvatar } from 'api/profile/profile.service';
+import { IconArrowLeft, IconCameraPlus, IconLink } from '@tabler/icons';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import {logoutAction} from 'store/authAction'
+
+
 
 const drawerWidth = 400;
 const drawerWidthMin = 440;
@@ -177,49 +185,74 @@ const ItemInfo = ({ data, label }) => {
 export default function Profile() {
     const theme = useTheme();
     const dispatch = useDispatch();
-    const profile = useSelector((state) => state.profile);
+    const profile = useSelector((state) => state.privateProfile.myProfile);
+    const isLoggedIn = useSelector((state) => state.login.isAuthenticated)
+    const user = useSelector((state) => state.login.user);
     const [info, setinfo] = useState({});
     const [open, setOpen] = useState(false);
+    const [checked, setChecked] = React.useState(true);
     const search = useLocation().search;
     const code = new URLSearchParams(search).get('code');
     const cne = new URLSearchParams(search).get('cne');
+    const other = new URLSearchParams(search).get('o');
     const [loading, setloading] = useState(true);
     const [wait, setwait] = useState(false);
+    const [uploadFile, setUploadFile] = useState();
     const navigate = useNavigate();
 
     const bringAvatar = "http://localhost:7000/api/profile/download-avatar?avatar=";
     const defaultAvatar = "https://img.icons8.com/external-vitaliy-gorbachev-lineal-color-vitaly-gorbachev/256/000000/external-hacker-male-profession-vitaliy-gorbachev-lineal-color-vitaly-gorbachev.png";
 
 
-
     useEffect(() => {
 
+        console.log(info)
+        console.log(profile)
         setloading(true)
-        console.log(profile.profile)
-        if (!profile.profile) {
+        if (profile == null) {
             feed();
         }
         else {
-            setinfo(profile.profile);
-            console.log(profile.profile)
+            console.log(profile)
+            setinfo(profile);
             setloading(false)
         }
 
     }, []);
 
+
+
     const feed = () => {
 
-   
-        if (cne!==null || code!==null) {
-            console.log("other")
-            dispatch(getProfileStudentAction({ code_apogee: code, cne: cne })).then((res) => {
+        if (isLoggedIn) {
+            console.log("loged in")
+            dispatch(getPrivateProfileStudentAction({ code_apogee: user.student.code_apogee || code, cne: user.student.code_apogee.cne || cne, user_id: user.id })).then((res) => {
                 console.log(res)
                 setinfo(res);
+                setChecked(res.student.visibility);
                 setloading(false);
             })
         }
+        else {
+            navigate('/login');
+        }
 
     }
+
+    const uploadImage = (event) => {
+        event.preventDefault();
+        setloading(true);
+        const dataArray = new FormData();
+        dataArray.append("file", event.target.files[0]);
+
+        uploadAvatar(dataArray, user.id).then((res) => {
+            console.log(res.data);
+            setinfo({ ...info, student: { ...info.student, avatar: res.data.avatar } });
+            setUploadFile(null);
+            setloading(false);
+        });
+
+    };
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -231,7 +264,21 @@ export default function Profile() {
 
 
 
-    
+    const handleChange = (event) => {
+        setChecked(event.target.checked);
+        setwait(true);
+        updateVisibility({
+            user_id: user.id,
+            visibility: event.target.checked
+        }).then((res) => {
+            setwait(false);
+            feed();
+        }).catch((err) => {
+            alert(err);
+            setwait(false);
+        })
+
+    };
 
 
 
@@ -250,9 +297,27 @@ export default function Profile() {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h3" noWrap component="div" style={{ color: "white" }}>
-                        {loading || info.student.visibility ? "Profile en mode public" : "Actuellement désactivé par l'utilisateur"}
+                        {loading || info.student.visibility ? "Profile en mode public" : "Profile en mode privé"}
                     </Typography>
+                    <Box sx={{ display: 'flex' , justifyContent: 'flex-end', flexGrow: 1 }}>
+                        
+                        <IconButton
+                            size="large"
+                            edge="end"
+                            color="inherit"
+                            aria-label="Logout"
+                            onClick={() => {
+                                dispatch(logoutAction());
+                                navigate('/login');
+                            }}
+                        >
+                            <ExitToAppIcon />
+                        </IconButton>
+
+
+                    </Box>
                 </Toolbar>
+
             </AppBar>
             <Drawer
                 sx={{
@@ -274,11 +339,19 @@ export default function Profile() {
                 </DrawerHeader>
                 <Box display="flex" alignItems="center" justifyContent="center">
                     <Avatar
-                        alt="profile image"
+                        alt="NO"
                         src={(loading || !info?.student?.avatar) ? defaultAvatar : bringAvatar + info.student.avatar}
-                        sx={{ width: 256, height: 256, marginBottom: 4 }}
+                        sx={{ width: 256, height: 256, marginBottom: 1 }}
                     />
+
                 </Box>
+                <Box display="flex" alignItems="center" justifyContent="center" sx={{ marginBottom: 4 }}>
+                    <Button variant="contained" component="label">
+                        Upload <IconCameraPlus sx={{ marginLeft: 1 }} />
+                        <input hidden accept="image/*" multiple type="file" onChange={uploadImage} />
+                    </Button>
+                </Box>
+
 
                 <Divider />
                 <Box component="form"
@@ -287,26 +360,53 @@ export default function Profile() {
                     }}
                     noValidate
                     autoComplete="off">
-                   
-                    {loading || !info.student.visibility ?
+                    {(user && user.student) &&
+                        <>
+                            <FormControlLabel
+                                sx={{ ml: 2 }}
+                                control={<IOSSwitch sx={{ m: 1 }}
+                                    checked={checked}
+                                    disabled={wait}
+                                    onChange={handleChange} />}
+                                label="Profile public ?"
+                            />
+                            <Typography sx={{ fontWeight: 'medium', ml: 3, mb: 3 }}>
+                                <span style={{ fontSize: '9pt', color: 'gray' }}> Si vérifié tout le monde peuvent consulter à votre profile. </span>
+                            </Typography>
+
+                        </>}
+
+                    {loading ?
 
                         <SkeletonInfo /> :
                         <>
                             <ItemInfo data={info.university.nom} label={'Université'} />
-                            <ItemInfo data={info.student.cne} label={'CNE'} />
-                            <ItemInfo data={info.student.code_apogee} label={'Code apogée'} />
-                            <ItemInfo data={info.student.User.nom} label={'Nom'} />
-                            <ItemInfo data={info.student.User.prenom} label={'Prénom'} />
+                            <ItemInfo data={user.student.cne} label={'CNE'} />
+                            <ItemInfo data={user.student.code_apogee} label={'Code apogée'} />
+                            <ItemInfo data={user.student.user.nom} label={'Nom'} />
+                            <ItemInfo data={user.student.user.prenom} label={'Prénom'} />
                         </>
                     }
+
 
                 </Box>
             </Drawer>
             <Main open={open}>
                 <DrawerHeader />
                 <Container maxWidth="md" sx={{ margin: 2 }} >
+
+                    <Alert severity="info" sx={{ marginBottom: 2 }}>
+                        <>
+                            <Link to={`/etudiant/student-profile?code=${user.student.code_apogee}`} style={{ textDecoration: 'none' }}>
+                                <Button  startIcon={<IconLink />} color="dark">
+                                    My public profile
+                                </Button>
+                            </Link>
+                            — check it out!
+                        </>
+                    </Alert>
                     <Box >
-                        {loading ||  !info.student.visibility ? <SkeletonCertif /> : info.certificatsInfo.map((item, index) => (
+                        {loading || info.certificatsInfo.length < 1 ? <SkeletonCertif /> : info.certificatsInfo.map((item, index) => (
                             <CustomizedAccordions key={index} panel={'panel' + index} data={item} />
                         ))}
                     </Box>

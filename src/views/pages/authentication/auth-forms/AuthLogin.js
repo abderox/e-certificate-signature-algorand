@@ -66,7 +66,7 @@ const LoginForm = ({ ...others }) => {
             }else if(userInfos?.roles?.includes("ROLE_ADMIN")){
                 navigate('/admin/dashboard', { replace: true });
             }else if(userInfos?.roles?.includes("ROLE_ETUDIANT")){
-                navigate('/etudiant/student-profile', { replace: true });
+                navigate('/student/my-profile', { replace: true });
             }
 
         }

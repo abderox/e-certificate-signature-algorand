@@ -2,7 +2,7 @@
     "name": "e-certificate-uca",
     "version": "3.2.0",
     "private": true,
-    "author":"abderox & kaoutar_ou",
+    "author": "abderox & kaoutar_ou",
     "dependencies": {
         "@algo-builder/algob": "^5.0.1",
         "@date-io/jalaali": "^2.16.0",

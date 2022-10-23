@@ -1,4 +1,5 @@
 import * as type from './actions';
+
 const initialState = {
     user: JSON.parse(localStorage.getItem('user')) || null,
     isAuthenticated: JSON.parse(localStorage.getItem('user')) ? true : false,

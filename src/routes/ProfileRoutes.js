@@ -4,16 +4,16 @@ import { lazy } from 'react';
 import Loadable from 'ui-component/Loadable';
 import MinimalLayout from 'layout/MinimalLayout';
 
-const Profile = Loadable(lazy(()=>import('views/pages/profile/public')));
+const Profile = Loadable(lazy(()=>import('views/pages/profile/private')));
 
 
 
 const ProfileRoutes = {
-    path: 'etudiant/',
+    path: 'student/',
     element: <MinimalLayout />,
     children: [
         {
-            path: 'student-profile',
+            path: 'my-profile',
             element: <Profile />
         }  
     ]
