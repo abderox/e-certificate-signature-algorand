@@ -9,6 +9,7 @@ import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
+import { Link } from 'react-router-dom';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
@@ -30,11 +31,14 @@ import Avatar from '@mui/material/Avatar';
 import TextField from '@mui/material/TextField';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
+import Alert from '@mui/material/Alert';
 import { useLocation } from "react-router-dom";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { getPrivateProfileStudentAction } from 'store/profileAction';
 import { updateVisibility, uploadAvatar } from 'api/profile/profile.service';
-import { IconCameraPlus } from '@tabler/icons';
+import { IconArrowLeft, IconCameraPlus, IconLink } from '@tabler/icons';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import {logoutAction} from 'store/authAction'
 
 
 
@@ -241,7 +245,7 @@ export default function Profile() {
         const dataArray = new FormData();
         dataArray.append("file", event.target.files[0]);
 
-        uploadAvatar(dataArray,user.id).then((res) => {
+        uploadAvatar(dataArray, user.id).then((res) => {
             console.log(res.data);
             setinfo({ ...info, student: { ...info.student, avatar: res.data.avatar } });
             setUploadFile(null);
@@ -295,7 +299,25 @@ export default function Profile() {
                     <Typography variant="h3" noWrap component="div" style={{ color: "white" }}>
                         {loading || info.student.visibility ? "Profile en mode public" : "Profile en mode privé"}
                     </Typography>
+                    <Box sx={{ display: 'flex' , justifyContent: 'flex-end', flexGrow: 1 }}>
+                        
+                        <IconButton
+                            size="large"
+                            edge="end"
+                            color="inherit"
+                            aria-label="Logout"
+                            onClick={() => {
+                                dispatch(logoutAction());
+                                navigate('/login');
+                            }}
+                        >
+                            <ExitToAppIcon />
+                        </IconButton>
+
+
+                    </Box>
                 </Toolbar>
+
             </AppBar>
             <Drawer
                 sx={{
@@ -325,7 +347,7 @@ export default function Profile() {
                 </Box>
                 <Box display="flex" alignItems="center" justifyContent="center" sx={{ marginBottom: 4 }}>
                     <Button variant="contained" component="label">
-                        Upload <IconCameraPlus sx={{marginLeft :1}} />
+                        Upload <IconCameraPlus sx={{ marginLeft: 1 }} />
                         <input hidden accept="image/*" multiple type="file" onChange={uploadImage} />
                     </Button>
                 </Box>
@@ -372,6 +394,17 @@ export default function Profile() {
             <Main open={open}>
                 <DrawerHeader />
                 <Container maxWidth="md" sx={{ margin: 2 }} >
+
+                    <Alert severity="info" sx={{ marginBottom: 2 }}>
+                        <>
+                            <Link to={`/etudiant/student-profile?code=${user.student.code_apogee}`} style={{ textDecoration: 'none' }}>
+                                <Button  startIcon={<IconLink />} color="dark">
+                                    My public profile
+                                </Button>
+                            </Link>
+                            — check it out!
+                        </>
+                    </Alert>
                     <Box >
                         {loading || info.certificatsInfo.length < 1 ? <SkeletonCertif /> : info.certificatsInfo.map((item, index) => (
                             <CustomizedAccordions key={index} panel={'panel' + index} data={item} />
