@@ -187,6 +187,10 @@ export default function Profile() {
     const [wait, setwait] = useState(false);
     const navigate = useNavigate();
 
+    const bringAvatar = "http://localhost:7000/api/profile/download-avatar?avatar=";
+    const defaultAvatar = "https://img.icons8.com/external-vitaliy-gorbachev-lineal-color-vitaly-gorbachev/256/000000/external-hacker-male-profession-vitaliy-gorbachev-lineal-color-vitaly-gorbachev.png";
+
+
 
     useEffect(() => {
 
@@ -271,7 +275,7 @@ export default function Profile() {
                 <Box display="flex" alignItems="center" justifyContent="center">
                     <Avatar
                         alt="profile image"
-                        src="https://img.icons8.com/external-vitaliy-gorbachev-lineal-color-vitaly-gorbachev/256/000000/external-hacker-male-profession-vitaliy-gorbachev-lineal-color-vitaly-gorbachev.png"
+                        src={(loading || !info?.student?.avatar) ? defaultAvatar : bringAvatar + info.student.avatar}
                         sx={{ width: 256, height: 256, marginBottom: 4 }}
                     />
                 </Box>

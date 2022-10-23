@@ -22,6 +22,7 @@ const API_PROFILE = {
     GET_PROFILE_STUDENT: PROFILE_BASE_URL + "/student-profile",
     GET_PRIVATE_PROFILE: PROFILE_BASE_URL + "/student-private-profile",
     UPDATE_VISIBILITY: PROFILE_BASE_URL + "/update-profile-visibility",
+    UPLOAD_AVATAR: PROFILE_BASE_URL + "/upload-avatar",
 }
 
 const API_ETUDIANTS_URLS = {

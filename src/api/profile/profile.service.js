@@ -9,7 +9,7 @@ const getProfileStudent = (data) => {
 }
 
 const getPrivateProfileStudent = (data) => {
-    return axios.get(API_PROFILE.GET_PRIVATE_PROFILE, { params: { cd_apg: data.code_apogee, cne: data.cne , user_id : data.user_id} });
+    return axios.get(API_PROFILE.GET_PRIVATE_PROFILE, { params: { cd_apg: data.code_apogee, cne: data.cne, user_id: data.user_id } });
 }
 
 
@@ -17,8 +17,13 @@ const updateVisibility = (data) => {
     return axios.post(API_PROFILE.UPDATE_VISIBILITY, data, { headers: authHeader() });
 }
 
+const uploadAvatar = (data, id) => {
+    return axios.post(API_PROFILE.UPLOAD_AVATAR, data, { params: { id: id }, headers: authHeader() });
+}
+
 export {
     getProfileStudent,
     updateVisibility,
-    getPrivateProfileStudent
+    getPrivateProfileStudent,
+    uploadAvatar
 }
