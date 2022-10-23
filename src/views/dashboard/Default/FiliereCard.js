@@ -18,6 +18,7 @@ import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import GetAppTwoToneIcon from "@mui/icons-material/GetAppOutlined";
 import FileCopyTwoToneIcon from "@mui/icons-material/FileCopyOutlined";
 import PictureAsPdfTwoToneIcon from "@mui/icons-material/PictureAsPdfOutlined";
+import PublishTwoToneIcon from '@mui/icons-material/PublishTwoTone';
 import ArchiveTwoToneIcon from "@mui/icons-material/ArchiveOutlined";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -230,13 +231,13 @@ const FiliereCard = ({ isLoading, filiere }) => {
                       </MenuItem>
                       <MenuItem>
                         <label htmlFor={"excelEtudiant"+filiere.abbr} style={{cursor: "pointer"}}>
-                        <GetAppTwoToneIcon sx={{ mr: 1.75, mb:-1 }} />  Importer excel des étudiants
+                        <PublishTwoToneIcon sx={{ mr: 1.75, mb:-1 }} />  Importer excel des étudiants
                         </label>
                         <input type="file" name={"excelEtudiant"+filiere.abbr} id={"excelEtudiant"+filiere.abbr} hidden={true} onChange={handleStudentRegisterExcel}/>
                       </MenuItem>
                       <MenuItem>
                         <label htmlFor={"excelNote"+filiere.abbr} style={{cursor: "pointer"}}>
-                        <GetAppTwoToneIcon sx={{ mr: 1.75, mb:-1 }} />  Importer excel des notes
+                        <PublishTwoToneIcon sx={{ mr: 1.75, mb:-1 }} />  Importer excel des notes
                         </label>
                         <input type="file" name={"excelNote"+filiere.abbr} id={"excelNote"+filiere.abbr} hidden={true} onChange={handleImportNoteExcel}/>
                       </MenuItem>

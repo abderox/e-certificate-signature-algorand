@@ -395,7 +395,7 @@ export default function Profile() {
                 <DrawerHeader />
                 <Container maxWidth="md" sx={{ margin: 2 }} >
 
-                    <Alert severity="info" sx={{ marginBottom: 2 }}>
+                    <Alert severity="info" sx={{ marginBottom: 2 , marginTop : 4}}>
                         <>
                             <Link to={`/etudiant/student-profile?code=${user.student.code_apogee}`} style={{ textDecoration: 'none' }}>
                                 <Button  startIcon={<IconLink />} color="dark">
