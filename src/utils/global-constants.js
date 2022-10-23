@@ -20,6 +20,7 @@ const API_FILIERE_URLS = {
 
 const API_PROFILE = {
     GET_PROFILE_STUDENT: PROFILE_BASE_URL + "/student-profile",
+    GET_PRIVATE_PROFILE: PROFILE_BASE_URL + "/student-private-profile",
     UPDATE_VISIBILITY: PROFILE_BASE_URL + "/update-profile-visibility",
 }
 

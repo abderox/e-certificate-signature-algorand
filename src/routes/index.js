@@ -13,6 +13,8 @@ import { parseJwt } from 'utils/auth-utils';
 export default function ThemeRoutes({token}) {
     let routes = [AuthenticationRoutes]
     let roles = parseJwt(token)?.roles;
+    
+    
 
     (roles?.includes("ROLE_SUPER_ADMIN")) && routes.push(SuperAdminRoutes);
     (roles?.includes("ROLE_ADMIN")) && routes.push(AdminRoutes);

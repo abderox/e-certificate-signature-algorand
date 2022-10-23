@@ -8,6 +8,7 @@ import register from './registerReducer';
 import backops from './backOpsReducer';
 import wallet from './walletReducer';
 import profile from './profileReducer';
+import privateProfile from './privateProfileReducer';
 // ==============================|| COMBINE REDUCER ||============================== //
 
 const reducer = combineReducers({
@@ -18,6 +19,7 @@ const reducer = combineReducers({
     backops,
     wallet,
     profile,
+    privateProfile,
 });
 
 export default reducer;

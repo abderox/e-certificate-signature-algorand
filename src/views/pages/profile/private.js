@@ -31,7 +31,7 @@ import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import { useLocation } from "react-router-dom";
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { getProfileStudentAction } from 'store/profileAction';
+import { getPrivateProfileStudentAction } from 'store/profileAction';
 import { updateVisibility } from 'api/profile/profile.service';
 
 const drawerWidth = 400;
@@ -177,12 +177,16 @@ const ItemInfo = ({ data, label }) => {
 export default function Profile() {
     const theme = useTheme();
     const dispatch = useDispatch();
-    const profile = useSelector((state) => state.profile);
+    const profile = useSelector((state) => state.privateProfile.myProfile);
+    const isLoggedIn = useSelector((state)=> state.login.isAuthenticated)
+    const user = useSelector((state) => state.login.user);
     const [info, setinfo] = useState({});
     const [open, setOpen] = useState(false);
+    const [checked, setChecked] = React.useState(true);
     const search = useLocation().search;
     const code = new URLSearchParams(search).get('code');
     const cne = new URLSearchParams(search).get('cne');
+    const other = new URLSearchParams(search).get('o');
     const [loading, setloading] = useState(true);
     const [wait, setwait] = useState(false);
     const navigate = useNavigate();
@@ -190,14 +194,15 @@ export default function Profile() {
 
     useEffect(() => {
 
+        console.log(info)
+        console.log(profile)
         setloading(true)
-        console.log(profile.profile)
-        if (!profile.profile) {
+        if (profile==null) {
             feed();
         }
         else {
-            setinfo(profile.profile);
-            console.log(profile.profile)
+            console.log(profile)
+            setinfo(profile);
             setloading(false)
         }
 
@@ -205,14 +210,17 @@ export default function Profile() {
 
     const feed = () => {
 
-   
-        if (cne!==null || code!==null) {
-            console.log("other")
-            dispatch(getProfileStudentAction({ code_apogee: code, cne: cne })).then((res) => {
+        if (isLoggedIn) {
+            console.log("loged in")
+            dispatch(getPrivateProfileStudentAction({ code_apogee: user.student.code_apogee || code, cne: user.student.code_apogee.cne || cne, user_id: user.id })).then((res) => {
                 console.log(res)
                 setinfo(res);
+                setChecked(res.student.visibility);
                 setloading(false);
             })
+        }
+        else {
+            navigate('/login');
         }
 
     }
@@ -227,7 +235,21 @@ export default function Profile() {
 
 
 
-    
+    const handleChange = (event) => {
+        setChecked(event.target.checked);
+        setwait(true);
+        updateVisibility({
+            user_id: user.id,
+            visibility: event.target.checked
+        }).then((res) => {
+            setwait(false);
+            feed();
+        }).catch((err) => {
+            alert(err);
+            setwait(false);
+        })
+
+    };
 
 
 
@@ -246,7 +268,7 @@ export default function Profile() {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h3" noWrap component="div" style={{ color: "white" }}>
-                        {loading || info.student.visibility ? "Profile en mode public" : "Actuellement désactivé par l'utilisateur"}
+                        {loading || info.student.visibility ? "Profile en mode public" : "Profile en mode privé"}
                     </Typography>
                 </Toolbar>
             </AppBar>
@@ -283,18 +305,34 @@ export default function Profile() {
                     }}
                     noValidate
                     autoComplete="off">
-                   
-                    {loading || !info.student.visibility ?
+                    {(user && user.student) &&
+                        <>
+                            <FormControlLabel
+                                sx={{ ml: 2 }}
+                                control={<IOSSwitch sx={{ m: 1 }}
+                                    checked={checked}
+                                    disabled={wait}
+                                    onChange={handleChange} />}
+                                label="Profile public ?"
+                            />
+                            <Typography sx={{ fontWeight: 'medium', ml: 3, mb: 3 }}>
+                                <span style={{ fontSize: '9pt', color: 'gray' }}> Si vérifié tout le monde peuvent accèder à votre profile </span>
+                            </Typography>
+
+                        </>}
+
+                    {loading ?
 
                         <SkeletonInfo /> :
                         <>
                             <ItemInfo data={info.university.nom} label={'Université'} />
-                            <ItemInfo data={info.student.cne} label={'CNE'} />
-                            <ItemInfo data={info.student.code_apogee} label={'Code apogée'} />
-                            <ItemInfo data={info.student.User.nom} label={'Nom'} />
-                            <ItemInfo data={info.student.User.prenom} label={'Prénom'} />
+                            <ItemInfo data={user.student.cne} label={'CNE'} />
+                            <ItemInfo data={user.student.code_apogee} label={'Code apogée'} />
+                            <ItemInfo data={user.student.user.nom} label={'Nom'} />
+                            <ItemInfo data={user.student.user.prenom} label={'Prénom'} />
                         </>
                     }
+
 
                 </Box>
             </Drawer>
@@ -302,7 +340,7 @@ export default function Profile() {
                 <DrawerHeader />
                 <Container maxWidth="md" sx={{ margin: 2 }} >
                     <Box >
-                        {loading ||  !info.student.visibility ? <SkeletonCertif /> : info.certificatsInfo.map((item, index) => (
+                        {loading || info.certificatsInfo.length < 1 ? <SkeletonCertif /> : info.certificatsInfo.map((item, index) => (
                             <CustomizedAccordions key={index} panel={'panel' + index} data={item} />
                         ))}
                     </Box>
