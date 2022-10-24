@@ -259,7 +259,7 @@ useEffect(() => {
                                     <Box sx={{ p: 2, pb:0 }}>
                                         <Stack>
                                             <Stack direction="row" spacing={0.5} alignItems="center">
-                                                <Typography variant="h4">{address? address : ""}</Typography>
+                                                <Typography variant="h4">{address? address.slice(0, 20) + (address.length > 20 ? "..." : "") : ""}</Typography>
                                             </Stack>
                                             <Typography variant="subtitle2">{wallet == WALLET_CONSTANTS.WALLET_CONNECT ? "Wallet Connect" : (wallet == WALLET_CONSTANTS.ALGO_SIGNER ? "Algo Signer" : userInfo.email)}</Typography>
                                         </Stack>

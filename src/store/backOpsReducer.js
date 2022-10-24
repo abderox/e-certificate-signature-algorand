@@ -3,8 +3,9 @@ const initialState = {
     filieres: [],
     filiere: {},
     etudiants: [],
-    nombre_etudiants: 0,
+    nombreEtudiants: 0,
     certificats: [],
+    directSign: false,
 };
 
 export default (state = initialState, action) => {
@@ -23,12 +24,17 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 etudiants: action.payload.rows,
-                nombre_etudiants: action.payload.count,
+                nombreEtudiants: action.payload.count,
             }
         case type.SET_CERTIFICATS:
             return {
                 ...state,
                 certificats: action.payload,
+            }
+        case type.SET_DIRECT_SIGN:
+            return {
+                ...state,
+                directSign: action.payload,
             }
         default:
             return state;

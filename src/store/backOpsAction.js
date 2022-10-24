@@ -68,6 +68,14 @@ const setEtudiantsAction = (etudiants) => {
     }
 }
 
+const setDirectSignAction = (boolean) => {
+    console.log("setDirectSignAction: ", boolean);
+    return {
+        type: type.SET_ETUDIANTS,
+        payload: boolean == true ? true : false,
+    }
+}
+
 const generateCertificatesAction = (data) => (dispatch) => {
     return generateCertificates(data).then(
         (res) => {
@@ -100,7 +108,7 @@ const getAllCertificatsByFiliereAction = (filiere) => (dispatch) => {
         (data) => {
             dispatch({
                 type: type.SET_CERTIFICATS,
-                payload: data.data,
+                payload: data.data.certificats,
             });
             console.log("getAllCertificatsByFiliereAction: ", data.data);
             return Promise.resolve();
@@ -147,4 +155,4 @@ const getCertifiedFilieresAction = () => (dispatch) => {
     );
 }
 
-export { getAllFilieresAction, setFiliere, getAllEtudiantsAction, setEtudiantsAction, generateCertificatesAction, getAllCertificatsByFiliereAction, getCertifiedFilieresAction };
+export { getAllFilieresAction, setFiliere, getAllEtudiantsAction, setEtudiantsAction, generateCertificatesAction, getAllCertificatsByFiliereAction, getCertifiedFilieresAction, setDirectSignAction };
