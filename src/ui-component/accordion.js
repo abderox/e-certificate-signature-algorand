@@ -75,7 +75,7 @@ export default function CustomizedAccordions({ panel, data }) {
     const [pageNumber, setPageNumber] = useState(1);
     const [open, setOpen] = useState(false);
     const matches = useMediaQuery('(min-width:600px)');
-    const url = 'http://127.0.0.1:7000/api/process/get-certificate?hash=' + data.fileName;
+    const url = 'http://localhost:7000/api/process/get-certificate?hash=' + data.fileName;
 
     const style = {
         position: 'absolute',

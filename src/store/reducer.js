@@ -9,6 +9,8 @@ import backops from './backOpsReducer';
 import wallet from './walletReducer';
 import profile from './profileReducer';
 import privateProfile from './privateProfileReducer';
+import verification from './verificationReducer';
+
 // ==============================|| COMBINE REDUCER ||============================== //
 
 const reducer = combineReducers({
@@ -20,6 +22,7 @@ const reducer = combineReducers({
     wallet,
     profile,
     privateProfile,
+    verification
 });
 
 export default reducer;

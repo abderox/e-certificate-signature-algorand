@@ -40,6 +40,11 @@ const API_CERTIFICATE_URLS = {
     GET_ALL_CERTIFICATS_BY_FILIERE: BACKOPS_BASE_URL + "/get-all-certificats-by-filiere",
 }
 
+const VERIFICATION_URLS = {
+    GET_GENERAL_INFO: PROCESS_BASE_URL + "/get-student-info",
+    BRING_CERTIFICATE: PROCESS_BASE_URL + "/get-certificate",
+}
+
 const WALLET_CONSTANTS = {
     // WALLET_BASE_URL: "http://localhost:3000",
     // WALLET_AUTH_TOKEN: "WALLET_AUTH_TOKEN",
@@ -58,4 +63,5 @@ module.exports = {
     API_CERTIFICATE_URLS,
     WALLET_CONSTANTS,
     API_PROFILE,
+    VERIFICATION_URLS
 };
