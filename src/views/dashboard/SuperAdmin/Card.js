@@ -81,6 +81,7 @@ const FiliereCard = ({ isLoading, filiere }) => {
   }, [filiere]);
 
   const handleFiliereChoice = () => {
+    console.log("filiere abbr", filiere.abbr);
     dispatch(setFiliere(filiere));
     dispatch(getAllCertificatsByFiliereAction(filiere.abbr));
     navigate("/certificats", { replace: true });

@@ -11,6 +11,7 @@ import MainCard from "ui-component/cards/MainCard";
 import SkeletonEarningCard from "ui-component/cards/Skeleton/EarningCard";
 
 import AddIcon from '@mui/icons-material/Add';
+import UploadIcon from '@mui/icons-material/Upload';
 // assets
 import EarningIcon from "assets/images/icons/earning.svg";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
@@ -231,13 +232,15 @@ const FiliereCard = ({ isLoading, filiere }) => {
                       </MenuItem>
                       <MenuItem>
                         <label htmlFor={"excelEtudiant"+filiere.abbr} style={{cursor: "pointer"}}>
-                        <PublishTwoToneIcon sx={{ mr: 1.75, mb:-1 }} />  Importer excel des étudiants
+                        <UploadIcon sx={{ mr: 1.75, mb:-1 }} />  Importer excel des étudiants
+                        {/* <PublishTwoToneIcon sx={{ mr: 1.75, mb:-1 }} />  Importer excel des étudiants */}
                         </label>
                         <input type="file" name={"excelEtudiant"+filiere.abbr} id={"excelEtudiant"+filiere.abbr} hidden={true} onChange={handleStudentRegisterExcel}/>
                       </MenuItem>
                       <MenuItem>
                         <label htmlFor={"excelNote"+filiere.abbr} style={{cursor: "pointer"}}>
-                        <PublishTwoToneIcon sx={{ mr: 1.75, mb:-1 }} />  Importer excel des notes
+                        <UploadIcon sx={{ mr: 1.75, mb:-1 }} />  Importer excel des notes
+                        {/* <PublishTwoToneIcon sx={{ mr: 1.75, mb:-1 }} />  Importer excel des notes */}
                         </label>
                         <input type="file" name={"excelNote"+filiere.abbr} id={"excelNote"+filiere.abbr} hidden={true} onChange={handleImportNoteExcel}/>
                       </MenuItem>

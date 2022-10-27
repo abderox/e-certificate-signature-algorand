@@ -41,7 +41,7 @@ const EtudiantsPage = () => {
         setExpanded(isExpanded ? panel : false);
     };
 
-    const [checked, setChecked] = React.useState(etudiants.map(e => false));
+    const [checked, setChecked] = React.useState((etudiants) ? etudiants.map(e => false) : [false]);
     const [isValide, setIsValide] = React.useState(null);
     const [isCertified, setIsCertified] = React.useState(null);
 
@@ -119,8 +119,8 @@ const EtudiantsPage = () => {
         console.log("handleGenerateCertificate");
 
         console.log("filiere: ", filiere.abbr);
-        console.log("etudiants: ", selectedEtudiants);
-        dispatch(setEtudiantsAction(selectedEtudiants));
+        console.log("etudiants----: ", selectedEtudiants);
+        // dispatch(setEtudiantsAction(selectedEtudiants));
         navigate("/admin/generate-certificate", { replace: true });
 
     }
@@ -219,6 +219,7 @@ const EtudiantsPage = () => {
                         }
 
                             {
+                                (etudiants && etudiants.length > 0) ? (
                                 etudiants.map((etudiant, index) => {
                                     return (
                                         <Grid container
@@ -254,11 +255,11 @@ const EtudiantsPage = () => {
                                         </Grid>
                                     )
                                 })
+                                ) : null
                             }
                         </Grid>
                     </Grid>
-             
-            </Grid>
+                </Grid>
             </>
        
     );

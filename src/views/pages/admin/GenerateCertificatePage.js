@@ -63,10 +63,11 @@ const EtudiantsPage = () => {
   const customization = useSelector((state) => state.customization);
   const dispatch = useDispatch();
   const filiere = useSelector((state) => state.backops.filiere);
-  const etudiants = useSelector((state) => state.backops.etudiants);
+  const etudiantsInfos = useSelector((state) => state.backops.etudiants);
   const scriptedRef = useScriptRef();
 //   const message = useSelector((state) => state.message.message);
 
+    const [etudiants, setEtudiants] = useState({});
   const [loading, setloading] = useState(false);
 
   const [date, setDate] = useState(dayjs(new Date().toISOString()));
@@ -96,6 +97,12 @@ const handleMinistereChange = (event) => {
   const handleEtablissementChange = (event) => {
     setEtablissement(event.target.value);
   };
+
+  useEffect(() => {
+    console.log("etudiantsInfos" + etudiantsInfos);
+    console.log(etudiantsInfos);
+    setEtudiants(etudiantsInfos);
+  }, [etudiantsInfos]);
 
   return (
     <>
@@ -172,11 +179,12 @@ const handleMinistereChange = (event) => {
 
                             let students = [];
                             let student = {};
+                            console.log(etudiants);
                             etudiants.forEach((etudiant) => {
                                 student = {
-                                    fullName : etudiant.user.nom + ' ' + etudiant.user.prenom,
+                                    fullName : etudiant.User.nom + ' ' + etudiant.User.prenom,
                                     cne: etudiant.cne,
-                                    cin: etudiant.user.cin,
+                                    cin: etudiant.User.cin,
                                     mention: "Bien",
                                     annee_univ: "2022-2023",
                                 }
