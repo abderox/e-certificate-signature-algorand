@@ -187,7 +187,7 @@ export default function Profile() {
     const [wait, setwait] = useState(false);
     const navigate = useNavigate();
 
-    const bringAvatar = "http://192.168.137.139:7000/api/profile/download-avatar?avatar=";
+    const bringAvatar = "http://localhost:7000/api/profile/download-avatar?avatar=";
     const defaultAvatar = "https://img.icons8.com/external-vitaliy-gorbachev-lineal-color-vitaly-gorbachev/256/000000/external-hacker-male-profession-vitaliy-gorbachev-lineal-color-vitaly-gorbachev.png";
 
 

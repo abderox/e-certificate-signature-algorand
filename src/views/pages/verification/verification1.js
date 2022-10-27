@@ -71,7 +71,7 @@ export default function VerificationPage() {
     const matches = useMediaQuery('(min-width:600px)');
     const matchesSM = useMediaQuery('(min-width:600px)');
     const right = matches ? '33%' : '-1%';
-    const bringCertif = "http://192.168.137.139:7000/api/process/get-certificate?hash=";
+    const bringCertif = "http://localhost:7000/api/process/get-certificate?hash=";
 
 
     function onDocumentLoadSuccess({ numPages }) {
