@@ -41,9 +41,14 @@ const API_CERTIFICATE_URLS = {
     GET_ALL_CERTIFICATS_BY_FILIERE: BACKOPS_BASE_URL + "/get-all-certificats-by-filiere",
 }
 
+
 const API_ALGO_URLS = {
     GET_ALGO_CLIENT: ALGO_BASE_URL + "/get-algod-client",
     SEND_RAW_TRANSACTION: ALGO_BASE_URL + "/send-raw-transaction",
+
+const VERIFICATION_URLS = {
+    GET_GENERAL_INFO: PROCESS_BASE_URL + "/get-student-info",
+    BRING_CERTIFICATE: PROCESS_BASE_URL + "/get-certificate",
 }
 
 const WALLET_CONSTANTS = {
@@ -66,4 +71,5 @@ module.exports = {
     WALLET_CONSTANTS,
     API_PROFILE,
     API_ALGO_URLS,
+    VERIFICATION_URLS
 };

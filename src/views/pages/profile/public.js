@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { styled, useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import Box from '@mui/material/Box';
@@ -34,8 +34,8 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { getProfileStudentAction } from 'store/profileAction';
 import { updateVisibility } from 'api/profile/profile.service';
 
-const drawerWidth = 400;
-const drawerWidthMin = 440;
+const drawerWidth = 380;
+const drawerWidthMin = 380;
 
 
 
@@ -209,8 +209,8 @@ export default function Profile() {
 
     const feed = () => {
 
-   
-        if (cne!==null || code!==null) {
+
+        if (cne !== null || code !== null) {
             console.log("other")
             dispatch(getProfileStudentAction({ code_apogee: code, cne: cne })).then((res) => {
                 console.log(res)
@@ -231,7 +231,7 @@ export default function Profile() {
 
 
 
-    
+
 
 
 
@@ -287,7 +287,7 @@ export default function Profile() {
                     }}
                     noValidate
                     autoComplete="off">
-                   
+
                     {loading || !info.student.visibility ?
 
                         <SkeletonInfo /> :
@@ -306,11 +306,17 @@ export default function Profile() {
                 <DrawerHeader />
                 <Container maxWidth="md" sx={{ margin: 2 }} >
                     <Box >
-                        {loading ||  !info.student.visibility ? <SkeletonCertif /> : info.certificatsInfo.map((item, index) => (
+                        {loading || !info.student.visibility ? <SkeletonCertif /> : info.certificatsInfo.map((item, index) => (
                             <CustomizedAccordions key={index} panel={'panel' + index} data={item} />
                         ))}
                     </Box>
+                    <Box display="flex" justifyContent="center" sx={{ pb: 3, position: 'fixed', bottom: 0 }}>
+                        <Typography variant="h6" sx={{ fontWeight: 500, fontSize: '0.8rem' }}>
+                            Tous droits réservés <Link to={'/'} replace={true} style={{ textDecoration: 'none' }}>Université Cadi Ayyaad</Link>
+                        </Typography>
+                    </Box>
                 </Container>
+
             </Main>
         </Box>
     );
