@@ -45,6 +45,7 @@ const API_CERTIFICATE_URLS = {
 const API_ALGO_URLS = {
     GET_ALGO_CLIENT: ALGO_BASE_URL + "/get-algod-client",
     SEND_RAW_TRANSACTION: ALGO_BASE_URL + "/send-raw-transaction",
+}
 
 const VERIFICATION_URLS = {
     GET_GENERAL_INFO: PROCESS_BASE_URL + "/get-student-info",
