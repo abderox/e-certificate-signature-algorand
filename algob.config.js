@@ -68,14 +68,34 @@ let defaultCfg = {
 	// indexerCfg: indexerCfg
 };
 
+
+let accounts_testnet = mkAccounts([
+	{
+		name: "master",
+		addr: process.env.ADDR_CREATOR_TESTNET,
+		mnemonic: process.env.MNEMONIC_CREATOR_TESTNET,
+	},
+	{
+		name: "acc1",
+		addr: process.env.ACC1_ADDR_TESTNET,
+		mnemonic: process.env.ACC1_MNEMONIC_TESTNET,
+	}
+]);
 // purestake testnet config
 let purestakeTestNetCfg = {
-	host: "https://testnet-algorand.api.purestake.io/ps2",
+	host: process.env.ALGOD_ADDR_TESTNET,
 	port: "",
-	token: {
-		"X-API-Key": "Xhkn7v7h972hj7Egx3fGr9RFbfXeGuoD6wSLKDyG",
-	},
+	token: JSON.parse(process.env.ALGOD_TOKEN_TESTNET),
+	accounts: accounts_testnet,
 };
+
+// let purestakeTestNetCfg = {
+// host: "https://testnet-algorand.api.purestake.io/ps2",
+// port: "",
+// token: {
+// 	"X-API-Key": "Xhkn7v7h972hj7Egx3fGr9RFbfXeGuoD6wSLKDyG",
+// },
+// };
 
 // You can also use Environment variables to get Algod credentials
 // Please check https://github.com/scale-it/algo-builder/blob/master/docs/algob-config.md#credentials for more details and more methods.

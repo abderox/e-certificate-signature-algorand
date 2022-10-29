@@ -5,6 +5,7 @@ const BACKOPS_BASE_URL = BASE_URL_API + "/backops";
 const UPLOAD_BASE_URL = BASE_URL_API + "/upload";
 const PROCESS_BASE_URL = BASE_URL_API + "/process";
 const PROFILE_BASE_URL = BASE_URL_API + "/profile";
+const ALGO_BASE_URL = BASE_URL_API + "/algo";
 
 const API_AUTH_URLS = {
     LOGIN: AUTH_BASE_URL + "/login",
@@ -40,6 +41,11 @@ const API_CERTIFICATE_URLS = {
     GET_ALL_CERTIFICATS_BY_FILIERE: BACKOPS_BASE_URL + "/get-all-certificats-by-filiere",
 }
 
+
+const API_ALGO_URLS = {
+    GET_ALGO_CLIENT: ALGO_BASE_URL + "/get-algod-client",
+    SEND_RAW_TRANSACTION: ALGO_BASE_URL + "/send-raw-transaction",
+
 const VERIFICATION_URLS = {
     GET_GENERAL_INFO: PROCESS_BASE_URL + "/get-student-info",
     BRING_CERTIFICATE: PROCESS_BASE_URL + "/get-certificate",
@@ -53,6 +59,7 @@ const WALLET_CONSTANTS = {
     // WALLET_ACCOUNT_IOS: "WALLET_ACCOUNT_IOS",
     ALGO_SIGNER: "ALGO_SIGNER",
     WALLET_CONNECT: "WALLET_CONNECT",
+    TESTNET: "TestNet",
 }
 
 module.exports = {
@@ -63,5 +70,6 @@ module.exports = {
     API_CERTIFICATE_URLS,
     WALLET_CONSTANTS,
     API_PROFILE,
+    API_ALGO_URLS,
     VERIFICATION_URLS
 };
