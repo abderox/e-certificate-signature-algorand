@@ -1,8 +1,7 @@
 import { getAlgodClient, sendRawTransaction } from 'api/backoperations/algo.service';
 import { WALLET_CONSTANTS } from 'utils/global-constants';
 import * as type from './actions';
-import algosdk from 'algosdk';
-import { LogicSig } from '@algo-builder/runtime/build/logicsig';
+// import algosdk from 'algosdk';
 
 // import WalletConnect from "@walletconnect/client";
 // import QRCodeModal from "algorand-walletconnect-qrcode-modal";
@@ -111,53 +110,53 @@ const sendAlgoSignerTransaction = async (network, assetAmount, sender, certifica
 
     console.log(algodClientInfo);
 
-    let params = algodClientInfo.params;
-    console.log(params);
-    assetAmount = parseInt(assetAmount);
+    // let params = algodClientInfo.params;
+    // console.log(params);
+    // assetAmount = parseInt(assetAmount);
 
-    params.fee = 1000;
-    params.flatFee = true;
-    console.log(params);
+    // params.fee = 1000;
+    // params.flatFee = true;
+    // console.log(params);
 
-    let note = undefined;
+    // let note = undefined;
 
-    let address = sender;
+    // let address = sender;
 
-    let defaultFrozen = false;
+    // let defaultFrozen = false;
 
-    let decimals = 0;
+    // let decimals = 0;
 
-    let total = 1;
+    // let total = 1;
 
-    let unitName = "Certif";
+    // let unitName = "Certif";
     
-    let assetName = "Certificate";
+    // let assetName = "Certificate";
 
-    let assetURL = "http://certificate.ma";
+    // let assetURL = "http://certificate.ma";
 
-    let assetMetadataHash = new Uint8Array();
-    console.log(assetMetadataHash)
+    // let assetMetadataHash = new Uint8Array();
+    // console.log(assetMetadataHash)
 
-    let manager = undefined;
+    // let manager = undefined;
 
-    let reserve = undefined;
+    // let reserve = undefined;
     
-    let freeze = undefined;
+    // let freeze = undefined;
     
-    let clawback = undefined;
+    // let clawback = undefined;
 
     let lsig = algodClientInfo.lsig;
 
     console.log(lsig)
 
     
-    let txn = algosdk.makeAssetCreateTxnWithSuggestedParams(lsig, note,
-        total, decimals, defaultFrozen, manager, reserve, freeze,
-        clawback, unitName, assetName, assetURL, assetMetadataHash, params);
+    // let txn = algosdk.makeAssetCreateTxnWithSuggestedParams(lsig, note,
+    //     total, decimals, defaultFrozen, manager, reserve, freeze,
+    //     clawback, unitName, assetName, assetURL, assetMetadataHash, params);
 
-    console.log(txn);
+    // console.log(txn);
 
-    let response = await sendAlgoSignerTransactionRaw(txn);
+    let response = await sendAlgoSignerTransactionRaw(lsig);
 
     console.log(response);
 
@@ -208,14 +207,29 @@ const decipher = salt => {
       .join('');
 }
 
+const objectToUint8Array = (object) => {
+    const length = Object.keys(object).length;
+    const uint8Array = new Uint8Array(new ArrayBuffer(length));
+    for (let i = 0; i < length; i++) {
+        uint8Array[i] = object[i];
+    }
+    return uint8Array;
+}
+
 const sendAlgoSignerTransactionRaw = async (txn) => {
     const AlgoSigner = window.AlgoSigner;
 
     if (typeof AlgoSigner !== "undefined") {
         try {
+            // console.log(txn);
+            // let binaryTx = txn.toByte();
+
+            // txn = new Uint8Array(txn);
+            // txn = Uint8Array.from(txn);
+
+            txn = objectToUint8Array(txn);
             console.log(txn);
-            let binaryTx = txn.toByte();
-            let base64Tx = AlgoSigner.encoding.msgpackToBase64(binaryTx);
+            let base64Tx = AlgoSigner.encoding.msgpackToBase64(txn);
 
             let signedTxs = await AlgoSigner.signTxn([
                 {

@@ -4,7 +4,7 @@
     "private": true,
     "author": "abderox & kaoutar_ou",
     "dependencies": {
-        "@algo-builder/algob": "^5.0.1",
+        "algosdk": "^1.22.0",
         "@date-io/jalaali": "^2.16.0",
         "@emotion/cache": "^11.9.3",
         "@emotion/react": "^11.9.3",
