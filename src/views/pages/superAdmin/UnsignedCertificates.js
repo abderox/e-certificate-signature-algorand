@@ -30,6 +30,8 @@ import styled from "@emotion/styled";
 import InfoListItem from "ui-component/list/InfoListItem";
 import VerificationModal from "ui-component/modal/VerificationModal";
 
+import ApprovalIcon from '@mui/icons-material/Approval';
+import { signCertificate } from "store/walletAction";
 
 const reactPdf = require('react-pdf/dist/esm/entry.webpack5');
 const { Document, Page } = reactPdf;
@@ -78,10 +80,9 @@ const UnsignedCertificates = () => {
   }
   const handleConfirmVerificationModal = () => {
     handleCloseVerificationModal();
-    console.log("handleConfirmVerificationModal");
-    console.log(isCheckedVerificationModal);
+
     setDirectSign(isCheckedVerificationModal);
-    console.log("confirmed");
+    
     handleSignCertificate(certificat);
   };
 
@@ -95,6 +96,9 @@ const UnsignedCertificates = () => {
         console.log("Sign");
         console.log(certificate);
         console.log(certificate?.Etudiant?.User?.prenom);
+
+        
+
     }
   }
 
@@ -171,7 +175,7 @@ const UnsignedCertificates = () => {
                         certificat.Etudiant.User.prenom}
                     </Typography>
                     {
-                        (!expanded) ? (
+                        (expanded !== `panel${index}`) ? (
                             <Box
                                 sx={{
                                     display: "flex",
@@ -240,7 +244,10 @@ const UnsignedCertificates = () => {
                         </Box>
                     </Box>
                     <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', placeItems: 'end' }}>
-                        <Button variant="contained" color="primary" sx={{ m: 2 }} disabled={walletInfos.address ? false : true} onClick={(directSign == true) ? () => handleSignCertificate(certificat) : () => handleOpenVerificationModal(certificat)}>Signer</Button>
+                        <Button startIcon={<ApprovalIcon/>} variant="contained" color="primary" sx={{ m: 2 }} disabled={walletInfos.address ? false : true} onClick={(directSign == true) ? () => handleSignCertificate(certificat) : () => handleOpenVerificationModal(certificat)}>Signer</Button>
+                    </Box>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', placeItems: 'end' }}>
+                        <Button startIcon={<ApprovalIcon/>} variant="contained" color="primary" sx={{ m: 2 }} onClick={signCertificate(certificat, walletInfos)}>test</Button>
                     </Box>
                 </AccordionDetails>
               </Accordion>

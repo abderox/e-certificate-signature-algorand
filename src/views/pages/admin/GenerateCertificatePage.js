@@ -142,14 +142,6 @@ const handleMinistereChange = (event) => {
                 </Grid>
               </Grid>
               <Grid item xs={12} lg={12}>
-                
-
-
-
-
-
-
-
 
               <Formik
                 initialValues={{

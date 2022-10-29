@@ -99,6 +99,7 @@ useEffect(() => {
         {
             address: connector.accounts[0],
             wallet: WALLET_CONSTANTS.WALLET_CONNECT,
+            network: WALLET_CONSTANTS.TESTNET
         }
       ));
     }
@@ -120,6 +121,7 @@ useEffect(() => {
             {
                 address: accounts[0],
                 wallet: WALLET_CONSTANTS.WALLET_CONNECT,
+                network: WALLET_CONSTANTS.TESTNET
             }
         ));
         console.log("connected");
@@ -166,6 +168,7 @@ useEffect(() => {
             {
                 address: accounts[0].address,
                 wallet: WALLET_CONSTANTS.ALGO_SIGNER,
+                network: WALLET_CONSTANTS.TESTNET
             }
         ));
     }
