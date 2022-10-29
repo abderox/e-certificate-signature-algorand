@@ -1,7 +1,8 @@
-import { getAlgodClient } from 'api/backoperations/algo.service';
+import { getAlgodClient, sendRawTransaction } from 'api/backoperations/algo.service';
 import { WALLET_CONSTANTS } from 'utils/global-constants';
 import * as type from './actions';
-const algosdk = require('algosdk');
+import algosdk from 'algosdk';
+import { LogicSig } from '@algo-builder/runtime/build/logicsig';
 
 // import WalletConnect from "@walletconnect/client";
 // import QRCodeModal from "algorand-walletconnect-qrcode-modal";
@@ -48,7 +49,6 @@ export const disconnectWallet = () => (dispatch) => {
     });
 }
 
-
 export const setWalletAuthToken = (walletAuthToken) => (dispatch) => {
     dispatch({
         type: type.SET_WALLET_AUTH_TOKEN,
@@ -56,7 +56,7 @@ export const setWalletAuthToken = (walletAuthToken) => (dispatch) => {
     });
 }
 
-export const signCertificate = (certificate, walletInfo) => async (dispatch) => {
+export const signCertificateAction = (certificate, walletInfo) => async (dispatch) => {
     // await getAlgodClient(network).then(async (response) => {
     //     const algodClient = new algosdk.Algodv2(response.data.token, response.data.server, response.data.port);
     //     const params = await algodClient.getTransactionParams().do();
@@ -78,23 +78,48 @@ export const signCertificate = (certificate, walletInfo) => async (dispatch) => 
     //     });
     // });
 
-    
-
-    
-
+    console.log("signCertificate");
+  
     let sender = walletInfo.address;
     let connection = walletInfo.wallet;
+    
+    console.log(connection)
+
+    let txnResponse = null;
 
     switch (connection) {
         case WALLET_CONSTANTS.ALGO_SIGNER:
-            txn = await sendAlgoSignerTransaction(WALLET_CONSTANTS.TESTNET, 1, sender, certificate)
+            console.log("ALGO_SIGNER");
+            txnResponse = await sendAlgoSignerTransaction(WALLET_CONSTANTS.TESTNET, 1, sender, certificate)
             break;
     
         default:
             break;
     }
     
+    if (txnResponse) {
+        dispatch({
+            type: type.SIGN_CERTIFICATE,
+            payload: txnResponse.data.txId,
+        });
+        dispatch({
+            type: type.SET_MESSAGE,
+            payload: {
+                message: "Certificate signed",
+                type: "success"
+            }
+        });
+    }
 
+    else {
+        dispatch({
+            type: type.SET_MESSAGE,
+            payload: {
+                message: "Transaction failed",
+                type: "error"
+            }
+        });
+    }
     // return dispatch({
     //     type: type.SIGN_CERTIFICATE,
     //     payload: certificate,
@@ -103,15 +128,21 @@ export const signCertificate = (certificate, walletInfo) => async (dispatch) => 
 
 
 const sendAlgoSignerTransaction = async (network, assetAmount, sender, certificate) => {
-    const algodClientInfo = (await getAlgodClient(network)).data;
+    console.log("sendAlgoSignerTransaction");
+    console.log(certificate);
+    const algodClientInfo = (await getAlgodClient({network, sender})).data;
 
     console.log(algodClientInfo)
     
-    let algodClient = new algosdk.Algodv2(algodClientInfo.token, algodClientInfo.server, algodClientInfo.port)
+    // let algodClient = new algosdk.Algodv2({ "X-API-Key": algodClientInfo.token }, algodClientInfo.server, algodClientInfo.port);
 
-    console.log(algodClient);
-    let params = await algodClient.getTransactionParams().do();
-    assetAmount = parseInt(assetAmount)
+    // console.log(algodClient);
+    // let params = await algodClient.getTransactionParams().do();
+    // let params = {};
+
+    let params = algodClientInfo.params;
+    console.log(params);
+    assetAmount = parseInt(assetAmount);
 
     params.fee = 1000;
     params.flatFee = true;
@@ -134,31 +165,110 @@ const sendAlgoSignerTransaction = async (network, assetAmount, sender, certifica
 
     let assetURL = "http://certificate.ma";
 
-    let assetMetadataHash = "hash...";
+    // let assetMetadataHash = new Uint8Array(btoa("Certificate").split("").map(c => c.charCodeAt(0)));
+    // console.log("🚀 ~ file: walletAction.js ~ line 147 ~ sendAlgoSignerTransaction ~ assetMetadataHash", assetMetadataHash)
 
-    let manager = sender;
+    // let assetMetadataHash = stringToUint8Array("Kaoutar");
 
-    let reserve = sender;
+    // console.log(new Uint8Array(Buffer.from("Kaoutar")))
+    // let uint8Array = new Uint8Array();
+    // for (let i = 0; i < "kaoutar".length; i++) {
+    //     uint8Array[i] = "kaoutar".charCodeAt(i);
+    // }
+    // console.log(new Uint8Array("Kaoutar"))
+    // console.log(uint8Array)
+    // let assetMetadataHash = uint8Array.buffer;
+
+    // let assetMetadataHash = new Uint8Array(cipher("salt")("kaoutar"));
     
-    let freeze = sender;
+    // let jsonIntegrity = convertIpfsCidV0ToByte32(cipher("salt")("kaoutar"))
+    // let assetMetadataHash = new Uint8Array(jsonIntegrity.buffer);
     
-    let clawback = sender;
+    // let assetMetadataHash = "2Y3LuwyGwrxFmtUB7hdTOfo1quGmv5SOOjZtwTVt";
 
-    let txn = algosdk.makeAssetCreateTxnWithSuggestedParams(address, note,
+
+    let assetMetadataHash = new Uint8Array();
+    console.log(assetMetadataHash)
+
+    let manager = undefined;
+
+    let reserve = undefined;
+    
+    let freeze = undefined;
+    
+    let clawback = undefined;
+
+    let lsig = algodClientInfo.lsig;
+
+    console.log(lsig)
+
+    
+    let txn = algosdk.makeAssetCreateTxnWithSuggestedParams(lsig, note,
         total, decimals, defaultFrozen, manager, reserve, freeze,
         clawback, unitName, assetName, assetURL, assetMetadataHash, params);
 
-    let response = await sendAlgoSignerTransactionRaw(txn, algodClient);
+    // let txn = algodClientInfo.txn;
+
+    console.log(txn);
+
+    let response = await sendAlgoSignerTransactionRaw(txn);
 
     console.log(response);
+
+    return response;
 }
 
-const sendAlgoSignerTransactionRaw = async (txn, algodClient) => {
+const convertIpfsCidV0ToByte32 = (cid) => {
+    const bytes = bs58.decode(cid).slice(2);
+    const base64 = Buffer.from(bytes).toString("base64");
+    const buffer = Buffer.from(base64, "base64");
+
+    return { base64, buffer };
+};
+
+const stringToUint8Array = (string) => {
+    const uint8Array = new Uint8Array(new ArrayBuffer(string.length));
+    for (let i = 0; i < string.length; i++) {
+        uint8Array[i] = string.charCodeAt(i);
+    }
+    return uint8Array;
+}
+
+const uint8ArrayToString = (uint8Array) => {
+    const encodedString = String.fromCharCode.apply(null, uint8Array);
+    const decodedString = decodeURIComponent(escape(encodedString));
+    return decodedString;
+}
+
+const cipher = salt => {
+    const textToChars = text => text.split('').map(c => c.charCodeAt(0));
+    const byteHex = n => ("0" + Number(n).toString(16)).substr(-2);
+    const applySaltToChar = code => textToChars(salt).reduce((a,b) => a ^ b, code);
+
+    return text => text.split('')
+      .map(textToChars)
+      .map(applySaltToChar)
+      .map(byteHex)
+      .join('');
+}
+    
+const decipher = salt => {
+    const textToChars = text => text.split('').map(c => c.charCodeAt(0));
+    const applySaltToChar = code => textToChars(salt).reduce((a,b) => a ^ b, code);
+    return encoded => encoded.match(/.{1,2}/g)
+      .map(hex => parseInt(hex, 16))
+      .map(applySaltToChar)
+      .map(charCode => String.fromCharCode(charCode))
+      .join('');
+}
+
+const sendAlgoSignerTransactionRaw = async (txn) => {
     const AlgoSigner = window.AlgoSigner;
 
     if (typeof AlgoSigner !== "undefined") {
         try {
             // Get the binary and base64 encode it
+            console.log(txn);
             let binaryTx = txn.toByte();
             let base64Tx = AlgoSigner.encoding.msgpackToBase64(binaryTx);
 
@@ -173,9 +283,8 @@ const sendAlgoSignerTransactionRaw = async (txn, algodClient) => {
                 signedTxs[0].blob
             );
 
-            const response = await algodClient
-                .sendRawTransaction(binarySignedTx)
-                .do();
+            console.log(binarySignedTx);
+            const response = await sendRawTransaction(signedTxs[0].blob);
             console.log(response);
 
             return response;
@@ -184,3 +293,4 @@ const sendAlgoSignerTransactionRaw = async (txn, algodClient) => {
         }
     }
 }
+

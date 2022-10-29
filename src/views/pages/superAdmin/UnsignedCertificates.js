@@ -31,7 +31,7 @@ import InfoListItem from "ui-component/list/InfoListItem";
 import VerificationModal from "ui-component/modal/VerificationModal";
 
 import ApprovalIcon from '@mui/icons-material/Approval';
-import { signCertificate } from "store/walletAction";
+import { signCertificate, signCertificateAction } from "store/walletAction";
 
 const reactPdf = require('react-pdf/dist/esm/entry.webpack5');
 const { Document, Page } = reactPdf;
@@ -247,7 +247,7 @@ const UnsignedCertificates = () => {
                         <Button startIcon={<ApprovalIcon/>} variant="contained" color="primary" sx={{ m: 2 }} disabled={walletInfos.address ? false : true} onClick={(directSign == true) ? () => handleSignCertificate(certificat) : () => handleOpenVerificationModal(certificat)}>Signer</Button>
                     </Box>
                     <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', placeItems: 'end' }}>
-                        <Button startIcon={<ApprovalIcon/>} variant="contained" color="primary" sx={{ m: 2 }} onClick={signCertificate(certificat, walletInfos)}>test</Button>
+                        <Button startIcon={<ApprovalIcon/>} variant="contained" color="primary" sx={{ m: 2 }} onClick={() => dispatch(signCertificateAction(certificat, walletInfos))}>test</Button>
                     </Box>
                 </AccordionDetails>
               </Accordion>

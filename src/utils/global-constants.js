@@ -43,6 +43,7 @@ const API_CERTIFICATE_URLS = {
 
 const API_ALGO_URLS = {
     GET_ALGO_CLIENT: ALGO_BASE_URL + "/get-algod-client",
+    SEND_RAW_TRANSACTION: ALGO_BASE_URL + "/send-raw-transaction",
 }
 
 const WALLET_CONSTANTS = {
