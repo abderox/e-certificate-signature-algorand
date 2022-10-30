@@ -40,6 +40,7 @@ const SuperAdminRoutes = {
             path: 'etudiants/certified',
             element: <SignedCertificates />
         },
+        {
             path: 'add-etablissment',
             element: <AddComponent isEtablissment={true} />
         },
