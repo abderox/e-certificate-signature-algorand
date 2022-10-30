@@ -24,6 +24,7 @@ const pages = {
             icon: icons.IconDashboard,
             breadcrumbs: false
         },
+        
         {
             id: 'authentication',
             title: 'Registration',
