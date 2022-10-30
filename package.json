@@ -1,10 +1,10 @@
 {
     "name": "e-certificate-uca",
+    "homepage": "http://e-certificate.vr4.ma/",
     "version": "3.2.0",
     "private": true,
     "author": "abderox & kaoutar_ou",
     "dependencies": {
-        "algosdk": "^1.22.0",
         "@date-io/jalaali": "^2.16.0",
         "@emotion/cache": "^11.9.3",
         "@emotion/react": "^11.9.3",
@@ -21,6 +21,7 @@
         "@tabler/icons": "^1.72.0",
         "@walletconnect/client": "^1.8.0",
         "algorand-walletconnect-qrcode-modal": "^1.8.0",
+        "algosdk": "^1.22.0",
         "apexcharts": "^3.35.3",
         "axios": "^0.27.2",
         "bs58": "^5.0.0",
@@ -47,6 +48,7 @@
         "redux": "^4.2.0",
         "redux-devtools-extension": "^2.13.9",
         "redux-thunk": "^2.4.1",
+        "serve": "^14.0.1",
         "yup": "^0.32.11"
     },
     "scripts": {

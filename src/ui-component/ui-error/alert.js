@@ -24,6 +24,7 @@ const CustomAlert = ({isOpen, severity, content, ...others}) => {
             </IconButton>
         }
         sx={{ mb: 2 }}
+        {...others}
         >
             {content}
         </Alert>

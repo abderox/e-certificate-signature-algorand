@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllCertificatsByFiliereAction } from "store/backOpsAction";
+import { getAllCertificatsByFiliereAction, getSignedCertificatsByFiliereAction } from "store/backOpsAction";
 import {
   Divider,
   Grid,
@@ -16,6 +16,7 @@ import {
   List,
   ListItem,
   ListItemText,
+  Link,
 } from "@mui/material";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -33,7 +34,7 @@ import VerificationModal from "ui-component/modal/VerificationModal";
 import ApprovalIcon from '@mui/icons-material/Approval';
 import { signCertificate, signCertificateAction } from "store/walletAction";
 import { useNavigate } from "react-router";
-import { ArrowForward, CheckOutlined } from "@mui/icons-material";
+import { Clear } from "@mui/icons-material";
 import CustomAlert from "ui-component/ui-error/alert";
 
 const reactPdf = require('react-pdf/dist/esm/entry.webpack5');
@@ -55,73 +56,40 @@ const DocumentWrapper = styled.div`
   }
 `;
 
-const UnsignedCertificates = () => {
+const SignedCertificates = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isLoading, setLoading] = React.useState(true);
   const [certificats, setCertificats] = React.useState([]);
+
   const certificatsInfos = useSelector((state) => state.backops.certificats);
-//   const directSignSelector = useSelector((state) => state.backops.directSign);
   const walletInfos = useSelector((state) => state.wallet);
   const filiere = useSelector((state) => state.backops.filiere);
+
   const [expanded, setExpanded] = useState(false);
   const [numPages, setNumPages] = useState(0);
   const [pageNumber, setPageNumber] = useState(1);
-  const matches = useMediaQuery('(min-width:600px)');
 
-  const navigate = useNavigate();
+  const [searchString, setSearchString] = React.useState(null);
+
 
   const url = 'http://127.0.0.1:7000/api/process/get-certificate?hash=';
 
-  const [certificat, setCertificat] = useState(null);
-  const [isCheckedVerificationModal, setIsCheckedVerificationModal] = useState(false);
-  const [directSign, setDirectSign] = useState(false);
-  const [searchString, setSearchString] = React.useState(null);
-
-  const [openVerificationModal, setOpenVerificationModal] = React.useState(false);
-  const handleOpenVerificationModal = (certificate) => {
-    setCertificat(certificate);
-    setOpenVerificationModal(true);
-  }
-  const handleCloseVerificationModal = () => {
-    setOpenVerificationModal(false);
-  }
-  const handleConfirmVerificationModal = () => {
-    handleCloseVerificationModal();
-
-    setDirectSign(isCheckedVerificationModal);
-    
-    handleSignCertificate(certificat);
-  };
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
-
-  const handleSignCertificate = (certificate) => {
-    console.log(directSign)
-    if (certificate !== null ) {
-        console.log("Sign");
-        console.log(certificate);
-        console.log(certificate?.Etudiant?.User?.prenom);
-        dispatch(signCertificateAction(certificate, walletInfos)).then(() => {
-            console.log("Signed");
-            console.log(certificate);
-            console.log(certificate?.Etudiant?.User?.prenom);
-            dispatch(getAllCertificatsByFiliereAction(filiere.abbr));
-        });
-    }
-  }
 
   const handleSearchChange = (e) => {
     setSearchString(e.target.value);
   };
   
   const handleSearch = () => {
-    dispatch(getAllCertificatsByFiliereAction(filiere.abbr, searchString));
+    dispatch(getSignedCertificatsByFiliereAction(filiere.abbr, searchString));
   }
-  
+
   React.useEffect(() => {
-    dispatch(getAllCertificatsByFiliereAction(filiere.abbr, searchString));
+    dispatch(getSignedCertificatsByFiliereAction(filiere.abbr, searchString));
   }, []);
 
   
@@ -133,27 +101,16 @@ const UnsignedCertificates = () => {
 
   function handleLoadSuccess({ numPages }) {
     setNumPages(numPages);
-}
+  }
 
   return (
     <div>
-        <VerificationModal 
-            open={openVerificationModal} 
-            handleClose={handleCloseVerificationModal} 
-            handleOpen={handleOpenVerificationModal} 
-            message={"Vous êtes sur le point de signer le certificat de l'étudiant "+ certificat?.Etudiant?.User?.nom + " " + certificat?.Etudiant?.User?.prenom +". Voulez-vous continuer ?"} 
-            handleConfirm={handleConfirmVerificationModal}
-            handleCheck={setDirectSign}
-            checkMessage={"Ne me plus demander ..."}
-            isChecked={isCheckedVerificationModal}
-            setIsChecked={setIsCheckedVerificationModal}
-            />
-            <Grid container justifyContent="center" alignItems="center" direction={"row"}>
-              <Grid item xs={12} key={2} sx={{ p: { xs: 1, sm: 2 }, mb: 0 }}>
-                  <CustomAlert 
+        <Grid container justifyContent="center" alignItems="center" direction={"row"}>
+            <Grid item xs={12} key={2} sx={{ p: { xs: 1, sm: 2 }, mb: 0 }}>
+                <CustomAlert
                     isOpen={true} 
                     severity="info" 
-                    content="Vous trouverez ici les certificats non signés, vous pouvez à tout moment les consulter et signer." 
+                    content="Vous trouverez ici la liste des certificats signés." 
                     color={"primary"} 
                     style={{backgroundColor: "rgba(255, 214, 201, 0.7)"}}
                     />
@@ -174,18 +131,18 @@ const UnsignedCertificates = () => {
               <Grid item xs={4} sm={4} md={2} lg={2} sx={{ p: { xs: 1, sm: 2 }, mb: 0 }}>
                 <Button 
                   variant={'contained'}
-                  onClick={() => navigate('/etudiants/certifies')} 
+                  onClick={() => navigate('/certificats')} 
                   sx={{ p: '10px' }} 
                   style={{width: "100%"}} 
-                  startIcon={<CheckOutlined />}
+                  startIcon={<Clear />}
                   >
-                    Signés
+                    Non Signés
                 </Button>
               </Grid>
             </Grid>
-                          
-      {!isLoading ? (
-      certificats.map((certificat, index) => {
+      {
+      (!isLoading) ? (
+        certificats.map((certificat, index) => {
         return (
           <Grid
             container
@@ -275,12 +232,17 @@ const UnsignedCertificates = () => {
                     {/* <Typography>{certificat.Etudiant.User.email}</Typography> */}
                     <Box sx={{ display: 'flex', flexDirection: {xs:'column', md: 'row'}, width: "100%" }}>
                         <Box sx={{ display: 'flex', flexDirection: 'column', width: {xs: "100%", md: "50%"} }}>
-                            <DocumentWrapper>
-                                <Document file={url + certificat.fileName} onLoadSuccess={handleLoadSuccess} options={options} >
-                                    <Page pageNumber={pageNumber} />
-                                </Document>
-                            </DocumentWrapper>
-                            {/* <p>Page {pageNumber} de {numPages}</p> */}
+                            <Box sx={{ display: 'flex', flexDirection: 'column', width: {xs: "100%", md: "100%"} }}>
+                                <DocumentWrapper>
+                                    <Document file={url + certificat.fileName} onLoadSuccess={handleLoadSuccess} options={options} >
+                                        <Page pageNumber={pageNumber} />
+                                    </Document>
+                                </DocumentWrapper>
+                                {/* <p>Page {pageNumber} de {numPages}</p> */}
+                            </Box>
+                            <Box sx={{ display: 'flex', flexDirection: 'column', width: {xs: "100%", md: "100%"} }}>
+                                {/* {certificat.txnHash} */}
+                            </Box>
                         </Box>
                         <Box sx={{ display: 'flex', flexDirection: 'column', width: {xs: "100%", md: "50%"} }}>
                             <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
@@ -299,23 +261,44 @@ const UnsignedCertificates = () => {
                             </List>
                         </Box>
                     </Box>
-                    <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', placeItems: 'end' }}>
-                        <Button startIcon={<ApprovalIcon/>} variant="contained" color="primary" sx={{ m: 2 }} disabled={walletInfos.address ? false : true} onClick={(directSign == true) ? () => handleSignCertificate(certificat) : () => handleOpenVerificationModal(certificat)}>Signer</Button>
+                    <Box sx={{ display: 'flex', 
+                            flexDirection: 'column', 
+                            width: '120%', 
+                            placeItems: 'center', 
+                            backgroundColor: 'rgba(255, 214, 201, 0.7)', 
+                            marginLeft: "-10%", 
+                            marginBottom: "-17px", 
+                            marginTop: "12px",
+                            paddingTop: "5px",
+                            paddingBottom: "5px"}}>
+                        {certificat.txnHash ? (
+                            <Button
+                                component="a"
+                                color="primary"
+                                sx={{ mt: 0, }}
+                                style={{cursor: "pointer"}}
+                                onClick={() => {
+                                    window.open(
+                                        `https://testnet.algoexplorer.io/tx/${certificat.txnHash}`
+                                    );
+                                }}
+                            >
+                                Afficher Transaction
+                            </Button>
+                        ) : null}
                     </Box>
-                    {/* <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', placeItems: 'end' }}>
-                        <Button startIcon={<ApprovalIcon/>} variant="contained" color="primary" sx={{ m: 2 }} onClick={() => dispatch(signCertificateAction(certificat, walletInfos))}>test</Button>
-                    </Box> */}
                 </AccordionDetails>
               </Accordion>
             </Grid>
           </Grid>
         );
       })
-      ): (
-        null
-      )}
+        ) : (
+            null
+        )
+        }
     </div>
   );
 };
 
-export default UnsignedCertificates;
+export default SignedCertificates;
