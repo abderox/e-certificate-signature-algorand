@@ -188,7 +188,9 @@ useEffect(() => {
                     borderRadius: '27px',
                     transition: 'all .2s ease-in-out',
                     borderColor: theme.palette.primary.light,
-                    backgroundColor: theme.palette.primary.light,
+                    // backgroundColor: "theme.palette.primary.light",
+                    backgroundColor: address ? theme.palette.primary.main : theme.palette.primary.light,
+                    color: address ? "#fff" : theme.palette.primary.main,
                     '&:hover': {
                         borderColor: theme.palette.primary.main,
                         background: `${theme.palette.primary.main}!important`,
@@ -216,7 +218,7 @@ useEffect(() => {
                 }
                 label={<Typography
                     variant="h5" 
-                    color={theme.palette.primary.main}
+                    color={address ? "#fff" : theme.palette.primary.main}
                     sx={{
                         '&:hover': {
                             color: theme.palette.secondary.light,
@@ -227,7 +229,7 @@ useEffect(() => {
                         'marginRight': '10px',
                     }}
                     >
-                        {address? "Mon \"wallet\" " : "Connecter Wallet"}
+                        {address? "Connecté " : "Connecter Wallet"}
                     </Typography>}
                     ref={anchorRef}
                     aria-controls={open ? 'menu-list-grow' : undefined}

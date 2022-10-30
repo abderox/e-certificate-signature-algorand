@@ -1,7 +1,6 @@
 import { getAlgodClient, sendRawTransaction } from 'api/backoperations/algo.service';
 import { WALLET_CONSTANTS } from 'utils/global-constants';
 import * as type from './actions';
-// import algosdk from 'algosdk';
 
 // import WalletConnect from "@walletconnect/client";
 // import QRCodeModal from "algorand-walletconnect-qrcode-modal";
@@ -59,6 +58,7 @@ export const setWalletAuthToken = (walletAuthToken) => (dispatch) => {
 export const signCertificateAction = (certificate, walletInfo) => async (dispatch) => {
 
     console.log("signCertificate");
+    console.log(certificate);
   
     let sender = walletInfo.address;
     let connection = walletInfo.wallet;
@@ -78,6 +78,7 @@ export const signCertificateAction = (certificate, walletInfo) => async (dispatc
     }
     
     if (txnResponse) {
+        
         dispatch({
             type: type.SIGN_CERTIFICATE,
             payload: txnResponse.data.txId,
@@ -104,131 +105,21 @@ export const signCertificateAction = (certificate, walletInfo) => async (dispatc
 
 
 const sendAlgoSignerTransaction = async (network, assetAmount, sender, certificate) => {
+
     console.log("sendAlgoSignerTransaction");
-    console.log(certificate);
-    const algodClientInfo = (await getAlgodClient({network, sender})).data;
+    let certificateId = certificate.id;
+    const algodClientInfo = (await getAlgodClient({network, sender, certificateId})).data;
 
-    console.log(algodClientInfo);
+    let txn = algodClientInfo.lsig;
 
-    // let params = algodClientInfo.params;
-    // console.log(params);
-    // assetAmount = parseInt(assetAmount);
 
-    // params.fee = 1000;
-    // params.flatFee = true;
-    // console.log(params);
-
-    // let note = undefined;
-
-    // let address = sender;
-
-    // let defaultFrozen = false;
-
-    // let decimals = 0;
-
-    // let total = 1;
-
-    // let unitName = "Certif";
-    
-    // let assetName = "Certificate";
-
-    // let assetURL = "http://certificate.ma";
-
-    // let assetMetadataHash = new Uint8Array();
-    // console.log(assetMetadataHash)
-
-    // let manager = undefined;
-
-    // let reserve = undefined;
-    
-    // let freeze = undefined;
-    
-    // let clawback = undefined;
-
-    let lsig = algodClientInfo.lsig;
-
-    console.log(lsig)
-
-    
-    // let txn = algosdk.makeAssetCreateTxnWithSuggestedParams(lsig, note,
-    //     total, decimals, defaultFrozen, manager, reserve, freeze,
-    //     clawback, unitName, assetName, assetURL, assetMetadataHash, params);
-
-    // console.log(txn);
-
-    let response = await sendAlgoSignerTransactionRaw(lsig);
-
-    console.log(response);
-
-    return response;
-}
-
-const convertIpfsCidV0ToByte32 = (cid) => {
-    const bytes = bs58.decode(cid).slice(2);
-    const base64 = Buffer.from(bytes).toString("base64");
-    const buffer = Buffer.from(base64, "base64");
-
-    return { base64, buffer };
-};
-
-const stringToUint8Array = (string) => {
-    const uint8Array = new Uint8Array(new ArrayBuffer(string.length));
-    for (let i = 0; i < string.length; i++) {
-        uint8Array[i] = string.charCodeAt(i);
-    }
-    return uint8Array;
-}
-
-const uint8ArrayToString = (uint8Array) => {
-    const encodedString = String.fromCharCode.apply(null, uint8Array);
-    const decodedString = decodeURIComponent(escape(encodedString));
-    return decodedString;
-}
-
-const cipher = salt => {
-    const textToChars = text => text.split('').map(c => c.charCodeAt(0));
-    const byteHex = n => ("0" + Number(n).toString(16)).substr(-2);
-    const applySaltToChar = code => textToChars(salt).reduce((a,b) => a ^ b, code);
-
-    return text => text.split('')
-      .map(textToChars)
-      .map(applySaltToChar)
-      .map(byteHex)
-      .join('');
-}
-    
-const decipher = salt => {
-    const textToChars = text => text.split('').map(c => c.charCodeAt(0));
-    const applySaltToChar = code => textToChars(salt).reduce((a,b) => a ^ b, code);
-    return encoded => encoded.match(/.{1,2}/g)
-      .map(hex => parseInt(hex, 16))
-      .map(applySaltToChar)
-      .map(charCode => String.fromCharCode(charCode))
-      .join('');
-}
-
-const objectToUint8Array = (object) => {
-    const length = Object.keys(object).length;
-    const uint8Array = new Uint8Array(new ArrayBuffer(length));
-    for (let i = 0; i < length; i++) {
-        uint8Array[i] = object[i];
-    }
-    return uint8Array;
-}
-
-const sendAlgoSignerTransactionRaw = async (txn) => {
+   
     const AlgoSigner = window.AlgoSigner;
 
     if (typeof AlgoSigner !== "undefined") {
         try {
-            // console.log(txn);
-            // let binaryTx = txn.toByte();
-
-            // txn = new Uint8Array(txn);
-            // txn = Uint8Array.from(txn);
-
             txn = objectToUint8Array(txn);
-            console.log(txn);
+            
             let base64Tx = AlgoSigner.encoding.msgpackToBase64(txn);
 
             let signedTxs = await AlgoSigner.signTxn([
@@ -241,14 +132,21 @@ const sendAlgoSignerTransactionRaw = async (txn) => {
                 signedTxs[0].blob
             );
 
-            console.log(binarySignedTx);
-            const response = await sendRawTransaction(signedTxs[0].blob);
-            console.log(response);
+            const response = await sendRawTransaction(certificateId ,signedTxs[0].blob);
 
             return response;
         } catch (err) {
             console.error(err);
         }
     }
+}
+
+const objectToUint8Array = (object) => {
+    const length = Object.keys(object).length;
+    const uint8Array = new Uint8Array(new ArrayBuffer(length));
+    for (let i = 0; i < length; i++) {
+        uint8Array[i] = object[i];
+    }
+    return uint8Array;
 }
 

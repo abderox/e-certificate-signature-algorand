@@ -1,4 +1,4 @@
-import { generateCertificates, getAllCertificatsByFiliere } from 'api/backoperations/certificate.service';
+import { generateCertificates, getAllCertificatsByFiliere, getSignedCertificatsByFiliere } from 'api/backoperations/certificate.service';
 import { getAllEtudiants } from 'api/backoperations/etudiant.service';
 import { getAllFilieres, getCertifiedFilieres } from 'api/backoperations/filiere.service';
 import * as type from './actions';
@@ -103,8 +103,8 @@ const generateCertificatesAction = (data) => (dispatch) => {
     );
 }
 
-const getAllCertificatsByFiliereAction = (filiere) => (dispatch) => {
-    return getAllCertificatsByFiliere(filiere).then(
+const getAllCertificatsByFiliereAction = (filiere, searchString) => (dispatch) => {
+    return getAllCertificatsByFiliere(filiere, searchString).then(
         (data) => {
             dispatch({
                 type: type.SET_CERTIFICATS,
@@ -155,4 +155,31 @@ const getCertifiedFilieresAction = () => (dispatch) => {
     );
 }
 
-export { getAllFilieresAction, setFiliere, getAllEtudiantsAction, setEtudiantsAction, generateCertificatesAction, getAllCertificatsByFiliereAction, getCertifiedFilieresAction, setDirectSignAction };
+const getSignedCertificatsByFiliereAction = (filiere, searchString) => (dispatch) => {
+    return getSignedCertificatsByFiliere(filiere, searchString).then(
+        (data) => {
+            dispatch({
+                type: type.SET_CERTIFICATS,
+                payload: data.data.certificats,
+            });
+            console.log("getSignedCertificatsAction: ", data.data);
+            return Promise.resolve();
+        },
+        (error) => {
+            console.log("getSignedCertificatsAction: ", error.response.data.message);
+            const message = error.response.data.message || error;
+            dispatch({
+                type: type.SET_MESSAGE,
+                payload: {
+                    message: message,
+                    type: "error"
+                },
+            });
+            return Promise.reject(error);
+        }
+    );
+}
+
+
+
+export { getAllFilieresAction, setFiliere, getAllEtudiantsAction, setEtudiantsAction, generateCertificatesAction, getAllCertificatsByFiliereAction, getCertifiedFilieresAction, setDirectSignAction, getSignedCertificatsByFiliereAction };

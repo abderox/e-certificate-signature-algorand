@@ -4,6 +4,7 @@ import { lazy } from 'react';
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 import UnsignedCertificates from 'views/pages/superAdmin/UnsignedCertificates';
+import SignedCertificates from 'views/pages/superAdmin/SignedCertificates';
 
 // dashboard routing
 const DashboardSuperAdmin = Loadable(lazy(() => import('views/dashboard/SuperAdmin')));
@@ -30,10 +31,14 @@ const SuperAdminRoutes = {
         {
             path: 'register-admin',
             element: <Register isEtudiant={false} />
-        },,
+        },
         {
             path: 'certificats',
             element: <UnsignedCertificates />
+        },
+        {
+            path: 'etudiants/certifies',
+            element: <SignedCertificates />
         },
     ]
 };

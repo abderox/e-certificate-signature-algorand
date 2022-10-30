@@ -1,4 +1,5 @@
-const BASE_URL_API = "http://localhost:7000/api";
+// const BASE_URL_API = "http://localhost:7000/api";
+const BASE_URL_API = "https://80e7-105-67-132-9.eu.ngrok.io/api";
 
 const AUTH_BASE_URL = BASE_URL_API + "/auth";
 const BACKOPS_BASE_URL = BASE_URL_API + "/backops";
@@ -39,6 +40,7 @@ const API_CERTIFICATE_URLS = {
     GENERATE_CERTIFICATE: PROCESS_BASE_URL + "/generate-certificate",
     GENERATE_CERTIFICATES: PROCESS_BASE_URL + "/generate-certificates",
     GET_ALL_CERTIFICATS_BY_FILIERE: BACKOPS_BASE_URL + "/get-all-certificats-by-filiere",
+    GET_ALL_SIGNED_CERTIFICATS_BY_FILIERE: BACKOPS_BASE_URL + "/get-all-signed-certificats-by-filiere",
 }
 
 
