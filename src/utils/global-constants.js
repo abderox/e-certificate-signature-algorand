@@ -42,6 +42,13 @@ const API_CERTIFICATE_URLS = {
     GET_ALL_SIGNED_CERTIFICATS_BY_FILIERE: BACKOPS_BASE_URL + "/get-all-signed-certificats-by-filiere",
 }
 
+const API_ETABLISSEMENTS_URLS = {
+    CREATE_ETABLISSEMENT: BACKOPS_BASE_URL + "/create-etablissement",
+    CREATE_FILIERE: BACKOPS_BASE_URL + "/create-filiere",
+    UPLOAD_LOGO: BACKOPS_BASE_URL + "/upload-profile-image",
+    GET_ETABS : BACKOPS_BASE_URL + "/get-etablissements"
+}
+
 
 const API_ALGO_URLS = {
     GET_ALGO_CLIENT: ALGO_BASE_URL + "/get-algod-client",
@@ -72,6 +79,7 @@ module.exports = {
     API_CERTIFICATE_URLS,
     WALLET_CONSTANTS,
     API_PROFILE,
+    API_ETABLISSEMENTS_URLS,
     API_ALGO_URLS,
     VERIFICATION_URLS
 };

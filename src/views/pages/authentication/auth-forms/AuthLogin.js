@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useDispatch,useSelector } from 'react-redux';
-import {useNavigate} from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import {
     Box,
@@ -11,8 +11,11 @@ import {
     InputAdornment,
     InputLabel,
     OutlinedInput,
+    TextField,
 } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
+import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
+import DoneOutlinedIcon from '@mui/icons-material/DoneOutlined';
 // third party
 import * as Yup from 'yup';
 import { Formik } from 'formik';
@@ -26,11 +29,12 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import { loginAction } from 'store/authAction';
-import {clearMessage} from 'store/apiMessage';
+import { clearMessage } from 'store/apiMessage';
 import { addressMAC } from 'utils';
 import Toast from 'ui-component/ui-error/toast';
 
 import { getAllFilieresAction } from "store/backOpsAction";
+import { CloseOutlined, DoneOutlineOutlined } from '@mui/icons-material';
 
 
 const LoginForm = ({ ...others }) => {
@@ -42,30 +46,34 @@ const LoginForm = ({ ...others }) => {
     const isLoggedIn = useSelector(state => state.login.isAuthenticated);
     const [errorMsg, seterrorMsg] = useState('');
 
+
     const theme = useTheme();
     const scriptedRef = useScriptRef();
 
     const [showPassword, setShowPassword] = useState(false);
     const [mac, setmac] = useState('');
+    const [link, setlink] = useState("");
+    const [clicked, setclicked] = useState(false);
     const [loading, setLoading] = useState(false);
 
     const userInfos = useSelector((state) => state.login?.user);
 
 
-    useEffect(() => {
-        addressMAC().then((mac) => {
-            setmac(mac);
-        }
-        );
-    }, [])
+    // useEffect(() => {
+    //     addressMAC().then((mac) => {
+    //         setmac(mac);
+    //     }
+    //     );
+    // }, [])
+
 
     useEffect(() => {
-        if(isLoggedIn){
-            if(userInfos?.roles?.includes("ROLE_SUPER_ADMIN")){
+        if (isLoggedIn) {
+            if (userInfos?.roles?.includes("ROLE_SUPER_ADMIN")) {
                 navigate('/dashboard', { replace: true });
-            }else if(userInfos?.roles?.includes("ROLE_ADMIN")){
+            } else if (userInfos?.roles?.includes("ROLE_ADMIN")) {
                 navigate('/admin/dashboard', { replace: true });
-            }else if(userInfos?.roles?.includes("ROLE_ETUDIANT")){
+            } else if (userInfos?.roles?.includes("ROLE_ETUDIANT")) {
                 navigate('/student/my-profile', { replace: true });
             }
 
@@ -74,7 +82,32 @@ const LoginForm = ({ ...others }) => {
     }, [isLoggedIn])
 
 
-    
+    const handleChangeLink = (e) => {
+        setlink(e.target.value)
+    }
+
+
+    const getMacAddr = (link) => {
+        let link_ = link.includes("http") || link.includes("http");
+        if (link_) {
+            addressMAC(link).then((mac) => {
+                console.log(mac)
+                setmac(mac);
+                setclicked(false);
+            }
+            ).catch((err) => {
+                setclicked(false);
+                seterrorMsg("Adresse mac introuvable");
+            });
+        }
+        else {
+            setclicked(false);
+            seterrorMsg("Le lien doit commencer par http ou https");
+        }
+    }
+
+
+
 
 
     const handleClickShowPassword = () => {
@@ -87,8 +120,9 @@ const LoginForm = ({ ...others }) => {
 
     return (
         <>
-        {errorMsg!=='' && <Toast message={errorMsg} severity="error" />}
-        {selectorMsg && <Toast message={JSON.parse(selectorMsg)} severity="error" />}
+            {errorMsg !== '' && <Toast message={errorMsg} severity="error" />}
+            {selectorMsg && <Toast message={JSON.parse(selectorMsg)} severity="error" />}
+            {mac !== '' && <Toast message={"L'adresse MAC est récupérée avec succès, vous pouvez reprendre le processus d'authentification . !"} severity="success" />}
             <Formik
                 initialValues={{
                     // email: '',
@@ -102,7 +136,7 @@ const LoginForm = ({ ...others }) => {
                     password: Yup.string().max(255).required('Password is required')
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-                   
+
                     try {
                         dispatch(clearMessage());
                         seterrorMsg('');
@@ -129,7 +163,7 @@ const LoginForm = ({ ...others }) => {
                             })
 
                         }
-                       
+
                     } catch (err) {
                         console.error(err);
                         if (scriptedRef.current) {
@@ -150,6 +184,7 @@ const LoginForm = ({ ...others }) => {
                                 type="text"
                                 value={values.email}
                                 name="email"
+                                disabled={clicked}
                                 onBlur={handleBlur}
                                 onChange={handleChange}
                                 label="Email Address / Username"
@@ -175,6 +210,7 @@ const LoginForm = ({ ...others }) => {
                                 name="password"
                                 onBlur={handleBlur}
                                 onChange={handleChange}
+                                disabled={clicked}
                                 endAdornment={
                                     <InputAdornment position="end">
                                         <IconButton
@@ -202,12 +238,34 @@ const LoginForm = ({ ...others }) => {
                                 <FormHelperText error>{errors.submit}</FormHelperText>
                             </Box>
                         )}
+                        <Box sx={{ mt: 2, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            {!clicked && <Button startIcon={<SecurityOutlinedIcon />} onClick={() => setclicked(!clicked)}>
+                                Administrateur
+                            </Button>}
+
+                            {clicked && <><TextField
+                                id="standard-basic"
+                                label="Lien"
+                                variant="standard"
+                                margin="normal"
+                                fullWidth
+                                placeholder="URL-> http(s)://domain"
+                                helperText="Pour s'authentifier en tant que admin , l'adresse mac est obligatoire ! "
+                                value={link}
+                                onChange={handleChangeLink}
+                            />
+                                <CloseOutlined onClick={() => setclicked(!clicked)} />
+                                <DoneOutlinedIcon onClick={() => getMacAddr(link)} />
+                            </>
+                            }
+
+                        </Box>
 
                         <Box sx={{ mt: 2 }}>
                             <AnimateButton>
                                 <LoadingButton
                                     disableElevation
-                                    disabled={loading}
+                                    disabled={loading || clicked}
                                     fullWidth
                                     loading={loading}
                                     size="large"
