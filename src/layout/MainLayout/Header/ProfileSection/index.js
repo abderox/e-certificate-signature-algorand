@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 
 import { useNavigate } from 'react-router-dom';
-import { useSelector ,useDispatch} from 'react-redux';
-import {logoutAction} from 'store/authAction' ;
+import { useSelector, useDispatch } from 'react-redux';
+import { logoutAction } from 'store/authAction';
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
@@ -21,6 +21,7 @@ import {
     Stack,
     Typography
 } from '@mui/material';
+import { stringAvatar } from 'utils/avatar.js'
 
 // third-party
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -48,7 +49,7 @@ const ProfileSection = () => {
 
     const greeting = () => {
         const time = new Date().getHours();
-        if (time < 12 && time>5) {
+        if (time < 12 && time > 5) {
             return 'Good Morning';
         }
         if (time < 18 && time >= 12) {
@@ -75,7 +76,7 @@ const ProfileSection = () => {
         setOpen(false);
     };
 
-   
+
 
     const handleListItemClick = (event, index, route = '') => {
         setSelectedIndex(index);
@@ -122,7 +123,7 @@ const ProfileSection = () => {
                 }}
                 icon={
                     <Avatar
-                        src={User1}
+                        {...stringAvatar(userInfo.username)}
                         sx={{
                             ...theme.typography.mediumAvatar,
                             margin: '8px 0 8px 8px !important',
@@ -195,17 +196,17 @@ const ProfileSection = () => {
                                                     }
                                                 }}
                                             >
-                                                <ListItemButton
+                                                {/* <ListItemButton
                                                     sx={{ borderRadius: `${customization.borderRadius}px` }}
                                                     selected={selectedIndex === 0}
-                                                    onClick={(event) => handleListItemClick(event, 0, '/student-profile?code=1817010')}
+                                                    onClick={(event) => handleListItemClick(event, 0, '#')}
                                                 >
                                                     <ListItemIcon>
                                                         <IconSettings stroke={1.5} size="1.3rem" />
                                                     </ListItemIcon>
                                                     <ListItemText  primary={<Typography variant="body2">Account Settings</Typography>} />
-                                                </ListItemButton>
-                                                <ListItemButton
+                                                </ListItemButton> */}
+                                                {/* <ListItemButton
                                                     sx={{ borderRadius: `${customization.borderRadius}px` }}
                                                     selected={selectedIndex === 1}
                                                     onClick={(event) => handleListItemClick(event, 1, '/student-profile?code=1817010')}
@@ -222,7 +223,7 @@ const ProfileSection = () => {
                                                             </Grid>
                                                         }
                                                     />
-                                                </ListItemButton>
+                                                </ListItemButton> */}
                                                 <ListItemButton
                                                     sx={{ borderRadius: `${customization.borderRadius}px` }}
                                                     selected={selectedIndex === 4}
