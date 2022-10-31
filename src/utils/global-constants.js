@@ -1,4 +1,4 @@
-const BASE_URL_API = "http://localhost:7000/api";
+const BASE_URL_API = "https://e-certificate-server.vr4.ma/api";
 
 const AUTH_BASE_URL = BASE_URL_API + "/auth";
 const BACKOPS_BASE_URL = BASE_URL_API + "/backops";
@@ -83,5 +83,6 @@ module.exports = {
     API_PROFILE,
     API_ETABLISSEMENTS_URLS,
     API_ALGO_URLS,
-    VERIFICATION_URLS
+    VERIFICATION_URLS,
+    BASE_URL_API
 };

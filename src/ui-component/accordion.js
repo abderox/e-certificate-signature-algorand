@@ -12,6 +12,7 @@ import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 const reactPdf = require('react-pdf/dist/esm/entry.webpack5')
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { BASE_URL_API } from 'utils/global-constants';
 const { Document, Page } = reactPdf;
 
 
@@ -75,7 +76,7 @@ export default function CustomizedAccordions({ panel, data }) {
     const [pageNumber, setPageNumber] = useState(1);
     const [open, setOpen] = useState(false);
     const matches = useMediaQuery('(min-width:600px)');
-    const url = 'http://localhost:7000/api/process/get-certificate?hash=' + data.fileName;
+    const url = BASE_URL_API + '/process/get-certificate?hash=' + data.fileName;
 
     const style = {
         position: 'absolute',

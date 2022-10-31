@@ -36,6 +36,7 @@ import { signCertificate, signCertificateAction } from "store/walletAction";
 import { useNavigate } from "react-router";
 import { Clear } from "@mui/icons-material";
 import CustomAlert from "ui-component/ui-error/alert";
+import { BASE_URL_API } from "utils/global-constants";
 
 const reactPdf = require('react-pdf/dist/esm/entry.webpack5');
 const { Document, Page } = reactPdf;
@@ -73,7 +74,7 @@ const SignedCertificates = () => {
   const [searchString, setSearchString] = React.useState(null);
 
 
-  const url = 'http://127.0.0.1:7000/api/process/get-certificate?hash=';
+  const url = BASE_URL_API + '/process/get-certificate?hash=';
 
 
   const handleChange = (panel) => (event, isExpanded) => {

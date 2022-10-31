@@ -31,6 +31,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import  styled_ from "@emotion/styled";
 import { verifyAttachedCertificateAction, verifyCertificateAuthenticityAction } from 'store/walletAction';
 import Toast from 'ui-component/ui-error/toast';
+import { BASE_URL_API } from 'utils/global-constants';
 
 const { Document, Page } = reactPdf;
 
@@ -74,7 +75,7 @@ export default function VerificationPage() {
     const matches = useMediaQuery('(min-width:600px)');
     const matchesSM = useMediaQuery('(min-width:600px)');
     const right = matches ? '33%' : '-1%';
-    const bringCertif = "http://localhost:7000/api/process/get-certificate?hash=";
+    const bringCertif = BASE_URL_API + "/process/get-certificate?hash=";
     const [verifiedAuthenticity, setVerifiedAuthenticity] = React.useState(null);
     const [verifiedAttachedCertificate, setVerifiedAttachedCertificate] = React.useState(null);
 
