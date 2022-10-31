@@ -80,13 +80,7 @@ const EtudiantsPage = () => {
         setChecked(etudiants.map(e => false));
     }
 
-    // const handleSetIsValidd = () => {
-    //     console.log("handleSetIsValidd");
-    //     console.log(selectedEtudiants);
-    // }
-
     const handleGenrateCertificateActive = () => {
-        // console.log("handleGenrateCertificateActive");
         
         let duree = filiere.duree;
         let nbrAdmis = 0;
@@ -99,10 +93,12 @@ const EtudiantsPage = () => {
                 e.AnneeUniversitaires.map((a, j) => {
                     if (a.isAdmis) {
                         totalAdmis += 1;
+                        if (e.Certificats?.length > 0) {
+                            totalAdmis -= 1;
+                        }
                     }
                 });
             }
-            // console.log(totalAdmis);
             if (totalAdmis == duree) {
                 nbrAdmis += 1;
             }
@@ -226,13 +222,16 @@ const EtudiantsPage = () => {
                                             direction="row"
                                             justifyContent="center"
                                             alignItems="center"
-                                            key={etudiant._id}
+                                            key={etudiant.id}
                                             sx={{ m: { xs: 1, sm: 2 }, mb: 0 }}>
-                                                <Grid item xs={1/2}>
+                                                <Grid item xs={1}>
                                                     <Checkbox checked={checked[index] ? checked[index] : false} onChange={(e) => handleChangeChildCheck(e, index)} />
                                                 </Grid>
                                                 <Grid item xs={11}>
-                                                    <Accordion expanded={expanded === `panel${index}`} onChange={handleChange(`panel${index}`)}>
+                                                    <Accordion 
+                                                        expanded={expanded === `panel${index}`} 
+                                                        onChange={handleChange(`panel${index}`)}
+                                                        sx={{boxShadow: "-1px 2px 5px #d3d3d3"}}>
                                                         <AccordionSummary
                                                             expandIcon={<ExpandMoreIcon />}
                                                             aria-controls="panel1bh-content"

@@ -53,8 +53,15 @@ const SuperAdminDashboard = () => {
     <Grid container spacing={gridSpacing}>
       <Grid item xs={12}>
         <Grid container spacing={gridSpacing} justifyContent={"start"}>
+
           <Grid item xs={12} key={2}>
-            <CustomAlert isOpen={(walletInfos?.address === null) ? true : false} severity="info" content="Bonjour, veuillez connecter votre wallet !" />
+            <CustomAlert 
+                isOpen={(walletInfos?.address === null) ? true : false}
+                severity="info" 
+                content="Bonjour, veuillez connecter votre wallet !" 
+                color={"primary"} 
+                style={{backgroundColor: "rgba(255, 214, 201, 0.7)"}}
+                />
             <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
               <Link to="/add-etablissment"
                 style={{
