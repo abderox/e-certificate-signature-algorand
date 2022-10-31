@@ -52,7 +52,7 @@ const LoginForm = ({ ...others }) => {
 
     const [showPassword, setShowPassword] = useState(false);
     const [mac, setmac] = useState('');
-    const [link, setlink] = useState("");
+    const [link, setlink] = useState("http://localhost:7002");
     const [clicked, setclicked] = useState(false);
     const [loading, setLoading] = useState(false);
 
