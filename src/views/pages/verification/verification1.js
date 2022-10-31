@@ -29,6 +29,8 @@ import { getGeneralInfoAction } from 'store/verificationAction';
 const reactPdf = require('react-pdf/dist/esm/entry.webpack5')
 import useMediaQuery from '@mui/material/useMediaQuery';
 import  styled_ from "@emotion/styled";
+import { verifyAttachedCertificateAction, verifyCertificateAuthenticityAction } from 'store/walletAction';
+import Toast from 'ui-component/ui-error/toast';
 
 const { Document, Page } = reactPdf;
 
@@ -61,6 +63,7 @@ const DocumentWrapper = styled_.div`
 export default function VerificationPage() {
 
     const data = useSelector((state) => state.verification.generalInfo);
+    const toastMessage = useSelector((state)=>state.message);
     const dispatch = useDispatch();
     const [data_, setdata_] = React.useState({});
     const [loading, setloading] = React.useState(true);
@@ -72,10 +75,42 @@ export default function VerificationPage() {
     const matchesSM = useMediaQuery('(min-width:600px)');
     const right = matches ? '33%' : '-1%';
     const bringCertif = "http://localhost:7000/api/process/get-certificate?hash=";
-
+    const [verifiedAuthenticity, setVerifiedAuthenticity] = React.useState(null);
+    const [verifiedAttachedCertificate, setVerifiedAttachedCertificate] = React.useState(null);
 
     function onDocumentLoadSuccess({ numPages }) {
         setNumPages(numPages);
+    }
+
+    const verifyAuthenticity = async (certificateId) => {
+        dispatch(verifyCertificateAuthenticityAction(certificateId)).then((res) => {
+            console.log(res);
+            setVerifiedAuthenticity(res);
+        });
+    }
+
+    const verifyAttachedCertificate = async (event, certificateId) => {
+        event.preventDefault();
+        console.log(certificateId);
+        console.log(event.target.files[0]);
+    
+        const formData = new FormData();
+        
+        formData.append(
+            "file",
+            event.target.files[0]
+        );
+        formData.append(
+            "certificateId",
+            certificateId
+        );
+
+        console.log(formData);
+
+        dispatch(verifyAttachedCertificateAction(formData)).then((res) => {
+            console.log(res);
+            setVerifiedAttachedCertificate(res);
+        });
     }
 
     React.useEffect(() => {
@@ -106,12 +141,19 @@ export default function VerificationPage() {
     return (
 
         <Container maxWidth="md" >
+            {toastMessage && toastMessage.message && <Toast message={JSON.parse(toastMessage.message)} severity={toastMessage.type ? toastMessage.type : "info"} />}
             <Box display="flex" minHeight="100vh"  alignItems="center" justifyContent="center" m="auto" flexDirection="column" >
                 {!loading && data_ && data_?.certificat?.txnHash && <Box sx={{ width: '90%', mb: 2 }} >
                     <Alert variant="outlined" severity="info" color="info" >
-
-                        <Typography variant="h6" sx={{ fontWeight: 500, fontSize: '0.8rem' }}>
-                            Txn : <Link to={'/'} replace={true} style={{ textDecoration: 'none' }}>{data_.certificat.txnHash}</Link>
+                        {"Txn : "}
+                        <Typography variant="span" sx={{ fontWeight: 500, fontSize: '0.8rem', cursor: 'pointer' }}
+                            onClick={() => {
+                                window.open(
+                                    `https://testnet.algoexplorer.io/tx/${data_.certificat.txnHash}`
+                                ); 
+                            }}>
+                                {data_.certificat.txnHash}
+                            {/* Txn : <Link to={'/'} replace={true} style={{ textDecoration: 'none' }}>{data_.certificat.txnHash}</Link> */}
                         </Typography>
 
 
@@ -151,15 +193,33 @@ export default function VerificationPage() {
                         </Box>
                     </CardContent>
                     <Box display="flex" justifyContent="center" sx={{ pb: 3 }}>
-
                         <NoMaxWidthTooltip title={"Si vous avez la certificat en format pdf , vous pouver l'attacher et attender la vérification"}>
-                            <Button startIcon={<FilePresentIcon sx={{ height: 48, width: 38 }} />} color="dark">
-                                Attacher Certification (pdf)
-                            </Button>
+                                <Button 
+                                    component="label" 
+                                    htmlFor={"AttachCertificate"+data_.certificat.id} 
+                                    startIcon={<FilePresentIcon sx={{ height: 48, width: 38 }} />} 
+                                    color={verifiedAttachedCertificate == false ? "error" : verifiedAttachedCertificate == true ? "success" : "dark" }>
+                                            {
+                                                verifiedAttachedCertificate == false ? "Certification non valide" : verifiedAttachedCertificate == true ? "Certification Valide" : "Attacher Certification (pdf)"
+                                            }
+                                    <input 
+                                        type="file" 
+                                        name={"AttachCertificate"+data_.certificat.id} 
+                                        id={"AttachCertificate"+data_.certificat.id} 
+                                        hidden={true} 
+                                        onChange={(e) => verifyAttachedCertificate(e, data_.certificat.id)}
+                                        />
+                                </Button>
                         </NoMaxWidthTooltip>
+
                         <NoMaxWidthTooltip title={"Vous pouvez vérifier l'authenticité de la certification en cliquant sur ce bouton  "}>
-                            <Button startIcon={<PolicyIcon sx={{ height: 48, width: 38 }} />} color="dark">
-                                Vérifier authenticité
+                            <Button 
+                                startIcon={<PolicyIcon sx={{ height: 48, width: 38 }} />}
+                                onClick={() => verifyAuthenticity(data_.certificat.id)} 
+                                color={verifiedAuthenticity == false ? "error" : verifiedAuthenticity == true ? "success" : "dark" }>
+                                    {
+                                        verifiedAuthenticity == false ? "Certification non authentique" : verifiedAuthenticity == true ? "Certification Authentique" : "Vérifier authenticité"
+                                    }
                             </Button>
                         </NoMaxWidthTooltip>
 

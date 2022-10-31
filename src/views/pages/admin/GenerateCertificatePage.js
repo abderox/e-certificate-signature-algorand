@@ -67,6 +67,7 @@ const EtudiantsPage = () => {
   const scriptedRef = useScriptRef();
 //   const message = useSelector((state) => state.message.message);
 
+console.log(etudiantsInfos);
     const [etudiants, setEtudiants] = useState({});
   const [loading, setloading] = useState(false);
 
@@ -77,7 +78,7 @@ const EtudiantsPage = () => {
   const [ministere, setMinistere] = useState("ministere_2");
   const [presidence, setPresidence] = useState("uca");
   const [etablissement, setEtablissement] = useState("fst");
-  const [civilite, setCivilite] = useState("homme");
+  const [civilite, setCivilite] = useState(["0", "0"]);
 
   const handleChangeDate = (newDate) => {
     setDate(newDate)
@@ -99,8 +100,13 @@ const handleMinistereChange = (event) => {
     setEtablissement(event.target.value);
   };
 
-  const handleCiviliteChange = (event) => {
-    setCivilite(event.target.value);
+  const handleFirstCiviliteChange = (event) => {
+    console.log(event.target.value);
+    setCivilite((civilite) => [event.target.value, civilite[1]]);
+ };
+
+ const handleSecondCiviliteChange = (event) => {
+   setCivilite((civilite) => [civilite[0], event.target.value]);
 };
 
   useEffect(() => {
@@ -173,7 +179,7 @@ const handleMinistereChange = (event) => {
                             values.ministere = ministere ? ministere : values.ministere;
                             values.presidence = presidence ? presidence : values.presidence;
                             values.etablissement = etablissement ? etablissement : values.etablissement;
-                            // values.civilite = civilite ? civilite : values.civilite;
+                            
 
                             let students = [];
                             let student = {};
@@ -194,8 +200,9 @@ const handleMinistereChange = (event) => {
                             let signers = [];
                             let signer = {};
                             values.signers.forEach((signer, index) => {
+                                let signerCivilite = civilite[index] == "0" ? "M." : "Mme.";
                                 signer = {
-                                    fullname : signer,
+                                    fullname : signerCivilite + " " +signer,
                                     position: values.positions[index],
                                 }
                                 signers.push(signer);
@@ -203,6 +210,7 @@ const handleMinistereChange = (event) => {
 
                             console.log(signers);
 
+                            console.log(students);
                             let data = {
                                 students: students,
                                 filiere: values.filiere,
@@ -378,7 +386,23 @@ const handleMinistereChange = (event) => {
                                 </Box>
                             </Grid>
                             
-                            <Grid item xs={12} sm={6}>
+                            <Grid item xs={3} sm={3} md={2}>
+                                <FormControl style={{marginTop: "8px"}} margin="normal" fullWidth>
+                                    <InputLabel id="civilite0">Civilité</InputLabel>
+                                    <Select
+                                        labelId="civilite0"
+                                        id="civilite0"
+                                        value={civilite[0]}
+                                        label="Civilité"
+                                        onChange={handleFirstCiviliteChange}
+                                        style={{height: "61px"}}
+                                    >
+                                        <MenuItem value={"0"}>Homme</MenuItem>
+                                        <MenuItem value={"1"}>Femme</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={9} sm={9} md={4}>
                                 <TextField
                                     fullWidth
                                     label="Nom Complet"
@@ -391,7 +415,7 @@ const handleMinistereChange = (event) => {
                                     sx={{ ...theme.typography.customInput }}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={6}>
+                            <Grid item xs={12} md={6}>
                                 <TextField
                                     fullWidth
                                     label="Position"
@@ -404,23 +428,25 @@ const handleMinistereChange = (event) => {
                                     sx={{ ...theme.typography.customInput }}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={6}>
+                            
+                            
+                            <Grid item xs={3} sm={3} md={2}>
                                 <FormControl style={{marginTop: "8px"}} margin="normal" fullWidth>
-                                    <InputLabel id="civilite">Civilité</InputLabel>
+                                    <InputLabel id="civilite1">Civilité</InputLabel>
                                     <Select
-                                        labelId="civilite"
-                                        id="civilite"
-                                        value={civilite}
+                                        labelId="civilite1"
+                                        id="civilite1"
+                                        value={civilite[1]}
                                         label="Civilité"
-                                        onChange={handleCiviliteChange}
+                                        onChange={handleSecondCiviliteChange}
                                         style={{height: "61px"}}
                                     >
-                                        <MenuItem value={"fst"}>Homme</MenuItem>
-                                        <MenuItem value={"fst"}>Femme</MenuItem>
+                                        <MenuItem value={"0"}>Homme</MenuItem>
+                                        <MenuItem value={"1"}>Femme</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={12} sm={6}>
+                            <Grid item xs={9} sm={9} md={4}>
                                 <TextField
                                     fullWidth
                                     label="Nom Complet"
@@ -434,7 +460,7 @@ const handleMinistereChange = (event) => {
                                     disabled={values.signers[0] == "" || values.signers[0] == null || values.positions[0] == "" || values.positions[0] == null}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={6}>
+                            <Grid item xs={12} md={6}>
                                 <TextField
                                     fullWidth
                                     label="Position"
