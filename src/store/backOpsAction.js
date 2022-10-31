@@ -68,6 +68,14 @@ const setEtudiantsAction = (etudiants) => {
     }
 }
 
+// const setEtudiantsToGenerateCertificateAction = (etudiants) => {
+//     console.log("setEtudiantsAction: ", etudiants);
+//     return {
+//         type: type.SET_ETUDIANTS_TO_GENERATE_CERTIFICATE,
+//         payload: etudiants,
+//     }
+// }
+
 const setDirectSignAction = (boolean) => {
     console.log("setDirectSignAction: ", boolean);
     return {

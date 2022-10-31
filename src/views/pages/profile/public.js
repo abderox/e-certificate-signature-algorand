@@ -33,6 +33,7 @@ import { useLocation } from "react-router-dom";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { getProfileStudentAction } from 'store/profileAction';
 import { updateVisibility } from 'api/profile/profile.service';
+import { BASE_URL_API } from 'utils/global-constants';
 
 const drawerWidth = 380;
 const drawerWidthMin = 380;
@@ -187,7 +188,7 @@ export default function Profile() {
     const [wait, setwait] = useState(false);
     const navigate = useNavigate();
 
-    const bringAvatar = "http://localhost:7000/api/profile/download-avatar?avatar=";
+    const bringAvatar = BASE_URL_API + "/profile/download-avatar?avatar=";
     const defaultAvatar = "https://img.icons8.com/external-vitaliy-gorbachev-lineal-color-vitaly-gorbachev/256/000000/external-hacker-male-profession-vitaliy-gorbachev-lineal-color-vitaly-gorbachev.png";
 
 

@@ -1,4 +1,4 @@
-import { getAlgodClient, sendRawTransaction } from 'api/backoperations/algo.service';
+import { getAlgodClient, sendRawTransaction, verifyAttachedCertificate, verifyCertificateAuthenticity } from 'api/backoperations/algo.service';
 import { WALLET_CONSTANTS } from 'utils/global-constants';
 import * as type from './actions';
 
@@ -150,3 +150,77 @@ const objectToUint8Array = (object) => {
     return uint8Array;
 }
 
+
+export const verifyCertificateAuthenticityAction = (certificateId) => async (dispatch) => {
+    return verifyCertificateAuthenticity(certificateId).then((response) => {
+        if (response.status == 200 && response.data?.verified != undefined) {
+            if (response.data.verified == true) {
+                dispatch({
+                    type: type.SET_MESSAGE,
+                    payload: {
+                        message: "Certificate verified Successfully",
+                        type: "success"
+                    }
+                });
+                return true;
+            } else {
+                dispatch({
+                    type: type.SET_MESSAGE,
+                    payload: {
+                        message: "Certificate verification failed",
+                        type: "error"
+                    }
+                });
+                return false;
+            }
+        } else {
+            dispatch({
+                type: type.SET_MESSAGE,
+                payload: {
+                    message: response.data?.message ? response.data.message : "Sorry, something went wrong",
+                    type: "error"
+                }
+            });
+            return null;
+        }
+    });
+}
+
+export const verifyAttachedCertificateAction = (data) => async (dispatch) => {
+    console.log("verifyAttachedCertificate");
+    return verifyAttachedCertificate(data).then((response) => {
+        if (response.status == 200 && response.data?.verified != undefined) {
+            if (response.data.verified == true) {
+                console.log("Certificate verified Successfully");
+                dispatch({
+                    type: type.SET_MESSAGE,
+                    payload: {
+                        message: "Certificate verified Successfully",
+                        type: "success"
+                    }
+                });
+                return true;
+            } else {
+                console.log("Certificate verification failed");
+                dispatch({
+                    type: type.SET_MESSAGE,
+                    payload: {
+                        message: "Certificate verification failed",
+                        type: "error"
+                    }
+                });
+                return false;
+            }
+        } else {
+            console.log("Sorry, something went wrong");
+            dispatch({
+                type: type.SET_MESSAGE,
+                payload: {
+                    message: response.response.data?.message ? response.response.data.message : "Sorry, something went wrong",
+                    type: "error"
+                }
+            });
+            return null;
+        }
+    });
+}

@@ -116,7 +116,7 @@ const EtudiantsPage = () => {
 
         console.log("filiere: ", filiere.abbr);
         console.log("etudiants----: ", selectedEtudiants);
-        // dispatch(setEtudiantsAction(selectedEtudiants));
+        dispatch(setEtudiantsAction(selectedEtudiants));
         navigate("/admin/generate-certificate", { replace: true });
 
     }
@@ -127,6 +127,7 @@ const EtudiantsPage = () => {
     }, [isValide, isCertified]);
     
     useEffect(() => {
+        console.log(checked);
         checked.forEach((element, index) => {
             if (etudiants && etudiants[index]) {
                 if (element) {
@@ -136,6 +137,7 @@ const EtudiantsPage = () => {
                 }
             }
         });
+        console.log(selectedEtudiants);
     }, [checked]);
 
     useEffect(() => {

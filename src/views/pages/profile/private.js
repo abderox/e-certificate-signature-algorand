@@ -39,6 +39,7 @@ import { updateVisibility, uploadAvatar } from 'api/profile/profile.service';
 import { IconArrowLeft, IconCameraPlus, IconLink } from '@tabler/icons';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import {logoutAction} from 'store/authAction'
+import { BASE_URL_API } from 'utils/global-constants';
 
 
 
@@ -200,7 +201,7 @@ export default function Profile() {
     const [uploadFile, setUploadFile] = useState();
     const navigate = useNavigate();
 
-    const bringAvatar = "http://localhost:7000/api/profile/download-avatar?avatar=";
+    const bringAvatar = BASE_URL_API + "/profile/download-avatar?avatar=";
     const defaultAvatar = "https://img.icons8.com/external-vitaliy-gorbachev-lineal-color-vitaly-gorbachev/256/000000/external-hacker-male-profession-vitaliy-gorbachev-lineal-color-vitaly-gorbachev.png";
 
 
