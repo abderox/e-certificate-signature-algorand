@@ -77,6 +77,7 @@ const EtudiantsPage = () => {
   const [ministere, setMinistere] = useState("ministere_2");
   const [presidence, setPresidence] = useState("uca");
   const [etablissement, setEtablissement] = useState("fst");
+  const [civilite, setCivilite] = useState("homme");
 
   const handleChangeDate = (newDate) => {
     setDate(newDate)
@@ -97,6 +98,10 @@ const handleMinistereChange = (event) => {
   const handleEtablissementChange = (event) => {
     setEtablissement(event.target.value);
   };
+
+  const handleCiviliteChange = (event) => {
+    setCivilite(event.target.value);
+};
 
   useEffect(() => {
     console.log("etudiantsInfos" + etudiantsInfos);
@@ -168,6 +173,7 @@ const handleMinistereChange = (event) => {
                             values.ministere = ministere ? ministere : values.ministere;
                             values.presidence = presidence ? presidence : values.presidence;
                             values.etablissement = etablissement ? etablissement : values.etablissement;
+                            // values.civilite = civilite ? civilite : values.civilite;
 
                             let students = [];
                             let student = {};
@@ -306,18 +312,6 @@ const handleMinistereChange = (event) => {
                                 </FormControl>
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                {/* <TextField
-                                    fullWidth
-                                    label="Etablissement"
-                                    margin="normal"
-                                    name="etablissement"
-                                    value={values.etablissement}
-                                    type="text"
-                                    onChange={handleChange}
-                                    sx={{ ...theme.typography.customInput }}
-                                /> */}
-
-
                                 <FormControl style={{marginTop: "8px"}} margin="normal" fullWidth>
                                     <InputLabel id="etablissement">Etablissement</InputLabel>
                                     <Select
@@ -411,6 +405,22 @@ const handleMinistereChange = (event) => {
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
+                                <FormControl style={{marginTop: "8px"}} margin="normal" fullWidth>
+                                    <InputLabel id="civilite">Civilité</InputLabel>
+                                    <Select
+                                        labelId="civilite"
+                                        id="civilite"
+                                        value={civilite}
+                                        label="Civilité"
+                                        onChange={handleCiviliteChange}
+                                        style={{height: "61px"}}
+                                    >
+                                        <MenuItem value={"fst"}>Homme</MenuItem>
+                                        <MenuItem value={"fst"}>Femme</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
                                 <TextField
                                     fullWidth
                                     label="Nom Complet"
@@ -476,12 +486,12 @@ const handleMinistereChange = (event) => {
                                 />
                             </Grid> */}
 
-                            <Grid item xs={6} sm={6} container justifyContent={"center"}>
+                            <Grid item xs={12} sm={12} md={6} lg={6} container justifyContent={"center"}>
                                 <Button variant="outlined" color={`${template == "certif_7" ? "success" : "primary"}`} onClick={() => handleSetTemplate("certif_7")}>
                                 <img src={certif_7} alt="certif_7" width={300} />
                                 </Button>
                             </Grid>
-                            <Grid item xs={6} sm={6} container justifyContent={"center"}>
+                            <Grid item xs={12} sm={12} md={6} lg={6} container justifyContent={"center"}>
                                 <Button variant="outlined" color={`${template == "certif_8" ? "success" : "primary"}`} onClick={() => handleSetTemplate("certif_8")}>
                                 <img src={certif_8} alt="certif_8" width={300} />
                                 </Button>

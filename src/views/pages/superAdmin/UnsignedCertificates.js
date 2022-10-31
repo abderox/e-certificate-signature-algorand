@@ -174,7 +174,7 @@ const UnsignedCertificates = () => {
               <Grid item xs={4} sm={4} md={2} lg={2} sx={{ p: { xs: 1, sm: 2 }, mb: 0 }}>
                 <Button 
                   variant={'contained'}
-                  onClick={() => navigate('/etudiants/certifies')} 
+                  onClick={() => navigate('/etudiants/certified')} 
                   sx={{ p: '10px' }} 
                   style={{width: "100%"}} 
                   startIcon={<CheckOutlined />}
