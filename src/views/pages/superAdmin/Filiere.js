@@ -141,9 +141,9 @@ const Etablissement = ({ ...others }) => {
                 }}
 
                 validationSchema={Yup.object().shape({
-                    nom: Yup.string().max(50).required('Nom is required'),
+                    nom: Yup.string().max(100).required('Nom is required'),
                     abbr: Yup.string().max(10).required('Abbr is required'),
-                    diplome: Yup.string().max(30).required('Adresse is required'),
+                    diplome: Yup.string().max(80).required('Diplome is required'),
                     description: Yup.string().max(255).required('Description is required'),
                     etablissement: Yup.string().max(50).required('Etablissement is required'),
                     duree: Yup.number().required('Duree is required'),

@@ -9,7 +9,7 @@ const getProfileStudent = (data) => {
 }
 
 const getPrivateProfileStudent = (data) => {
-    return axios.get(API_PROFILE.GET_PRIVATE_PROFILE, { params: { cd_apg: data.code_apogee, cne: data.cne, user_id: data.user_id } });
+    return axios.get(API_PROFILE.GET_PRIVATE_PROFILE, { params: { cd_apg: data.code_apogee, cne: data.cne, user_id: data.user_id }, headers: authHeader() });
 }
 
 

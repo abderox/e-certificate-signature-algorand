@@ -144,9 +144,9 @@ const Etablissement = ({ ...others }) => {
 
                 validationSchema={Yup.object().shape({
                     email: Yup.string().email('Must be a valid email').max(40).required('Email is required'),
-                    nom: Yup.string().max(50).required('Nom is required'),
+                    nom: Yup.string().max(100).required('Nom is required'),
                     abbr: Yup.string().max(10).required('Abbr is required'),
-                    adresse: Yup.string().max(50).required('Adresse is required'),
+                    adresse: Yup.string().max(100).required('Adresse is required'),
                     telephone: Yup.string().max(13).required('Telephone is required'),
                     ville: Yup.string().max(20).required('Ville is required'),
                     description: Yup.string().max(255).required('Description is required'),

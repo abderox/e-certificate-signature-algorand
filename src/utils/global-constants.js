@@ -1,4 +1,6 @@
-const BASE_URL_API = "https://e-certificate-server.vr4.ma/api";
+// const BASE_URL_API = "http://127.0.0.1:7000/api";
+// const BASE_URL_API = "https://e-certificate-server.vr4.ma/api";
+const BASE_URL_API = "https://thawing-lake-25095.herokuapp.com/api";
 
 const AUTH_BASE_URL = BASE_URL_API + "/auth";
 const BACKOPS_BASE_URL = BASE_URL_API + "/backops";

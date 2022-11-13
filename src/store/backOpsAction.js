@@ -98,6 +98,7 @@ const generateCertificatesAction = (data) => (dispatch) => {
             return Promise.resolve();
         },
         (error) => {
+            console.log(error.response);
             const message = error.response.data.message || error;
             dispatch({
                 type: type.SET_MESSAGE,
