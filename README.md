@@ -436,6 +436,7 @@ alt="structure frontend"
             src="
             github/code2.png"
             raw=true
+            width="500"
             alt="menu"
           />
 
@@ -446,6 +447,7 @@ alt="structure frontend"
             src="
             github/code1.png"
             raw=true
+            width="500"
             alt="menu"
           />
 
