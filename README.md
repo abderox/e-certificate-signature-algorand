@@ -286,7 +286,7 @@ _If you are using Postgres_
 * Go to pgadmin
 * Create a database named what you have have called it in the  `.env` file .
   
-11. Now you can run the project locally by running the following commands in three different terminals:
+12. Now you can run the project locally by running the following commands in three different terminals:
 
 _Run node backend server_
 
