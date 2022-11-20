@@ -56,7 +56,7 @@ align="center"><a href="https://github.com/abderox/e-certificate-signature-algor
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <li><a href="#acknowledguts">Acknowledgments</a></li>
   </ol>
 </details>
 
@@ -425,7 +425,7 @@ alt="structure frontend"
            *For this project luckily , there is only one simple hook , No need to disturb your self with this folder 😉
       * [![](https://img.shields.io/badge/layout-orange?style=for-the-badge)](https://crates.io/crates/redant)
         - Contains the logic of the layout , each layout is responsible for a specific task . like sidebar , profile section , wallet section ...
-       * [![](https://img.shields.io/badge/menu-items-orange?style=for-the-badge)](https://crates.io/crates/redant)
+       * [![](https://img.shields.io/badge/menu%20items-orange?style=for-the-badge)](https://crates.io/crates/redant)
           - Just to make things clear and neat . Using the same menu component , we can specify for each actor (user with roles) , the authorized features and functionalities he is able to see and use . For example 🔽
   
 
@@ -580,7 +580,7 @@ And not to mention the special thanks for the outstanding community stackoverflo
 [yarn]: https://img.shields.io/badge/yarn-20232A?style=for-the-badge&logo=yarn&logoColor=61DAFA
 
 [redux-url]: https://www.redux.js.org
-[redux]: https://img.shields.io/badge/redux-20232A?style=for-the-badge&logo=redux&logoColor=61DAFA
+[redux]: https://img.shields.io/badge/reduxdotjs-20232A?style=for-the-badge&logo=reduxdotjs&logoColor=61DAFA
 
 
 
