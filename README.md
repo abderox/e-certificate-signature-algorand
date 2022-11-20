@@ -422,7 +422,7 @@ alt="structure frontend"
         - Nothing doggy , it Contains the logic of communication with the server using REST API , thanks to axios lirary. 
      * [![](https://img.shields.io/badge/hooks-orange?style=for-the-badge)](https://crates.io/crates/redant)
         - Contains the logic of the hooks , each hook is responsible for a specific task . For example
-           *For this project luckily , there is only one simple hook , No need to disturb your self with this folder 😉
+           *For this project luckily , there is only one simple hook , No need to disturb yourself with this folder 😉
       * [![](https://img.shields.io/badge/layout-orange?style=for-the-badge)](https://crates.io/crates/redant)
         - Contains the logic of the layout , each layout is responsible for a specific task . like sidebar , profile section , wallet section ...
        * [![](https://img.shields.io/badge/menu%20items-orange?style=for-the-badge)](https://crates.io/crates/redant)
