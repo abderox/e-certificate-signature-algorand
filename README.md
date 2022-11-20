@@ -582,7 +582,7 @@ And not to mention the special thanks for the outstanding community stackoverflo
 [yarn]: https://img.shields.io/badge/yarn-20232A?style=for-the-badge&logo=yarn&logoColor=61DAFA
 
 [redux-url]: https://www.redux.js.org
-[redux]: https://img.shields.io/badge/reduxdotjs-20232A?style=for-the-badge&logo=reduxdotjs&logoColor=61DAFA
+[redux]: https://img.shields.io/badge/redux-20232A?style=for-the-badge&logo=reduX&logoColor=61DAFA
 
 
 
