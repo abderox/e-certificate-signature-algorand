@@ -563,7 +563,7 @@ And not to mention the special thanks for the outstanding community stackoverflo
 [issues-shield]: https://img.shields.io/github/issues/abderox/e-certificate-signature-algorand.svg?style=for-the-badge
 [issues-url]: https://github.com/abderox/e-certificate-signature-algorand/issues
 [license-shield]: https://img.shields.io/github/license/abderox/e-certificate-signature-algorand.svg?style=for-the-badge
-[license-url]: https://github.com/abderox/e-certificate-signature-algorand/blob/main/LICENCE.txt
+[license-url]: https://github.com/abderox/e-certificate-signature-algorand/blob/main/LICENSE.txt
 [Algorand]: https://img.shields.io/badge/Algorand-20232A?style=for-the-badge&logo=algorand&logoColor=white
 [Algorand-url]: https://developer.algorand.org/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
