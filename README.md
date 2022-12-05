@@ -25,7 +25,7 @@ align="center"><a href="https://github.com/abderox/e-certificate-signature-algor
   <p align="center">
     This project is a proof of concept for a digital certificate system using Algorand blockchain.
     <br />
-    <a href="https://e-certificate.vr4.ma/"><strong>Explore the website »</strong></a>
+    <a href="https://e-certification.vr4.ma/"><strong>Explore the website »</strong></a>
     <br />
     <br />
     <a href="https://github.com/abderox/e-certificate-signature-algorand/issues">Report Bug</a>
@@ -63,8 +63,8 @@ align="center"><a href="https://github.com/abderox/e-certificate-signature-algor
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://e-certificate.vr4.ma/)
-[![Product Name Screen Shot 2][product-screenshot-2]](https://e-certificate.vr4.ma/login)
+[![Product Name Screen Shot][product-screenshot]](https://e-certification.vr4.ma/)
+[![Product Name Screen Shot 2][product-screenshot-2]](https://e-certification.vr4.ma/login)
 
 Our project is a proof of concept for a digital certificate system using Algorand blockchain. The main goal of this project is to provide a secure and reliable way to issue and verify digital certificates. The project is composed of two parts: the website and the blockchain. The website is used to issue and verify certificates. The blockchain is used to store the certificates and to verify the authenticity of the certificates.And this solution is unique because of several reasons:
 <br>
@@ -314,7 +314,7 @@ _Run local-server_
 
 If everything is working fine , you should be able to see the following page :
 
-[HOME PAGE](https://e-certificate.vr4.ma/)
+[HOME PAGE](https://e-certification.vr4.ma/)
 
 <p
   align="center"
