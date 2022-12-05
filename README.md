@@ -78,8 +78,8 @@ Here's why:
 * In terms of performance and ease, adopting this solution will help university staff reduce the time spent signing and reviewing diplomas generated for thousands of students each year.
 
 <br>
-We are thriving to see the next generation of our major, IRISI for computer science and networking  to finish this piece of art with more
-features and a better user experience. And why not witnessing some day our University  being the first to use this technology in the Kingdom of Morocco.
+We are thriving to see the next generation of our major IRISI, for computer science and networking,  to finish this piece of art with more
+features and a better user experience. And why not witnessing someday our University  being the first to use this technology in the Kingdom of Morocco.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -535,7 +535,7 @@ We would like to thank our (teacher| client) [Mr. Omar Bencharef](https://www.li
 We acknowledge these following (open-source| free) use technologies for
 their contributions to the open source community.
 
-* [Heroku](https://www.heroku.com/)
+* [Pupeteer](https://pptr.dev/)
 * [Algorand](https://www.algorand.com/)
 * [React](https://reactjs.org/)
 * [Nodejs](https://nodejs.org/en/)
